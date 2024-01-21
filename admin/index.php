@@ -204,7 +204,7 @@
                           </tr>
                           <tr>
                             <td> 5 </td>
-                            <td> Edward </td>
+                            <td> Sakshi</td>
                             <td> May 03, 2015 </td>
                             <td>
                               <div class="progress">
