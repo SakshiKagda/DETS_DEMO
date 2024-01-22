@@ -37,7 +37,7 @@
       <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
         <span class="menu-title">Income</span>
         <i class="menu-arrow"></i>
-        <i class=" mdi mdi-cash  menu-icon" ></i>
+        <i class=" mdi mdi-cash  menu-icon"></i>
       </a>
       <div class="collapse" id="ui-basic">
         <ul class="nav flex-column sub-menu">
@@ -50,7 +50,7 @@
       <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
         <span class="menu-title">Budget</span>
         <i class="menu-arrow"></i>
-        <i class=" mdi mdi-cash  menu-icon" ></i>
+        <i class=" mdi mdi-cash  menu-icon"></i>
       </a>
       <div class="collapse" id="ui-basic">
         <ul class="nav flex-column sub-menu">
@@ -59,8 +59,8 @@
         </ul>
       </div>
     </li>
-    
-    
+
+
 
 
   </ul>
