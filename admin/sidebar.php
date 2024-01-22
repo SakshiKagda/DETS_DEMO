@@ -37,7 +37,7 @@
       <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
         <span class="menu-title">Income</span>
         <i class="menu-arrow"></i>
-        <i class=" mdi mdi-cash  menu-icon"></i>
+        <i class=" mdi mdi-briefcase  menu-icon"></i>
       </a>
       <div class="collapse" id="ui-basic">
         <ul class="nav flex-column sub-menu">
@@ -75,16 +75,21 @@
       <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
         <span class="menu-title">Settings</span>
         <i class="menu-arrow"></i>
-        <i class=" mdi mdi-cash  menu-icon"></i>
+        <i class=" mdi mdi-account-settings  menu-icon"></i>
       </a>
       <div class="collapse" id="ui-basic">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="pages/ui-features/addbudget.php">Add Budget</a></li>
-          <li class="nav-item"> <a class="nav-link" href="pages/ui-features/viewbudget.php">Manage Budget</a></li>
+          <li class="nav-item"> <a class="nav-link" href="pages/ui-features/.php">My Profile</a></li>
+          <li class="nav-item"> <a class="nav-link" href="pages/ui-features/changepass.php">Change Password</a></li>
         </ul>
       </div>
     </li>
-
+    <li class="nav-item">
+      <a class="nav-link" href="login.php">
+        <span class="menu-title">Logout</span>
+        <i class="mdi mdi-logout menu-icon"></i>
+      </a>
+    </li>
 
 
 
