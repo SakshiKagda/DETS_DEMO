@@ -40,7 +40,7 @@
                 <div class="form-group">
                   <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email">
                 </div>
-                
+
                 <div class="form-group">
                   <input type="password" class="form-control form-control-lg" id="exampleInputPassword1"
                     placeholder="Password">
@@ -52,11 +52,11 @@
 
 
                 <div class="mb-4">
-                    <div class="form-check">
-                      <label class="form-check-label text-muted">
-                        <input type="checkbox" class="form-check-input"> I agree to all Terms & Conditions </label>
-                    </div>
+                  <div class="form-check">
+                    <label class="form-check-label text-muted">
+                      <input type="checkbox" class="form-check-input"> I agree to all Terms & Conditions </label>
                   </div>
+                </div>
                 <div class="mt-3 text-center">
                   <a class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn"
                     href="login.php">SIGN UP</a>

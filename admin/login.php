@@ -45,7 +45,7 @@
                     href="index.php">SIGN IN</a>
                 </div>
                 <div class="my-2 d-flex justify-content-between align-items-center">
-                 
+
                   <a href="forgotpss.php" class="auth-link text-black">Forgot password?</a>
                 </div>
                 <div class="text-center mt-4 font-weight-light"> Don't have an account? <a href="register.php"
