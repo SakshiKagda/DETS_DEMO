@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="">
 </head>
 <body>
-  
 </body>
 </html>
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
@@ -40,8 +39,8 @@
       </a>
       <div class="collapse" id="ui-basic">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="pages/ui-features/addexpense.php">Add Expense</a></li>
-          <li class="nav-item"> <a class="nav-link" href="pages/ui-features/viewexpense.php">Manage Expense</a></li>
+          <li class="nav-item"> <a class="nav-link" href="addexpense.php">Add Expense</a></li>
+          <li class="nav-item"> <a class="nav-link" href="viewexpense.php">Manage Expense</a></li>
         </ul>
       </div>
     </li>
@@ -53,8 +52,8 @@
       </a>
       <div class="collapse" id="ui-basic-1">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="pages/ui-features/addincome.php">Add Income</a></li>
-          <li class="nav-item"> <a class="nav-link" href="pages/ui-features/viewincome.php">Manage Income</a></li>
+          <li class="nav-item"> <a class="nav-link" href="addincome.php">Add Income</a></li>
+          <li class="nav-item"> <a class="nav-link" href="viewincome.php">Manage Income</a></li>
         </ul>
       </div>
     </li>
@@ -66,8 +65,8 @@
       </a>
       <div class="collapse" id="ui-basic-2">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="pages/ui-features/addbudget.php">Add Budget</a></li>
-          <li class="nav-item"> <a class="nav-link" href="pages/ui-features/viewbudget.php">Manage Budget</a></li>
+          <li class="nav-item"> <a class="nav-link" href="addbudget.php">Add Budget</a></li>
+          <li class="nav-item"> <a class="nav-link" href="viewbudget.php">Manage Budget</a></li>
         </ul>
       </div>
     </li>
@@ -79,7 +78,7 @@
       </a>
       <div class="collapse" id="ui-basic-3">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="pages/ui-features/addbudget.php">Add Category</a></li>
+          <li class="nav-item"> <a class="nav-link" href="addbudget.php">Add Category</a></li>
         </ul>
       </div>
     </li>
@@ -91,7 +90,7 @@
       </a>
       <div class="collapse" id="ui-basic-4">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="pages/ui-features/viewreport.php">View Report</a></li>
+          <li class="nav-item"> <a class="nav-link" href="viewreport.php">View Report</a></li>
 
         </ul>
       </div>
@@ -104,8 +103,8 @@
       </a>
       <div class="collapse" id="ui-basic-5">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="pages/ui-features/.php">My Profile</a></li>
-          <li class="nav-item"> <a class="nav-link" href="pages/ui-features/changepass.php">Change Password</a></li>
+          <li class="nav-item"> <a class="nav-link" href="accountsetting.php">My Profile</a></li>
+          <li class="nav-item"> <a class="nav-link" href="changepass.php">Change Password</a></li>
         </ul>
       </div>
     </li>
@@ -115,8 +114,5 @@
         <i class="mdi mdi-logout menu-icon"></i>
       </a>
     </li>
-
-
-
   </ul>
 </nav>
