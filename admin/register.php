@@ -57,7 +57,7 @@
                         <input type="checkbox" class="form-check-input"> I agree to all Terms & Conditions </label>
                     </div>
                   </div>
-                <div class="mt-3">
+                <div class="mt-3 text-center">
                   <a class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn"
                     href="login.php">SIGN UP</a>
                 </div>
