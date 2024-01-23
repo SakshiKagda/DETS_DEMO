@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
@@ -18,6 +19,7 @@
   <!-- End layout styles -->
   <link rel="shortcut icon" href="assets/images/favicon.ico" />
 </head>
+
 <body>
   <div class="container-scroller">
     <div class="container-fluid page-body-wrapper full-page-wrapper">
@@ -43,10 +45,7 @@
                     href="index.php">SIGN IN</a>
                 </div>
                 <div class="my-2 d-flex justify-content-between align-items-center">
-                  <div class="form-check">
-                    <label class="form-check-label text-muted">
-                      <input type="checkbox" class="form-check-input"> Keep me signed in </label>
-                  </div>
+                 
                   <a href="forgotpss.php" class="auth-link text-black">Forgot password?</a>
                 </div>
                 <div class="text-center mt-4 font-weight-light"> Don't have an account? <a href="register.php"

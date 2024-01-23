@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link rel="stylesheet" href="">
 </head>
+
 <body>
 </body>
+
 </html>
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
   <ul class="nav">
@@ -38,8 +41,7 @@
         <i class=" mdi mdi-cash-multiple menu-icon"></i>
       </a>
       <div class="collapse" id="ui-basic">
-        <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="addexpense.php">Add Expense</a></li>
+        <ul class="nav flex-column sub-menu">       
           <li class="nav-item"> <a class="nav-link" href="viewexpense.php">Manage Expense</a></li>
         </ul>
       </div>
@@ -52,7 +54,7 @@
       </a>
       <div class="collapse" id="ui-basic-1">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="addincome.php">Add Income</a></li>
+          
           <li class="nav-item"> <a class="nav-link" href="viewincome.php">Manage Income</a></li>
         </ul>
       </div>
@@ -65,7 +67,7 @@
       </a>
       <div class="collapse" id="ui-basic-2">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="addbudget.php">Add Budget</a></li>
+          
           <li class="nav-item"> <a class="nav-link" href="viewbudget.php">Manage Budget</a></li>
         </ul>
       </div>
@@ -78,7 +80,7 @@
       </a>
       <div class="collapse" id="ui-basic-3">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="addbudget.php">Add Category</a></li>
+          <li class="nav-item"> <a class="nav-link" href="addcategory.php">Add Category</a></li>
         </ul>
       </div>
     </li>
