@@ -34,12 +34,12 @@
       </div>
     </li>
     <li class="nav-item">
-      <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+      <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic-1" aria-expanded="false" aria-controls="ui-basic">
         <span class="menu-title">Income</span>
         <i class="menu-arrow"></i>
-        <i class=" mdi mdi-briefcase  menu-icon"></i>
+        <i class=" mdi mdi-cash menu-icon"></i>
       </a>
-      <div class="collapse" id="ui-basic">
+      <div class="collapse" id="ui-basic-1">
         <ul class="nav flex-column sub-menu">
           <li class="nav-item"> <a class="nav-link" href="pages/ui-features/addincome.php">Add Income</a></li>
           <li class="nav-item"> <a class="nav-link" href="pages/ui-features/viewincome.php">Manage Income</a></li>
@@ -47,12 +47,12 @@
       </div>
     </li>
     <li class="nav-item">
-      <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+      <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic-2" aria-expanded="false" aria-controls="ui-basic">
         <span class="menu-title">Budget</span>
         <i class="menu-arrow"></i>
-        <i class=" mdi mdi-cash  menu-icon"></i>
+        <i class=" mdi mdi-briefcase  menu-icon"></i>
       </a>
-      <div class="collapse" id="ui-basic">
+      <div class="collapse" id="ui-basic-2">
         <ul class="nav flex-column sub-menu">
           <li class="nav-item"> <a class="nav-link" href="pages/ui-features/addbudget.php">Add Budget</a></li>
           <li class="nav-item"> <a class="nav-link" href="pages/ui-features/viewbudget.php">Manage Budget</a></li>
@@ -60,24 +60,37 @@
       </div>
     </li>
     <li class="nav-item">
-      <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+      <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic-3" aria-expanded="false" aria-controls="ui-basic">
         <span class="menu-title">Category</span>
         <i class="menu-arrow"></i>
-        <i class=" mdi mdi-cash  menu-icon"></i>
+        <i class=" mdi mdi-checkerboard  menu-icon"></i>
       </a>
-      <div class="collapse" id="ui-basic">
+      <div class="collapse" id="ui-basic-3">
         <ul class="nav flex-column sub-menu">
           <li class="nav-item"> <a class="nav-link" href="pages/ui-features/addbudget.php">Add Category</a></li>
         </ul>
       </div>
     </li>
     <li class="nav-item">
-      <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+      <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic-4" aria-expanded="false" aria-controls="ui-basic">
+        <span class="menu-title">Report</span>
+        <i class="menu-arrow"></i>
+        <i class=" mdi mdi-file-document menu-icon"></i>
+      </a>
+      <div class="collapse" id="ui-basic-4">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="pages/ui-features/viewreport.php">View Report</a></li>
+
+        </ul>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic-5" aria-expanded="false" aria-controls="ui-basic">
         <span class="menu-title">Settings</span>
         <i class="menu-arrow"></i>
         <i class=" mdi mdi-account-settings  menu-icon"></i>
       </a>
-      <div class="collapse" id="ui-basic">
+      <div class="collapse" id="ui-basic-5">
         <ul class="nav flex-column sub-menu">
           <li class="nav-item"> <a class="nav-link" href="pages/ui-features/.php">My Profile</a></li>
           <li class="nav-item"> <a class="nav-link" href="pages/ui-features/changepass.php">Change Password</a></li>
