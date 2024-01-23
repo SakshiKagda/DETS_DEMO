@@ -5,7 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Purple Admin</title>
+  <title>Budget Buddy</title>
   <!-- plugins:css -->
   <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
@@ -51,13 +51,15 @@
                 </div>
 
 
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="agreeCheckbox" name="agreeCheckbox" required>
-                  <label class="custom-control-label" for="agreeCheckbox">I agree to all Terms & Conditions</label>
-                </div>
+                <div class="mb-4">
+                    <div class="form-check">
+                      <label class="form-check-label text-muted">
+                        <input type="checkbox" class="form-check-input"> I agree to all Terms & Conditions </label>
+                    </div>
+                  </div>
                 <div class="mt-3">
                   <a class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn"
-                    href="index.php">SIGN UP</a>
+                    href="login.php">SIGN UP</a>
                 </div>
                 <div class="text-center mt-4 font-weight-light"> Already have an account? <a href="login.php"
                     class="text-primary">Login</a>
