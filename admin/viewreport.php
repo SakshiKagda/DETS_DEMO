@@ -50,7 +50,7 @@
                 <h3>Expenses Report</h3>
                 <!-- Table to display expenses report -->
                 <table class="table table-bordered table-hover">
-                    <thead class="table-primary">
+                    <thead class="table-dark">
                         <tr>
                             <th>Date</th>
                             <th>Amount</th>
@@ -77,7 +77,7 @@
                 <h3>Income Report</h3>
                 <!-- Table to display income report -->
                 <table class="table table-bordered table-hover">
-                    <thead class="table-success">
+                    <thead class="table-warning">
                         <tr>
                             <th>Date</th>
                             <th>Amount</th>
