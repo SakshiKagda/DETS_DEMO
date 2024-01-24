@@ -10,6 +10,12 @@
             padding-top: 70px ;
          
         }
+        h2{
+            color: blueviolet;
+        }
+        tr{
+            color: blue;
+        }
         </style>
     
 </head>
@@ -29,10 +35,10 @@
         include("sidebar.php");
         ?>
     </sidebar>
-    <div class="container">
+    <div class="container mt-5">
         <h2>View Budget</h2>
-        <table class="table">
-            <thead>
+        <table class="table table-bordered table-striped">
+            <thead class="thead-sucess">
                 <tr>
                     <th>Category</th>
                     <th>Planned Amount</th>

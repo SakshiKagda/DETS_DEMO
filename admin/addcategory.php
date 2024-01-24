@@ -10,6 +10,9 @@
             padding-top: 70px ;
          
         }
+        h1{
+            color: blueviolet;
+        }
         </style>
     
 </head>

@@ -10,6 +10,12 @@
             padding-top: 70px ;
          
         }
+        h2{
+            color: blueviolet;
+        }
+        h3{
+            color: blue;
+        }
         </style>
     
 </head>

@@ -31,7 +31,7 @@
         <div class="col-10">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">My Profile</h4>
+                    <h1 class="card-title">My Profile</h>
                     <form class="form-sample">
                         <!-- <p class="card-description"> Personal info </p> -->
                         <div class="row">
