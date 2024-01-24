@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
@@ -19,7 +18,6 @@
   <!-- End layout styles -->
   <link rel="shortcut icon" href="assets/images/favicon.ico" />
 </head>
-
 <body>
   <div class="container-scroller">
     <div class="container-fluid page-body-wrapper full-page-wrapper">
@@ -31,12 +29,10 @@
                 <img src="assets/images/logo.png">
               </div>
               <h4>Forgot Password?</h4>
-
               <form class="pt-3">
                 <div class="form-group">
                   <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email">
                 </div>
-
                 <div class="mt-3 text-center">
                   <a class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn"
                     href="index.php">RESET PASSWORD</a>
@@ -65,5 +61,4 @@
   <script src="assets/js/misc.js"></script>
   <!-- endinject -->
 </body>
-
 </html>
