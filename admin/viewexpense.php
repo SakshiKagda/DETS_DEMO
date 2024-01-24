@@ -16,6 +16,8 @@
         include("sidebar.php");
         ?>
     </sidebar>
+
+    
     <footer>
     <?php
         include("footer.php");
