@@ -3,7 +3,6 @@
 <html lang="en">
 <head>
   <title>Daily Expense Tracker System</title>
-  
 </head>
 <body>
   <!-- partial:partials/_navbar.html -->
