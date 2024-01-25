@@ -47,6 +47,8 @@
                                 <div class="mt-3 text-center">
                                     <a class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn"
                                         href="index.php">SAVE</a>
+                                        <a class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn"
+                                        href="index.php">BACK</a>
                                 </div>
                                 <!-- <div class="text-center mt-4 font-weight-light"> <a href="login.php" 
                                         class="text-primary">Back to

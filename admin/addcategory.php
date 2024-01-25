@@ -13,6 +13,15 @@
         h1{
             color: blueviolet;
         }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
         </style>
     
 </head>
@@ -43,7 +52,8 @@
                 <input type="text" class="form-control datepicker" id="startDate" placeholder="Enter Category Description">
             </div>
            
-            <button type="submit" class="btn btn-primary text-center">Add Category</button>
+            <a href="addcategory.php" class="btn btn-primary mt-3">Add Category</a>
+            <a href="index.php" class="btn btn-primary mt-3">Go Back</a>
         </form>
             </div>
    
