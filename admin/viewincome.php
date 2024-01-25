@@ -71,7 +71,7 @@
                 <!-- Add more rows based on your data -->
             </tbody>
         </table>
-       
+        <a href="index.php" class="btn btn-primary mt-3">Go Back</a>
     </div> 
 <!-- Bootstrap JS and Popper.js -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>

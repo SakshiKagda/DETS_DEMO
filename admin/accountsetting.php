@@ -175,8 +175,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary col-lg-3 text-center">Submit</button>
-
+                                <button type="submit" class="btn btn-primary col-md-2 text-center">Submit</button>
+                                
                             </div>
                     </form>
                 </div>

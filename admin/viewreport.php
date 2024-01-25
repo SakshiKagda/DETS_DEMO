@@ -136,7 +136,7 @@
         </div>
 
         <!-- Button to go back or perform other actions -->
-        <a href="#" class="btn btn-primary mt-3">Go Back</a>
+        <a href="index.php" class="btn btn-primary mt-3">Go Back</a>
     </div>
     </div>
 
