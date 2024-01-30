@@ -56,6 +56,35 @@ if (isset($_REQUEST['submit'])) {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Budget Buddy</title>
+  <script>
+        function validate() {
+            var username = document.getElementById("exampleInputUsername1").value;
+            var mobile_number = document.getElementById("exampleInputnumber1").value;
+            // var profile_picture = document.getElementById("exampleInputprofile1").value;
+
+            // Validate name
+              if (!/^[A-z]{1,10}$/.test(username)) {
+                  alert("Name should only contain letters and have a maximum length of 10 characters.");
+                  return false;
+              }
+            
+
+            // Validate mobile number
+            else if (!/^\d{10}$/.test(mobile_number)) {
+                alert("Mobile number should have exactly 10 digits.");
+                return false;
+            }
+            
+
+            // Validate profile picture
+            // if (profile_picture.trim() === "") {
+            //     alert("Please select a profile picture.");
+            //     return false;
+            // }
+
+            // return true;
+        }
+    </script>
   <!-- plugins:css -->
   <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
@@ -82,15 +111,16 @@ if (isset($_REQUEST['submit'])) {
               </div>
               <h4>New here?</h4>
               <h6 class="font-weight-light">Signing up is easy. It only takes a few steps</h6>
-              <form class="pt-3" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+              <form class="pt-3" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?> " onsubmit="return validate()"  >
               <div class="form-group">
                 <label>Profile Picture</label>
                   <input type="file" class="form-control form-control-lg" id="exampleInputprofile1"
-                    placeholder="Profile Picture" name="profile" accept="image/*" required>
+                    placeholder="Profile Picture" name="profile_picture" accept="image/*" required>
                 </div>
                 <div class="form-group">
                   <input type="text" class="form-control form-control-lg" id="exampleInputUsername1"
                     placeholder="Username" name="username" required>
+                    <span id="usernameError" class="error"></span>
                 </div>
                 <div class="form-group">
                   <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email"
@@ -107,7 +137,7 @@ if (isset($_REQUEST['submit'])) {
                 
                 <div class="form-group">
                   <input type="text" class="form-control form-control-lg" id="exampleInputnumber1" placeholder="Mobile Number"
-                    name="mobilenumber" required>
+                    name="mobile_number" required>
                 </div>
 
                 <div class="form-group">
@@ -128,7 +158,7 @@ if (isset($_REQUEST['submit'])) {
                 </div>
 
                 <div class="mt-3 text-center" name="submit">
-                  <button type="submit" name="submit"
+                  <button type="submit" name="submit" 
                     class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn"><a> SIGN
                       UP</a></button>
                 </div>
@@ -136,6 +166,8 @@ if (isset($_REQUEST['submit'])) {
                     class="text-primary">Login</a>
                 </div>
               </form>
+    
+    
             </div>
           </div>
         </div>
@@ -155,6 +187,7 @@ if (isset($_REQUEST['submit'])) {
   <script src="assets/js/hoverable-collapse.js"></script>
   <script src="assets/js/misc.js"></script>
   <!-- endinject -->
+  
 </body>
 
 </html>
