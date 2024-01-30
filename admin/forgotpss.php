@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,8 +35,7 @@
                   <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email">
                 </div>
                 <div class="mt-3 text-center">
-                  <a class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn"
-                    href="index.php">RESET PASSWORD</a>
+                  <a class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">RESET PASSWORD</a>
                 </div>
                 <div class="text-center mt-4 font-weight-light"> <a href="login.php" class="text-primary">Back to
                     Login</a>
