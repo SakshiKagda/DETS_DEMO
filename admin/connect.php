@@ -18,8 +18,11 @@
     // $sqli="create table admin(admin_id INT(10) PRIMARY KEY,admin_name VARCHAR(45) NULL,username VARCHAR(45) NULL,password VARCHAR(120)  NULL,email VARCHAR(120)  NULL,mobile_num NUMERIC(11) NULL)";
 	$sqli="CREATE TABLE users (
 		id INT PRIMARY KEY AUTO_INCREMENT,
-		username VARCHAR(255) NOT NULL,
+		profile_picture BLOB,
+  	username VARCHAR(255) NOT NULL,
 		email VARCHAR(255) NOT NULL,
+		gender ENUM('Male', 'Female', 'Other'),
+    mobile_number VARCHAR(15),
 		password VARCHAR(255) NOT NULL,
 		confirm_password VARCHAR(255) NOT NULL
 	)";
