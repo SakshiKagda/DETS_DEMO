@@ -1,4 +1,43 @@
+<?php
+// Define your database connection details
+$servername = "localhost";
+$username = "root";
+$password = "";
+$database = "expense_db";
 
+// Create a connection to the database
+$conn = new mysqli($servername, $username, $password, $database);
+
+// Check the connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+
+// Check if the form is submitted
+if (isset($_POST['submit'])) {
+  // Sanitize user input
+  $email = $_POST["email"];
+  $password = $_POST["password"];
+
+  // Retrieve hashed password from the database
+   $sql = "SELECT * FROM users WHERE email = '$email' && password = '$password'";
+  $result = $conn->query($sql);
+  $row=mysqli_fetch_assoc($result);
+   
+if(mysqli_num_rows($result)> 0){
+  echo "success " ;
+  header("Location: index.php");
+  exit();
+}else{
+    echo "incorrect email or password";
+  }
+
+}
+
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,17 +73,19 @@
               </div>
               <h4>Hello! let's get started</h4>
               <h6 class="font-weight-light">Sign in to continue.</h6>
-              <form class="pt-3">
+              <form class="pt-3" method="post">
                 <div class="form-group">
-                  <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email" >
+                  <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email" name="email">
                 </div>
                 <div class="form-group">
                   <input type="password" class="form-control form-control-lg" id="exampleInputPassword1"
-                    placeholder="Password" >
+                    placeholder="Password"  name="password">
                 </div>
-                <div class="mt-3 text-center">
-                  <a class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn"
-                    >SIGN IN</a>
+                <!-- <div class="mt-3 text-center" name="submit">
+                  <button type="submit"  name="submit" class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn" ><a > SIGN </a></button>
+                </div> -->
+                <div class="mt-3 text-center " name="submit"> 
+                <button type="submit"  name="submit" class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn" ><a > SIGN IN</a></button>
                 </div>
                 <div class="my-2 d-flex justify-content-between align-items-center">
 

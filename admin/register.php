@@ -32,7 +32,8 @@ if(! $conn)
 
     if ($conn->query($sql) == TRUE) {
         echo "Registration successful!";
-        
+        header("Location: login.php");
+         exit();
 
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
@@ -103,7 +104,7 @@ if(! $conn)
                       <input type="checkbox" class="form-check-input"> I agree to all Terms & Conditions </label>
                   </div>
                 </div>
-                <!--  -->
+                
                 <div class="mt-3 text-center" name="submit">
                   <button type="submit"  name="submit" class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn" ><a > SIGN UP</a></button>
                 </div>
