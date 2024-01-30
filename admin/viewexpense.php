@@ -1,3 +1,24 @@
+<?php
+if(isset($_POST['register']))
+{
+    $txtpass=$_POST['pass'];
+    $txtname = $_POST["nm"];
+      foreach($_POST as $key=>$value)
+      {
+          if(empty($_POST[$key]))
+         {
+            $err="all fields are required";
+            echo "$err"; 
+         }
+     }
+                          if(!isset($err))
+  	   {
+                             $conn=mysqli_connect("localhost","root","","expense_db");
+  	           $sql="insert into user values('$txtname','$txtpass')";
+                                mysqli_query($conn,$sql);
+  	    } 
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,7 +85,7 @@
                     <td>Lunch</td>
                     <td>$15.00</td>
                     <td>
-                        <button class="btn btn-warning btn-sm ">Edit</button>
+                        <button class="btn btn-warning btn-sm  ">Edit</button>
                         <button class="btn btn-danger btn-sm">Delete</button>
                     </td>
                 </tr>

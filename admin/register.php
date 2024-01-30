@@ -1,3 +1,50 @@
+<?php
+// Define your database connection details
+$servername = "localhost";
+$username = "root";
+$password = "";
+$database = "expense_db";
+
+// Create a connection to the database
+$conn = new mysqli($servername, $username, $password, $database);
+
+// Check the connection
+if(! $conn)
+	{
+	  die("connection failed=".$conn->connect_error);
+	}
+	// echo "connected successfully<br>";
+  if (isset($_REQUEST['submit'])) {
+    
+    $username = ($_POST["username"]);
+    $email = ($_POST["email"]);
+    $password = ($_POST["password"]);
+    $confirm_password = $_POST["confirm_password"];
+
+    if ($password !== $confirm_password) {
+      echo "Error: Passwords do not match.";
+  } else {
+      // Hash the password
+      $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+    // Insert user data into the database
+    $sql = "INSERT INTO users (username, email, password, confirm_password) VALUES ('$username', '$email', '$password','$confirm_password')";
+
+    if ($conn->query($sql) == TRUE) {
+        echo "Registration successful!";
+        
+
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    
+}
+}
+?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,22 +78,22 @@
               </div>
               <h4>New here?</h4>
               <h6 class="font-weight-light">Signing up is easy. It only takes a few steps</h6>
-              <form class="pt-3">
+              <form class="pt-3"  method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                 <div class="form-group">
                   <input type="text" class="form-control form-control-lg" id="exampleInputUsername1"
-                    placeholder="Username">
+                    placeholder="Username" name="username"   Required>
                 </div>
                 <div class="form-group">
-                  <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email">
+                  <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email" name="email"   Required>
                 </div>
 
                 <div class="form-group">
                   <input type="password" class="form-control form-control-lg" id="exampleInputPassword1"
-                    placeholder="Password">
+                    placeholder="Password" name="password"  Required>
                 </div>
                 <div class="form-group">
                   <input type="password" class="form-control form-control-lg" id="exampleInputPassword1"
-                    placeholder="Confirm Password">
+                    placeholder="Confirm Password" name="confirm_password" Required>
                 </div>
 
 
@@ -56,9 +103,9 @@
                       <input type="checkbox" class="form-check-input"> I agree to all Terms & Conditions </label>
                   </div>
                 </div>
-                <div class="mt-3 text-center">
-                  <a class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn"
-                    href="login.php">SIGN UP</a>
+                <!--  -->
+                <div class="mt-3 text-center" name="submit">
+                  <button type="submit"  name="submit" class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn" ><a > SIGN UP</a></button>
                 </div>
                 <div class="text-center mt-4 font-weight-light"> Already have an account? <a href="login.php"
                     class="text-primary">Login</a>

@@ -18,7 +18,7 @@
 </head>
 <body>
 <footer class="footer">
-  <div class="container-fluid d-flex justify-content-between">
+  <div class="container d-flex justify-content-between">
     <span class="text-muted d-block text-center text-sm-start d-sm-inline-block">Copyright © expensetracker.com 2024</span>
     <span class="text-muted d-block text-center text-sm-start d-sm-inline-block">Designed and Developed by Priya & Sakshi</span>
   </div>
