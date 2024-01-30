@@ -46,6 +46,24 @@ if(mysqli_num_rows($result)> 0){
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Budget Buddy</title>
+  <script>
+        function validateForm() {
+            var email = document.getElementById("exampleInputEmail1").value;
+            var password = document.getElementById("exampleInputPassword1").value;
+            var errorMessage = document.getElementById("error-message");
+
+            // Basic validation
+            if (email === "" || password === "") {
+               alert("Email and password are required.");
+                return false;
+            }
+           
+return true;
+}
+           
+           
+        
+    </script>
   <!-- plugins:css -->
   <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
@@ -73,7 +91,7 @@ if(mysqli_num_rows($result)> 0){
               </div>
               <h4>Hello! let's get started</h4>
               <h6 class="font-weight-light">Sign in to continue.</h6>
-              <form class="pt-3" method="post">
+              <form class="pt-3" method="post" onsubmit="return validateForm()">
                 <div class="form-group">
                   <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email" name="email">
                 </div>

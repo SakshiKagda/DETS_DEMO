@@ -60,7 +60,8 @@ if (isset($_REQUEST['submit'])) {
         function validate() {
             var username = document.getElementById("exampleInputUsername1").value;
             var mobile_number = document.getElementById("exampleInputnumber1").value;
-            // var profile_picture = document.getElementById("exampleInputprofile1").value;
+            var profile_picture= document.getElementById("exampleInputprofile1");
+        var allowedExtensions = ["jpg", "jpeg", "png", "gif"];
 
             // Validate name
               if (!/^[A-z]{1,10}$/.test(username)) {
@@ -76,14 +77,20 @@ if (isset($_REQUEST['submit'])) {
             }
             
 
-            // Validate profile picture
-            // if (profile_picture.trim() === "") {
-            //     alert("Please select a profile picture.");
-            //     return false;
-            // }
+            var fileName = profile_picture.value;
+        var fileExtension = fileName.split('.').pop().toLowerCase();
 
-            // return true;
+        // Check if the file extension is allowed
+        if (allowedExtensions.indexOf(fileExtension) === -1) {
+            alert("Invalid file format. Accepted formats: JPG, JPEG, PNG, GIF.");
+            profile_picture.value = ""; // Clear the file input
+            return false;
         }
+
+        return true;
+    }
+        
+        
     </script>
   <!-- plugins:css -->
   <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
