@@ -1,56 +1,50 @@
 <?php
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
 
-require 'C:\xampp\htdocs\DETS_DEMO\vendor\autoload.php';
+$email = $_POST["email"];
 
-// Function to generate a random token
-function generateToken() {
-    return bin2hex(random_bytes(32));
+$token = bin2hex(random_bytes(16));
+
+$token_hash = hash("sha256", $token);
+
+$expiry = date("Y-m-d H:i:s", time() + 60 * 30);
+
+$mysqli = require __DIR__ . "/connect.php";
+
+$sql = "UPDATE user
+        SET reset_token_hash = ?,
+            reset_token_expires_at = ?
+        WHERE email = ?";
+
+$stmt = $mysqli->prepare($sql);
+
+$stmt->bind_param("sss", $token_hash, $expiry, $email);
+
+$stmt->execute();
+
+if ($mysqli->affected_rows) {
+
+    $mail = require __DIR__ . "/mailer.php";
+
+    $mail->setFrom("noreply@example.com");
+    $mail->addAddress($email);
+    $mail->Subject = "Password Reset";
+    $mail->Body = <<<END
+
+    Click <a href="http://example.com/reset-password.php?token=$token">here</a> 
+    to reset your password.
+
+    END;
+
+    try {
+
+        $mail->send();
+
+    } catch (Exception $e) {
+
+        echo "Message could not be sent. Mailer error: {$mail->ErrorInfo}";
+
+    }
+
 }
 
-// Your database connection and user retrieval logic should be implemented here
-
-// Assuming you have retrieved the user's email from the database
-$userEmail = 'priyajoshi1613@gmail.com';
-
-// Generate a unique token and store it in the database for the user
-$resetToken = generateToken();
-
-// Store $resetToken in the database along with the user's email for verification
-
-// Send an email with the reset link
-$mail = new PHPMailer(true);
-
-try {
-    $mail->isSMTP();
-    $mail->Host = 'smtp.gmail.com';
-    $mail->SMTPAuth = true;
-    $mail->Username = 'kagdasakshi09@gmail.com';
-    $mail->Password = 'qmqe rosa rkev qlcw';
-    $mail->Port = 587;
-
- // Additional configuration...
-     $mail->SMTPSecure = 'tls';
-    $mail->SMTPOptions = [
-        'ssl' => [
-            'verify_peer' => false,
-            'verify_peer_name' => false,
-            'allow_self_signed' => true,
-        ],
-    ];
-
-    $mail->setFrom('kagdasakshi09@gmail.com', 'sakshi');
-    $mail->addAddress('sakshikagda8@gmail.com' , 'sakshi');
-
-    $mail->isHTML(true);
-    $mail->Subject = 'Password Reset';
-    $mail->Body = 'Click the following link to reset your password: <a href="confirm_password.php' . $resetToken . '">Reset Password</a>';
-
-    $mail->send();
-
-    echo 'Password reset email sent. Check your inbox.';
-} catch (Exception $e) {
-    echo 'Error sending email: ', $mail->ErrorInfo;
-}
-?>
+echo "Message sent, please check your inbox.";
