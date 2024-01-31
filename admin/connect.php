@@ -25,6 +25,9 @@
     mobile_number VARCHAR(15),
 		password VARCHAR(255) NOT NULL,
 		confirm_password VARCHAR(255) NOT NULL
+	-- 	reset_token VARCHAR(255),
+    -- reset_token_expires_at DATETIME
+
 	)";
 	
 	// $sqli="create table users(user_id INT(10) PRIMARY KEY,username VARCHAR(45) NULL,password VARCHAR(45) NULL, confirm password VARCHAR(45)  NULL,email VARCHAR(120)  NULL)";

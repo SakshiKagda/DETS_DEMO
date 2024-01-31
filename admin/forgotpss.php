@@ -31,12 +31,12 @@
                 <img src="assets/images/logo.png">
               </div>
               <h4>Forgot Password?</h4>
-              <form class="pt-3">
+              <form class="pt-3" method="POST" action="send_email.php" >
                 <div class="form-group">
                   <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email" name="email">
                 </div>
                 <div class="mt-3 text-center">
-                  <a class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">RESET PASSWORD</a>
+                  <a class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">SEND</a>
                 </div>
                 <div class="text-center mt-4 font-weight-light"> <a href="login.php" class="text-primary">Back to
                     Login</a>
