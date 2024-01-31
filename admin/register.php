@@ -134,7 +134,8 @@ if (isset($_REQUEST['submit'])) {
                     name="email" required>
                 </div>
                 <div class="form-group">
-                <label>Gender</label>
+                <input type="text" class="form-control form-control-lg" id="exampleInputGender1" placeholder="Gender"
+                    name="gender" required>
                 <div class="gender-radio">
                      <label><input type="radio" name="gender" value="male" required> Male</label>
                     <label><input type="radio" name="gender" value="female" required> Female</label>
