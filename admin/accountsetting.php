@@ -44,6 +44,14 @@
                     <form class="form-sample">
                         <!-- <p class="card-description"> Personal info </p> -->
                         <div class="row">
+                        <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Profile Picture</label>
+                                    <div class="col-sm-9">
+                                    <input type="file" class="form-control-file" id="profilePicture">
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">First Name</label>
