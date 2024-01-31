@@ -41,11 +41,11 @@ try {
     ];
 
     $mail->setFrom('kagdasakshi09@gmail.com', 'sakshi');
-    $mail->addAddress('priyajoshi1613@gmail.com' , 'Priya');
+    $mail->addAddress('sakshikagda8@gmail.com' , 'sakshi');
 
     $mail->isHTML(true);
     $mail->Subject = 'Password Reset';
-    $mail->Body = 'Click the following link to reset your password: <a href="https://yourwebsite.com/reset_password_confirm.php?token=' . $resetToken . '">Reset Password</a>';
+    $mail->Body = 'Click the following link to reset your password: <a href="confirm_password.php' . $resetToken . '">Reset Password</a>';
 
     $mail->send();
 

@@ -24,9 +24,9 @@
 		gender ENUM('Male', 'Female', 'Other'),
     mobile_number VARCHAR(15),
 		password VARCHAR(255) NOT NULL,
-		confirm_password VARCHAR(255) NOT NULL
-	-- 	reset_token VARCHAR(255),
-    -- reset_token_expires_at DATETIME
+		confirm_password VARCHAR(255) NOT NULL,
+		reset_token VARCHAR(255),
+reset_token_expires_at DATETIME
 
 	)";
 	

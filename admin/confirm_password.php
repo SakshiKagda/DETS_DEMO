@@ -44,7 +44,7 @@ if (isset($_GET['token'])) {
             </head>
             <body>
                 <h2>Reset Your Password</h2>
-                <form action="confirm_password.php" method="post">
+                <form action="" method="post">
                     <label for="new_password">New Password:</label>
                     <input type="password" name="new_password" required>
                     <button type="submit">Reset Password</button>
