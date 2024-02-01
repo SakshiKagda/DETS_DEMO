@@ -17,20 +17,20 @@ if (isset($_REQUEST['submit'])) {
 
   $username = ($_POST["username"]);
   $email = ($_POST["email"]);
-  $password = ($_POST["password"]);
+  $hashed_password = ($_POST["password"]);
   $profile_picture = $_POST["profile_picture"];
   $gender = $_POST["gender"];
   $mobile_number = $_POST["mobile_number"];
-  $confirm_password = $_POST["confirm_password"];
+  // $confirm_password = $_POST["confirm_password"];
 
-  if ($password !== $confirm_password) {
-    echo "Error: Passwords do not match.";
-  } else {
-    // Hash the password
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+  // if ($password !== $confirm_password) {
+  //   echo "Error: Passwords do not match.";
+  // } else {
+  //   // Hash the password
+  //   $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Insert user data into the database
-    $sql = "INSERT INTO users (username,email,password,profile_picture,gender,mobile_number,confirm_password) VALUES ('$username', '$email', '$password','$profile_picture ',' $gender ','$mobile_number ','$confirm_password')";
+    $sql = "INSERT INTO users (username,email,hashed_password,profile_picture,gender,mobile_number) VALUES ('$username', '$email', '$password','$profile_picture ',' $gender ','$mobile_number ')";
 
     if ($conn->query($sql) == TRUE) {
       echo "Registration successful!";
@@ -42,7 +42,7 @@ if (isset($_REQUEST['submit'])) {
     }
 
   }
-}
+
 ?>
 
 

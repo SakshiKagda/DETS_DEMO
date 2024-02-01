@@ -35,8 +35,8 @@ function sendResetEmail($email, $token) {
         // Content
         $mail->isHTML(true);
         $mail->Subject = 'Password Reset Request';
-        $resetLink = 'C:\xampp\htdocs\DETS_DEMO\admin\changepass.php' . $token;
-        $mail->Body    = "Click the following link to reset your password: <a href='changepass.php'>$resetLink</a>";
+        $resetLink = 'http://localhost/DETS_DEMO/admin/confirm_password.php' . $token;
+        $mail->Body    = "Click the following link to reset your password: <a href='http://localhost/DETS_DEMO/admin/confirm_password.php'>$resetLink</a>";
 
         $mail->send();
         return true;

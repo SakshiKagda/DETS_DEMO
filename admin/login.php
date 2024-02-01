@@ -21,7 +21,7 @@ if (isset($_POST['submit'])) {
   $password = $_POST["password"];
 
   // Retrieve hashed password from the database
-   $sql = "SELECT * FROM users WHERE email = '$email' && password = '$password'";
+   $sql = "SELECT * FROM users WHERE email = '$email' && hashed_password  = '$password'";
   $result = $conn->query($sql);
   $row=mysqli_fetch_assoc($result);
    
