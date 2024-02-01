@@ -1,3 +1,95 @@
+<?php
+
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'C:\xampp\htdocs\DETS_DEMO\vendor\autoload.php';
+
+// Function to send email
+function sendResetEmail($email, $token) {
+    $mail = new PHPMailer(true);
+
+    try {
+      $mail->isSMTP();
+      $mail->Host = 'smtp.gmail.com';
+      $mail->SMTPAuth = true;
+      $mail->Username = 'kagdasakshi09@gmail.com';
+      $mail->Password = 'qmqe rosa rkev qlcw';
+      $mail->Port = 587;
+  
+      // Additional configuration...
+       $mail->SMTPSecure = 'tls';
+      $mail->SMTPOptions = [
+          'ssl' => [
+              'verify_peer' => false,
+              'verify_peer_name' => false,
+              'allow_self_signed' => true,
+          ],
+      ];
+
+        //Recipients
+        $mail->setFrom('kagdasakshi09@gmail.com', 'sakshi');
+        $mail->addAddress('sakshikagda8@gmail.com');
+
+        // Content
+        $mail->isHTML(true);
+        $mail->Subject = 'Password Reset Request';
+        $resetLink = 'C:\xampp\htdocs\DETS_DEMO\admin\changepass.php' . $token;
+        $mail->Body    = "Click the following link to reset your password: <a href='changepass.php'>$resetLink</a>";
+
+        $mail->send();
+        return true;
+    } catch (Exception $e) {
+        return false;
+    }
+}
+
+// Database Connection
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "expense_db";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Function to generate a unique token
+function generateToken() {
+    return bin2hex(random_bytes(32));
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = $_POST['email'];
+
+    $sql = "SELECT * FROM users WHERE email = '$email'";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $token = generateToken();
+        $expirationTime = date('Y-m-d H:i:s', strtotime('+30 minutes'));
+
+        $updateSql = "UPDATE users SET reset_token = '$token', token_expiration = '$expirationTime' WHERE email = '$email'";
+        $conn->query($updateSql);
+
+        if (sendResetEmail($email, $token)) {
+            echo "Reset email sent. Check your email for instructions.";
+        } else {
+            echo "Error sending reset email.";
+        }
+    } else {
+        echo "Email not found. Please try again.";
+    }
+}
+
+
+?>
+
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -31,7 +123,7 @@
                 <img src="assets/images/logo.png">
               </div>
               <h4>Forgot Password?</h4>
-              <form class="pt-3" method="POST" action="send_email.php" >
+              <form class="pt-3" method="POST" action="">
                 <div class="form-group">
                   <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email" name="email">
                 </div>
