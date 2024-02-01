@@ -6,8 +6,7 @@ use PHPMailer\PHPMailer\Exception;
 require 'C:\xampp\htdocs\DETS_DEMO\vendor\autoload.php';
 
 // Function to send email
-function sendResetEmail($email, $token) {
-    // ... (unchanged)
+function sendResetEmail($email, $token) {    // ... (unchanged)
 }
 
 // Database Connection
