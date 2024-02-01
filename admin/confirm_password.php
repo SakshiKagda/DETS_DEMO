@@ -1,49 +1,43 @@
 <?php
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
-require 'C:\xampp\htdocs\DETS_DEMO\vendor\autoload.php';
-
-// Function to send email
-function sendResetEmail($email, $token) {
-    // ... (unchanged)
-}
-
-// Database Connection
+// Database connection details
 $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "expense_db";
-
+// Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
+// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $token = $_POST['token'];
-    $newPassword = $_POST['new_password'];
-    $confirmPassword = $_POST['confirm_password'];
 
-    if ($newPassword === $confirmPassword) {
-        $sql = "SELECT * FROM users WHERE reset_token = '$token' AND token_expiry > NOW()";
-        $result = $conn->query($sql);
 
-        if ($result->num_rows > 0) {
-            $updateSql = "UPDATE users SET password = '$newPassword', reset_token = NULL, token_expiry = NULL WHERE reset_token = '$token'";
-            $conn->query($updateSql);
 
-            echo "Password successfully reset. You can now log in with your new password.";
-        } else {
-            echo "Invalid or expired token. Please try again.";
-        }
+// Initialize variables
+// $userId = $_POST["user_id"];
+$passwordErr = "";
+$password = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Validate and sanitize the new password
+    if (empty($_POST["password"])) {
+        $passwordErr = "Password is required";
     } else {
-        echo "Password and Confirm Password do not match. Please try again.";
+        $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
+    }
+
+    // If the password is valid, update it in the database
+    if (empty($passwordErr)) {
+        $sql = "UPDATE users SET hashed_password = '$password' WHERE user_id = '$userId'";
+        $conn->query($sql);
+
+        // Redirect to a success page or login page
+        header("Location: password_reset_success.php");
+        exit();
     }
 }
-
 
 ?>
 
@@ -53,18 +47,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Password Reset</title>
+    <!-- Include any additional styles or scripts you may need -->
 </head>
 <body>
-    <h2>Reset Password</h2>
-    <form action="" method="post">
-        <input type="hidden" name="token">
-        <label for="new_password">New Password:</label>
-        <input type="password" name="new_password" required>
+
+    <h2>Password Reset</h2>
+    <p>Please enter your new password.</p>
+
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?user_id=' . $userId; ?>">
+        <label for="password">New Password:</label>
+        <input type="password" name="password" id="password" required>
+        <span style="color: red;"><?php echo $passwordErr; ?></span>
+
         <br>
+
         <label for="confirm_password">Confirm Password:</label>
-        <input type="password" name="confirm_password" required>
+        <input type="password" name="confirm_password" id="confirm_password" required>
+        <!-- You may add client-side validation to match the passwords -->
+
         <br>
-        <button type="submit">Reset Password</button>
+
+        <input type="submit" value="Reset Password">
     </form>
+
 </body>
 </html>
+
+
