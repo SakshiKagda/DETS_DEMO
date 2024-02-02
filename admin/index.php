@@ -1,3 +1,10 @@
+<?php
+// session_start();
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
+
+?>
 <!-- From DETS_BRANCH-->
 <!DOCTYPE html>
 <html lang="en">

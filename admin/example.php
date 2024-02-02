@@ -1,10 +1,6 @@
 <?php
-
 session_start();
-// echo "Session ID: " . $_SESSION['id'];
 
-// $id = isset($_SESSION['id']) ? $_SESSION['id'] : null;
-// var_dump($id);  // Add this line for debugging
 // Assuming you have a database connection
 $servername = "localhost";
 $username = "root";
@@ -20,49 +16,39 @@ if ($conn->connect_error) {
 }
 
 // Check if the user is logged in
-if (isset($_SESSION['id'])) {
-  $_SESSION['id'] = $user_id;
+if (!isset($_SESSION['id'])) {
+    // Redirect to the login page if not logged in
+    // header("Location: login.php");
+    exit();
+}
 
+// Retrieve user details from the database
+$id = $_SESSION['id'];
 
+if (!isset($id)) {
+    // Handle the case where user ID is not set
+    echo "User ID not set.";
+    exit();
+}
 
-$sql = "SELECT * FROM users WHERE id = $user_id";
+$sql = "SELECT * FROM users WHERE id = $id";
 $result = $conn->query($sql);
 
-if ($result !== false) {
-    if ($result->num_rows > 0) {
-        // ... rest of your code
+if ($result->num_rows > 0) {
+    $userDetails = $result->fetch_assoc();
+
+    // Check if 'email' key exists
+    if (isset($userDetails['email'])) {
+        $userEmail = $userDetails['email'];
     } else {
-        echo "User details not found.";
+        // Handle the case where 'email' key is not present
+        echo "Email not found in user details.";
     }
 } else {
-    echo "SQL Query Error: " . $conn->error;
+    // Handle the case where user details are not found
+    echo "User details not found.";
 }
-
-    if ($result !== false && $result->num_rows > 0) {
-        $userDetails = $result->fetch_assoc();
-
-        // Check if 'email' key exists
-        if (isset($userDetails['email'])) {
-            $userEmail = $userDetails['email'];
-        } else {
-            // Handle the case where 'email' key is not present
-            echo "Email not found in user details.";
-        }
-    } else {
-        // Handle the case where user details are not found
-        echo "User details not found.";
-    }
-// } else {
-//     echo "User ID not set.";
-}
-
-
-
-
-
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -95,19 +81,14 @@ if ($result !== false) {
         <a href="#" class="nav-link">
         <div class="nav-profile-image">
                     <!-- Use the user's profile image if available, otherwise use a default image -->
-                    <?php if (!empty($userDetails['profile_image'])) : ?>
-                        <img src="<?php echo $userDetails['profile_image']; ?>" alt="profile">
+                    <?php if (!empty($users['profile_image'])) : ?>
+                        <img src="<?php echo $users['profile_image']; ?>" alt="profile">
                     <?php else : ?>
                         <img src="assets/images/default_profile.jpg" alt="profile">
                     <?php endif; ?>
                     <span class="login-status online"></span>
                     <!--change to offline or busy as needed-->
                 </div>
-                <div class="nav-profile-text d-flex flex-column">
-                    <span class="font-weight-bold mb-2"><?php echo $userDetails['username']; ?></span>
-                    <span class="text-secondary text-small"><?php echo $userDetails['email']; ?></span>
-                </div>
-
           <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
         </a>
       </li>

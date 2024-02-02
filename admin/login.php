@@ -1,5 +1,7 @@
 <?php
-// session_start(); // Start the session
+
+  session_start();
+// Start the session
 
 // // Check if the user is already logged in, redirect to the dashboard
 // if (isset($_SESSION['id'])) {
@@ -30,21 +32,23 @@ $password = trim($_POST["password"]);
 
 
     // Retrieve hashed password from the database
-    $sql = "SELECT email, password FROM users WHERE email = '$email' ";
+    $sql = "SELECT * FROM users WHERE email = '$email' ";
     // echo "SQL Query: $sql";
 
     $result = $conn->query($sql);
 
     if ($result !== false && $result->num_rows > 0) {
         $row = $result->fetch_assoc();
-// After retrieving the row from the database
-var_dump($row);
+      
 
-        // Verify the password using password_verify
         if (password_verify($password, $row['password'])) {
             echo "success";
+
+            // $_SESSION['id'] = $id;
             header("Location: index.php");
-            exit();
+          // After successful authentication
+        //  echo $_SESSION['id'] = $user_id;  // Assuming $user_id is the user's ID
+
         } else {
             echo "Incorrect email or password";
         }
@@ -53,7 +57,6 @@ var_dump($row);
     }
 }
 
-// ...
 
 
 

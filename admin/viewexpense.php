@@ -1,24 +1,4 @@
-<?php
-if(isset($_POST['register']))
-{
-    $txtpass=$_POST['pass'];
-    $txtname = $_POST["nm"];
-      foreach($_POST as $key=>$value)
-      {
-          if(empty($_POST[$key]))
-         {
-            $err="all fields are required";
-            echo "$err"; 
-         }
-     }
-                          if(!isset($err))
-  	   {
-                             $conn=mysqli_connect("localhost","root","","expense_db");
-  	           $sql="insert into user values('$txtname','$txtpass')";
-                                mysqli_query($conn,$sql);
-  	    } 
-}
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -70,6 +50,7 @@ if(isset($_POST['register']))
         <table class="table table-bordered table-striped"> 
             <thead class="thead-sucess">
                 <tr>
+                   <th>ID</th>
                     <th>Date</th>
                     <th>Category</th>
                     <th>Description</th>
@@ -80,16 +61,17 @@ if(isset($_POST['register']))
             <tbody>
                 <!-- Example row, replace with dynamic data from your system -->
                 <tr>
+                <td>1</td>
                     <td>2024-01-24</td>
                     <td>Food</td>
                     <td>Lunch</td>
                     <td>$15.00</td>
                     <td>
-                        <button class="btn btn-warning btn-sm  ">Edit</button>
+                    <a href="edit_expense.php" class="btn btn-warning btn-sm">Edit</a>
                         <button class="btn btn-danger btn-sm">Delete</button>
                     </td>
                 </tr>
-                <!-- Add more rows based on your data -->
+               
             </tbody>
         </table>
         <a href="index.php" class="btn btn-primary mt-3">Go Back</a>
