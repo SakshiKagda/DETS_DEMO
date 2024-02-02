@@ -1,4 +1,11 @@
 <?php
+// session_start(); // Start the session
+
+// // Check if the user is already logged in, redirect to the dashboard
+// if (isset($_SESSION['id'])) {
+//     header("Location: dashboard.php");
+//     exit();
+// }
 // Define your database connection details
 $servername = "localhost";
 $username = "root";
@@ -9,31 +16,45 @@ $database = "expense_db";
 $conn = new mysqli($servername, $username, $password, $database);
 
 // Check the connection
+// ...
+
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-
 // Check if the form is submitted
 if (isset($_POST['submit'])) {
-  // Sanitize user input
-  $email = $_POST["email"];
-  $password = $_POST["password"];
+    // Sanitize user input
+   $email = trim($_POST["email"]);
+$password = trim($_POST["password"]);
 
-  // Retrieve hashed password from the database
-   $sql = "SELECT * FROM users WHERE email = '$email' && hashed_password  = '$password'";
-  $result = $conn->query($sql);
-  $row=mysqli_fetch_assoc($result);
-   
-if(mysqli_num_rows($result)> 0){
-  echo "success " ;
-  header("Location: index.php");
-  exit();
-}else{
-    echo "incorrect email or password";
-  }
 
+    // Retrieve hashed password from the database
+    $sql = "SELECT email, password FROM users WHERE email = '$email' ";
+    // echo "SQL Query: $sql";
+
+    $result = $conn->query($sql);
+
+    if ($result !== false && $result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+// After retrieving the row from the database
+var_dump($row);
+
+        // Verify the password using password_verify
+        if (password_verify($password, $row['password'])) {
+            echo "success";
+            header("Location: index.php");
+            exit();
+        } else {
+            echo "Incorrect email or password";
+        }
+    } else {
+        echo "User not found";
+    }
 }
+
+// ...
+
 
 
 
@@ -102,12 +123,13 @@ return true;
                 <!-- <div class="mt-3 text-center" name="submit">
                   <button type="submit"  name="submit" class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn" ><a > SIGN </a></button>
                 </div> -->
-                <div class="mt-3 text-center " name="submit"> 
-                <button type="submit"  name="submit" class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn" ><a > SIGN IN</a></button>
-                </div>
+                <div class="mt-3 text-center">
+   <button type="submit" name="submit" class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn"><a > SIGN IN</a></button>
+</div>
+
                 <div class="my-2 d-flex justify-content-between align-items-center">
 
-                  <a href="forgotpss.php" class="auth-link text-black">Forgot password?</a>
+                  <a href="forgotpass.php" class="auth-link text-black">Forgot password?</a>
                 </div>
                 <div class="text-center mt-4 font-weight-light"> Don't have an account? <a href="register.php"
                     class="text-primary">Create</a>

@@ -1,4 +1,5 @@
 <?php
+
 // Define your database connection details
 $servername = "localhost";
 $username = "root";
@@ -18,19 +19,25 @@ if (isset($_REQUEST['submit'])) {
   $username = ($_POST["username"]);
   $email = ($_POST["email"]);
   $password = ($_POST["password"]);
-  $profile_picture = $_POST["profile_picture"];
+  // $profile_image = $_FILES["profile_image"];
   $gender = $_POST["gender"];
   $mobile_number = $_POST["mobile_number"];
-  $confirm_password = $_POST["confirm_password"];
+  // $confirm_password = $_POST["confirm_password"];
 
-  if ($password !== $confirm_password) {
-    echo "Error: Passwords do not match.";
-  } else {
-    // Hash the password
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+  // if ($password !== $confirm_password) {
+  //   echo "Error: Passwords do not match.";
+  // } else {
+  //   // Hash the password
+  //   $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+  // During registration
+$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+// $profile_image = $_FILES["profile_image"];
+$profile_image = $_FILES['profile_image']['name'];
 
     // Insert user data into the database
-    $sql = "INSERT INTO users (username,email,password,profile_picture,gender,mobile_number,confirm_password) VALUES ('$username', '$email', '$password','$profile_picture ',' $gender ','$mobile_number ','$confirm_password')";
+    $sql = "INSERT INTO users (username, email, password, profile_image, gender, mobile_number) VALUES ('$username', '$email', '$hashedPassword', '$profile_image', '$gender', '$mobile_number')";
+
 
     if ($conn->query($sql) == TRUE) {
       echo "Registration successful!";
@@ -42,7 +49,15 @@ if (isset($_REQUEST['submit'])) {
     }
 
   }
-}
+  
+//   // Example debugging statements
+// $profile_image = "image/*" . $_FILES["profile_image"]["name"];
+// echo "Profile Image Path: " . $profile_image;
+
+
+ 
+
+
 ?>
 
 
@@ -60,7 +75,7 @@ if (isset($_REQUEST['submit'])) {
         function validate() {
             var username = document.getElementById("exampleInputUsername1").value;
             var mobile_number = document.getElementById("exampleInputnumber1").value;
-            var profile_picture= document.getElementById("exampleInputprofile1");
+            var profile_image= document.getElementById("exampleInputprofile1");
         var allowedExtensions = ["jpg", "jpeg", "png", "gif"];
 
             // Validate name
@@ -77,13 +92,13 @@ if (isset($_REQUEST['submit'])) {
             }
             
 
-            var fileName = profile_picture.value;
+            var fileName = profile_image.value;
         var fileExtension = fileName.split('.').pop().toLowerCase();
 
         // Check if the file extension is allowed
         if (allowedExtensions.indexOf(fileExtension) === -1) {
             alert("Invalid file format. Accepted formats: JPG, JPEG, PNG, GIF.");
-            profile_picture.value = ""; // Clear the file input
+            profile_image.value = ""; // Clear the file input
             return false;
         }
 
@@ -118,11 +133,13 @@ if (isset($_REQUEST['submit'])) {
               </div>
               <h4>New here?</h4>
               <h6 class="font-weight-light">Signing up is easy. It only takes a few steps</h6>
-              <form class="pt-3" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?> " onsubmit="return validate()"  >
+              <form class="pt-3" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return validate()" enctype="multipart/form-data">
+
+
               <div class="form-group">
-                <label>Profile Picture</label>
-                  <input type="file" class="form-control form-control-lg" id="exampleInputprofile1"
-                    placeholder="Profile Picture" name="profile_picture" accept="image/*" required>
+              <label for="exampleInputprofile1">Profile Picture</label>
+    <input type="file" id="exampleInputprofile1" name="profile_image" accept="image/*" required>
+
                 </div>
                 <div class="form-group">
                   <input type="text" class="form-control form-control-lg" id="exampleInputUsername1"
