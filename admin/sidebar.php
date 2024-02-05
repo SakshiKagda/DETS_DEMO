@@ -1,60 +1,48 @@
+
 <?php
-
-if(!isset($_SESSION)) 
-{ 
-  session_start(); 
-} 
-
-
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "expense_db";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-// $userDetails = array();
-
-// Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
+ if(!isset($_SESSION)) 
+ { 
+     session_start(); 
+ } 
 
 // Check if the user is logged in
-if (isset($_SESSION['id'])) {
-  $_SESSION['id'] = $user_id;
-
-
-
-  $sql = "SELECT * FROM users WHERE id = '$user_id'";
-  $result = $conn->query($sql);
-
-  if ($result !== false) {
-    if ($result->num_rows > 0) {
-      // ... rest of your code
-    } else {
-      echo "User details not found.";
-    }
-  } else {
-    echo "SQL Query Error: " . $conn->error;
-  }
-
-  if ($result !== false) {
-    if ($result->num_rows > 0) {
-        $userDetails = $result->fetch_assoc();
-    } else {
-        // Initialize $userDetails as an empty array if no user details are found
-        $userDetails = array();
-        echo "User details not found.";
-    }
-} else {
-    echo "SQL Query Error: " . $conn->error;
+if (!isset($_SESSION['id'])) {
+    // Redirect to the login page if not logged in
+    header("Location: login.php");
+    exit();
 }
-} else {
-echo "User ID not set.";
+
+// Include your database connection file
+include('database.php'); // Replace with the actual filename
+
+// Connect to the database (replace these variables with your actual database credentials)
+$host = 'localhost';
+$username = 'root';
+$password = '';
+$database = 'expense_db';
+
+$conn = new mysqli($host, $username, $password, $database);
+
+// Check the connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
+
+// Retrieve user details from the database
+$user_id = $_SESSION['id'];
+$sql = "SELECT * FROM users WHERE id = $user_id"; // Modify the query based on your database schema
+
+$result = $conn->query($sql);
+
+if ($result !== false && $result->num_rows > 0) {
+    $userDetails = $result->fetch_assoc();
+} else {
+    // Handle the case where user details are not found
+    $userDetails = array(); // Empty array if user not found
+}
+
+
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -83,29 +71,26 @@ echo "User ID not set.";
   <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
       <li class="nav-item nav-profile">
-        <a href="#" class="nav-link">
-          <div class="nav-profile-image">
-            <!-- Use the user's profile image if available, otherwise use a default image -->
-            <?php if (!empty($userDetails['profile_image'])): ?>
-    <img src="<?php echo $userDetails['profile_image']; ?>" alt="profile">
-<?php else: ?>
-    <img src="assets/images/default_profile.jpg" alt="profile">
-<?php endif; ?>
-            <span class="login-status online"></span>
-            <!--change to offline or busy as needed-->
-    
-          </div>
-           <div class="nav-profile-text d-flex flex-column">
-            <span class="font-weight-bold mb-2">
-              <?php echo $userDetails['username']; ?>
-            </span>
-            <span class="text-secondary text-small">
-              <?php echo $userDetails['email']; ?>
-            </span>
-          </div>
-
-          <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
-        </a>
+      <a href="#" class="nav-link">
+      <div class="nav-profile-image">
+        <?php
+        // Check if the 'image' column exists and is not empty
+        if (isset($userDetails['profile_image']) && !empty($userDetails['profile_image'])) {
+            echo '<img src="' . $userDetails['profile_image'] . '" alt="profile">';
+        } else {
+            // Display a default image if the 'image' column is empty or not found
+            echo '<img src="assets/images/default-profile-image.jpg" alt="default-profile">';
+        }
+        ?>
+        <span class="login-status online"></span>
+        <!--change to offline or busy as needed-->
+    </div>
+    <div class="nav-profile-text d-flex flex-column">
+        <span class="font-weight-bold mb-2"><?php echo isset($userDetails['username']) ? $userDetails['username'] : ''; ?></span>
+        <span class="text-secondary text-small"><?php echo isset($userDetails['email']) ? $userDetails['email'] : ''; ?></span>
+    </div>
+    <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
+</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="index.php">

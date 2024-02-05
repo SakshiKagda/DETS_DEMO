@@ -1,3 +1,52 @@
+<?php
+// Assuming you have a database connection
+$pdo = new PDO("mysql:host=localhost;dbname=expense_db", "root", "");
+
+// Check if form is submitted
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Assuming you have session authentication
+    session_start();
+    
+    // Get user ID from the session
+    $user_id = $_SESSION['user_id'];
+
+    // Retrieve current password hash from the database
+    $stmt = $pdo->prepare("SELECT password FROM users WHERE id = ?");
+    $stmt->execute([$user_id]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$user) {
+        // User not found, handle accordingly
+        echo "User not found";
+        exit();
+    }
+
+    // Verify old password
+    $old_password = $_POST['currentPassword'];
+    if (!password_verify($old_password, $user['password'])) {
+        // Old password is incorrect, handle accordingly
+        echo "Invalid old password";
+        exit();
+    }
+
+    // Hash the new password
+    $new_password = $_POST['newPassword'];
+    $hashed_password = password_hash($new_password, PASSWORD_BCRYPT);
+
+    // Update the password in the database
+    $update_stmt = $pdo->prepare("UPDATE users SET password = ? WHERE id = ?");
+    $update_stmt->execute([$hashed_password, $user_id]);
+
+    if ($update_stmt->rowCount() > 0) {
+        // Password updated successfully
+        echo "Password changed successfully";
+    } else {
+        // Error updating password
+        echo "Error updating password";
+    }
+    exit(); // Prevent the HTML form from being displayed after processing the form submission
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,20 +60,10 @@
             var currentPassword = document.getElementById('exampleInputOld1').value;
             var newPassword = document.getElementById('exampleInputNew1').value;
             var confirmPassword = document.getElementById('exampleInputConfirm1').value;
-            // var errorMessage = document.getElementById('errorMessage');
-
-            // Reset error message
-            // errorMessage.textContent = '';
-
-            // Check if current password is valid (you may want to replace this check with a more secure method)
-            if (currentPassword !== 'exampleInputOld1') {
-              alert('Invalid current password');
-                return false;
-            }
 
             // Check if new password and confirm password match
-            else if (newPassword !== confirmPassword) {
-                 alert( 'New password and confirm password do not match');
+            if (newPassword !== confirmPassword) {
+                alert('New password and confirm password do not match');
                 return false;
             }
 

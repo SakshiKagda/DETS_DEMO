@@ -1,14 +1,14 @@
 <?php
-
-  session_start();
 // Start the session
+session_start();
 
 // Check if the user is already logged in, redirect to the dashboard
 if (isset($_SESSION['id'])) {
-  $_SESSION['id'] = $user_id;
-    // header("Location: index.php");
+    // Redirect to the dashboard or another page
+    header("Location: index.php");
     exit();
 }
+
 // Define your database connection details
 $servername = "localhost";
 $username = "root";
@@ -19,8 +19,6 @@ $database = "expense_db";
 $conn = new mysqli($servername, $username, $password, $database);
 
 // Check the connection
-// ...
-
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
@@ -28,42 +26,34 @@ if ($conn->connect_error) {
 // Check if the form is submitted
 if (isset($_POST['submit'])) {
     // Sanitize user input
-   $email = trim($_POST["email"]);
-$password = trim($_POST["password"]);
-
+    $email = trim($_POST["email"]);
+    $password = trim($_POST["password"]);
 
     // Retrieve hashed password from the database
-    $sql = "SELECT * FROM users WHERE email = '$email' ";
-    // echo "SQL Query: $sql";
-
+    $sql = "SELECT * FROM users WHERE email = '$email'";
     $result = $conn->query($sql);
 
     if ($result !== false && $result->num_rows > 0) {
         $row = $result->fetch_assoc();
-      
 
         if (password_verify($password, $row['password'])) {
-            echo "success";
-
-            // $_SESSION['id'] = $id;
-            // header("Location: index.php");
-          // After successful authentication
-        //  echo $_SESSION['id'] = $user_id;  // Assuming $user_id is the user's ID
-
+            // Store user_id in session
+            $_SESSION['id'] = $row['id'];
+            // Redirect to the dashboard or another page
+            header("Location: index.php");
+            exit();
         } else {
             echo "Incorrect email or password";
         }
     } else {
         echo "User not found";
     }
- 
 }
 
-
-
-
-
+// Close the database connection
+// $conn->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
