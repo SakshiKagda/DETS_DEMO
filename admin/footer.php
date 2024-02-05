@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
   <title>Daily Expense Tracker System</title> 
   <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
   <!-- endinject -->
@@ -15,6 +16,9 @@
   <!-- End layout styles -->
   <link rel="shortcut icon" href="assets/images/favicon.ico" />
  
+=======
+  <title>DETSt</title>  
+>>>>>>> master
 </head>
 <body>
 <footer class="footer">
