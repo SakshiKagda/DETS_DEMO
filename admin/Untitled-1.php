@@ -1,60 +1,66 @@
 <?php
 
-if(!isset($_SESSION)) 
-{ 
-  session_start(); 
-} 
+// session_start();
+// echo "Session ID: " . $_SESSION['id'];
 
-
+// $id = isset($_SESSION['id']) ? $_SESSION['id'] : null;
+// var_dump($id);  // Add this line for debugging
+// Assuming you have a database connection
 $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "expense_db";
 
+// Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
-// $userDetails = array();
 
 // Check connection
 if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
+    die("Connection failed: " . $conn->connect_error);
 }
 
 // Check if the user is logged in
 if (isset($_SESSION['id'])) {
-  $_SESSION['id'] = $user_id;
+  $_SESSION['id'] = 'test';
 
 
 
-  $sql = "SELECT * FROM users WHERE id = '$user_id'";
-  $result = $conn->query($sql);
+$sql = "SELECT * FROM users WHERE id = $user_id";
+$result = $conn->query($sql);
 
-  if ($result !== false) {
+if ($result !== false) {
     if ($result->num_rows > 0) {
-      // ... rest of your code
+        // ... rest of your code
     } else {
-      echo "User details not found.";
+        echo "User details not found.";
     }
-  } else {
+} else {
     echo "SQL Query Error: " . $conn->error;
-  }
-
-  if ($result !== false && $result->num_rows > 0) {
-    $userDetails = $result->fetch_assoc();
-
-    // Check if 'email' key exists
-    if (isset($userDetails['email'])) {
-      $userEmail = $userDetails['email'];
-    } else {
-      // Handle the case where 'email' key is not present
-      echo "Email not found in user details.";
-    }
-  } else {
-    // Handle the case where user details are not found
-    echo "User details not found.";
-  }
-  // } else {
-//     echo "User ID not set.";
 }
+
+    if ($result !== false && $result->num_rows > 0) {
+        $userDetails = $result->fetch_assoc();
+
+        // Check if 'email' key exists
+        if (isset($userDetails['email'])) {
+            $userEmail = $userDetails['email'];
+        } else {
+            // Handle the case where 'email' key is not present
+            echo "Email not found in user details.";
+        }
+    } else {
+        // Handle the case where user details are not found
+        echo "User details not found.";
+    }
+} else {
+    echo "User ID not set.";
+}
+
+
+
+
+
+
 ?>
 
 
@@ -67,7 +73,7 @@ if (isset($_SESSION['id'])) {
   <title>Daily Expense Tracker System</title>
   <link rel="stylesheet" href="assets/scss/_sidebar.scss">
   <link rel="stylesheet" href="assets/css/style.css">
-
+  
   <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
   <!-- endinject -->
@@ -87,25 +93,20 @@ if (isset($_SESSION['id'])) {
     <ul class="nav">
       <li class="nav-item nav-profile">
         <a href="#" class="nav-link">
-          <div class="nav-profile-image">
-            <!-- Use the user's profile image if available, otherwise use a default image -->
-            <?php if (!empty($userDetails['profile_image'])): ?>
-              <img src="<?php echo $userDetails['profile_image']; ?>" alt="profile">
-            <?php else: ?>
-              <img src="assets/images/default_profile.jpg" alt="profile">
-            <?php endif; ?>
-            <span class="login-status online"></span>
-            <!--change to offline or busy as needed-->
-            
-          </div>
-          <div class="nav-profile-text d-flex flex-column">
-            <span class="font-weight-bold mb-2">
-              <?php echo $userDetails['username']; ?>
-            </span>
-            <span class="text-secondary text-small">
-              <?php echo $userDetails['email']; ?>
-            </span>
-          </div>
+        <div class="nav-profile-image">
+                    <!-- Use the user's profile image if available, otherwise use a default image -->
+                    <?php if (!empty($userDetails['profile_image'])) : ?>
+                        <img src="<?php echo $userDetails['profile_image']; ?>" alt="profile">
+                    <?php else : ?>
+                        <img src="assets/images/default_profile.jpg" alt="profile">
+                    <?php endif; ?>
+                    <span class="login-status online"></span>
+                    <!--change to offline or busy as needed-->
+                </div>
+                <div class="nav-profile-text d-flex flex-column">
+                    <span class="font-weight-bold mb-2"><?php echo $userDetails['username']; ?></span>
+                    <span class="text-secondary text-small"><?php echo $userDetails['email']; ?></span>
+                </div>
 
           <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
         </a>
@@ -200,7 +201,6 @@ if (isset($_SESSION['id'])) {
       </li>
     </ul>
   </nav>
-
+  
 </body>
-
 </html>
