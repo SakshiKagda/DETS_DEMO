@@ -38,22 +38,19 @@ if (isset($_SESSION['id'])) {
     echo "SQL Query Error: " . $conn->error;
   }
 
-  if ($result !== false && $result->num_rows > 0) {
-    $userDetails = $result->fetch_assoc();
-
-    // Check if 'email' key exists
-    if (isset($userDetails['email'])) {
-      $userEmail = $userDetails['email'];
+  if ($result !== false) {
+    if ($result->num_rows > 0) {
+        $userDetails = $result->fetch_assoc();
     } else {
-      // Handle the case where 'email' key is not present
-      echo "Email not found in user details.";
+        // Initialize $userDetails as an empty array if no user details are found
+        $userDetails = array();
+        echo "User details not found.";
     }
-  } else {
-    // Handle the case where user details are not found
-    echo "User details not found.";
-  }
-  // } else {
-//     echo "User ID not set.";
+} else {
+    echo "SQL Query Error: " . $conn->error;
+}
+} else {
+echo "User ID not set.";
 }
 ?>
 
@@ -90,15 +87,15 @@ if (isset($_SESSION['id'])) {
           <div class="nav-profile-image">
             <!-- Use the user's profile image if available, otherwise use a default image -->
             <?php if (!empty($userDetails['profile_image'])): ?>
-              <img src="<?php echo $userDetails['profile_image']; ?>" alt="profile">
-            <?php else: ?>
-              <img src="assets/images/default_profile.jpg" alt="profile">
-            <?php endif; ?>
+    <img src="<?php echo $userDetails['profile_image']; ?>" alt="profile">
+<?php else: ?>
+    <img src="assets/images/default_profile.jpg" alt="profile">
+<?php endif; ?>
             <span class="login-status online"></span>
             <!--change to offline or busy as needed-->
-            
+    
           </div>
-          <div class="nav-profile-text d-flex flex-column">
+           <div class="nav-profile-text d-flex flex-column">
             <span class="font-weight-bold mb-2">
               <?php echo $userDetails['username']; ?>
             </span>
@@ -127,7 +124,7 @@ if (isset($_SESSION['id'])) {
             <li class="nav-item"> <a class="nav-link" href="viewexpense.php">Manage Expense</a></li>
           </ul>
         </div>
-<<<<<<< HEAD
+
       </li>
       <li class="nav-item">
         <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic-1" aria-expanded="false" aria-controls="ui-basic">
@@ -205,20 +202,3 @@ if (isset($_SESSION['id'])) {
 </body>
 
 </html>
-=======
-        <div class="nav-profile-text d-flex flex-column">
-          <span class="font-weight-bold mb-2">Sakshi</span>
-          <span class="text-secondary text-small">Project Manager</span>
-        </div>
-        <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="index.php">
-        <span class="menu-title">Dashboard</span>
-        <i class="mdi mdi-home menu-icon"></i>
-      </a>
-    </li>
-  </ul>
-</nav>
->>>>>>> master

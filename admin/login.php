@@ -3,11 +3,12 @@
   session_start();
 // Start the session
 
-// // Check if the user is already logged in, redirect to the dashboard
-// if (isset($_SESSION['id'])) {
-//     header("Location: dashboard.php");
-//     exit();
-// }
+// Check if the user is already logged in, redirect to the dashboard
+if (isset($_SESSION['id'])) {
+  $_SESSION['id'] = $user_id;
+    // header("Location: index.php");
+    exit();
+}
 // Define your database connection details
 $servername = "localhost";
 $username = "root";
@@ -45,7 +46,7 @@ $password = trim($_POST["password"]);
             echo "success";
 
             // $_SESSION['id'] = $id;
-            header("Location: index.php");
+            // header("Location: index.php");
           // After successful authentication
         //  echo $_SESSION['id'] = $user_id;  // Assuming $user_id is the user's ID
 
@@ -55,6 +56,7 @@ $password = trim($_POST["password"]);
     } else {
         echo "User not found";
     }
+ 
 }
 
 
