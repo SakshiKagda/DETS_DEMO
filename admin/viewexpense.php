@@ -3,6 +3,7 @@
 session_start();
 
 
+
 // Database connection details
 $servername = "localhost";
 $username = "root";
@@ -21,20 +22,18 @@ if ($conn->connect_error) {
 $sql = "SELECT * FROM expenses";
 $result = $conn->query($sql);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Expense Tracker System - View Expenses</title>
+    <title>Daily Expense Tracker System</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <style>
-         .main{
+        .main{
             display: flex;
             padding-top: 70px ;
-         
         }
         h2{
             color: blueviolet;
@@ -53,7 +52,7 @@ $result = $conn->query($sql);
         }
     </style>
 </head>
-<body>
+<body> 
     <header>
         <?php include("header.php"); ?>
     </header>
@@ -64,26 +63,45 @@ $result = $conn->query($sql);
         </sidebar>
         <div class="container mt-5">
             <h2>View Expenses</h2>
+            
             <!-- Table to display expenses -->
             <table class="table table-bordered table-striped"> 
                 <thead class="thead-sucess">
                     <tr>
-                        <th>ID</th>
-                        <th>Date</th>
-                        <th>Category</th>
-                        <th>Description</th>
-                        <th>Amount</th>
+                        <th>Expense Name</th>
+                        <th>Expense Date</th>
+                        <th>Expense Category</th>
+                        <th>Expense Description</th>
+                        <th>Expense Amount</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
+                    // Database connection details
+                    $servername = "localhost";
+                    $username = "root";
+                    $password = "";
+                    $dbname = "expense_db";
+
+                    // Create connection
+                    $conn = new mysqli($servername, $username, $password, $dbname);
+
+                    // Check connection
+                    if ($conn->connect_error) {
+                        die("Connection failed: " . $conn->connect_error);
+                    }
+
+                    // SQL query to fetch expenses
+                    $sql = "SELECT * FROM expenses";
+                    $result = $conn->query($sql);
+
                     // Check if any expenses exist
                     if ($result->num_rows > 0) {
                         // Output data of each row
                         while ($row = $result->fetch_assoc()) {
                             echo "<tr>";
-                            echo "<td>" . $row["id"] . "</td>";
+                            echo "<td>" . $row["expenseName"] . "</td>";
                             echo "<td>" . $row["expenseDate"] . "</td>";
                             echo "<td>" . $row["expenseCategory"] . "</td>";
                             echo "<td>" . $row["expenseDescription"] . "</td>";
@@ -97,6 +115,9 @@ $result = $conn->query($sql);
                     } else {
                         echo "<tr><td colspan='6'>No expenses found.</td></tr>";
                     }
+
+                    // Close connection
+                    $conn->close();
                     ?>
                 </tbody>
             </table>

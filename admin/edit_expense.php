@@ -1,46 +1,90 @@
+<?php
+// Include your database connection code here
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "expense_db";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Check if expense ID is provided
+if (!isset($_GET['id'])) {
+    echo "Expense ID not provided";
+    exit();
+}
+
+$expense_id = $_GET['id'];
+
+// Retrieve expense data from the database
+$sql = "SELECT * FROM expenses WHERE id = $expense_id";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    $expense = $result->fetch_assoc();
+} else {
+    echo "Expense not found";
+    exit();
+}
+
+// Handle form submission
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Validate and process form data
+    // Update expense record in the database
+    $expenseName = $_POST['expenseName'];
+    $expenseAmount = $_POST['expenseAmount'];
+    $expenseCategory = $_POST['expenseCategory'];
+    $expenseDescription = $_POST['expenseDescription'];
+    $expenseDate = $_POST['expenseDate'];
+
+    $sql = "UPDATE expenses SET expenseName='$expenseName', expenseAmount='$expenseAmount', expenseCategory='$expenseCategory', expenseDescription='$expenseDescription', expenseDate='$expenseDate' WHERE id=$expense_id";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "Expense updated successfully!";
+    } else {
+        echo "Error updating record: " . $conn->error;
+    }
+}
+
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Expense - Financial Tracker</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <title>Edit Expense</title>
 </head>
 <body>
-
-<!-- Main Content -->
-<div class="container mt-4">
     <h2>Edit Expense</h2>
-
-    <!-- Expense Form -->
-    <form>
-        <div class="form-group">
-            <label for="editDate">Date:</label>
-            <input type="text" id="editDate" class="form-control" value="2024-01-24" readonly>
+    <form method="POST" action="">
+        <div>
+            <label for="expenseName">Expense Name:</label>
+            <input type="text" id="expenseName" name="expenseName" value="<?php echo $expense['expenseName']; ?>" required>
         </div>
-        <div class="form-group">
-            <label for="editCategory">Category:</label>
-            <input type="text" id="editCategory" class="form-control" value="Food">
+        <div>
+            <label for="expenseAmount">Expense Amount:</label>
+            <input type="number" id="expenseAmount" name="expenseAmount" value="<?php echo $expense['expenseAmount']; ?>" step="0.01" required>
         </div>
-        <div class="form-group">
-            <label for="editDescription">Description:</label>
-            <input type="text" id="editDescription" class="form-control" value="Lunch">
+        <div>
+            <label for="expenseCategory">Expense Category:</label>
+            <input type="text" id="expenseCategory" name="expenseCategory" value="<?php echo $expense['expenseCategory']; ?>" required>
         </div>
-        <div class="form-group">
-            <label for="editAmount">Amount:</label>
-            <input type="text" id="editAmount" class="form-control" value="$15.00">
+        <div>
+            <label for="expenseDescription">Expense Description:</label>
+            <input type="text" id="expenseDescription" name="expenseDescription" value="<?php echo $expense['expenseDescription']; ?>" required>
         </div>
-
-        <button type="submit" class="btn btn-primary">Save Changes</button>
-        <a href="view_expenses.html" class="btn btn-secondary">Cancel</a>
+        <div>
+            <label for="expenseDate">Expense Date:</label>
+            <input type="date" id="expenseDate" name="expenseDate" value="<?php echo $expense['expenseDate']; ?>" required>
+        </div>
+        <button type="submit">Update Expense</button>
     </form>
-</div>
-
-<!-- Bootstrap JS and Popper.js -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-
 </body>
 </html>
