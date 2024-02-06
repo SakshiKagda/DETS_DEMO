@@ -1,6 +1,9 @@
 <?php
 
-  session_start();
+if(!isset($_SESSION)) 
+{ 
+    session_start(); 
+} 
 
 ?>
 <!DOCTYPE html>
@@ -50,7 +53,7 @@
           </a>
           <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="login.php">
+            <a class="dropdown-item" href="#">
               <i class="mdi mdi-logout me-2 text-primary"></i> Signout </a>
           </div>
         </li>

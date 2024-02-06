@@ -1,13 +1,18 @@
 <?php
-// Start the session
-session_start();
+  if(!isset($_SESSION)) 
+  { 
+      session_start(); 
+  } 
 
-// Check if the user is already logged in, redirect to the dashboard
-if (isset($_SESSION['id'])) {
-    // Redirect to the dashboard or another page
-    header("Location: index.php");
-    exit();
+if (!isset($_SESSION["user_id"])) {
+    // Redirect to the login page if the user is not logged in
+    // header("Location: login.php");
+    // exit();
 }
+
+// Continue with the rest of your code here
+
+
 
 // Define your database connection details
 $servername = "localhost";

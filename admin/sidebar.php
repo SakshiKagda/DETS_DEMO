@@ -1,9 +1,9 @@
 
 <?php
- if(!isset($_SESSION)) 
- { 
-     session_start(); 
- } 
+  if(!isset($_SESSION)) 
+  { 
+      session_start(); 
+  } 
 
 // Check if the user is logged in
 if (!isset($_SESSION['id'])) {
@@ -13,7 +13,7 @@ if (!isset($_SESSION['id'])) {
 }
 
 // Include your database connection file
-include('database.php'); // Replace with the actual filename
+// include('database.php'); // Replace with the actual filename
 
 // Connect to the database (replace these variables with your actual database credentials)
 $host = 'localhost';
@@ -106,6 +106,7 @@ if ($result !== false && $result->num_rows > 0) {
         </a>
         <div class="collapse" id="ui-basic">
           <ul class="nav flex-column sub-menu">
+            <li class="nav-item"> <a class="nav-link" href="addexpense.php">Add Expense</a></li>
             <li class="nav-item"> <a class="nav-link" href="viewexpense.php">Manage Expense</a></li>
           </ul>
         </div>
@@ -119,7 +120,7 @@ if ($result !== false && $result->num_rows > 0) {
         </a>
         <div class="collapse" id="ui-basic-1">
           <ul class="nav flex-column sub-menu">
-
+          <li class="nav-item"> <a class="nav-link" href="addincome.php">Add Income</a></li>
             <li class="nav-item"> <a class="nav-link" href="viewincome.php">Manage Income</a></li>
           </ul>
         </div>
@@ -132,7 +133,7 @@ if ($result !== false && $result->num_rows > 0) {
         </a>
         <div class="collapse" id="ui-basic-2">
           <ul class="nav flex-column sub-menu">
-
+          <li class="nav-item"> <a class="nav-link" href="addbudget.php">Add Budget</a></li>
             <li class="nav-item"> <a class="nav-link" href="viewbudget.php">Manage Budget</a></li>
           </ul>
         </div>
