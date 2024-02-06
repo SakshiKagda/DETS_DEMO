@@ -50,7 +50,7 @@
           </a>
           <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">
+            <a class="dropdown-item" href="login.php">
               <i class="mdi mdi-logout me-2 text-primary"></i> Signout </a>
           </div>
         </li>
