@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-$conn->close();
+
 ?>
 
 <!DOCTYPE html>
@@ -63,7 +63,7 @@ $conn->close();
 </head>
 <body>
     <h2>Edit Expense</h2>
-    <form method="POST" action="">
+    <form method="POST" action="viewexpense.php">
         <div>
             <label for="expenseName">Expense Name:</label>
             <input type="text" id="expenseName" name="expenseName" value="<?php echo $expense['expenseName']; ?>" required>
@@ -85,6 +85,7 @@ $conn->close();
             <input type="date" id="expenseDate" name="expenseDate" value="<?php echo $expense['expenseDate']; ?>" required>
         </div>
         <button type="submit">Update Expense</button>
+        <a href="index.php" class="btn btn-primary mt-3">Go Back</a>
     </form>
 </body>
 </html>

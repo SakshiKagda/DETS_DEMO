@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-$conn->close();
+
 ?>
 
 <!DOCTYPE html>
@@ -92,6 +92,7 @@ $conn->close();
                 <input type="date" id="incomeDate" name="incomeDate" class="form-control" value="<?php echo $income['incomeDate']; ?>" required>
             </div>
             <button type="submit" class="btn btn-primary">Update Income</button>
+            <a href="index.php" class="btn btn-primary mt-3">Go Back</a>
         </form>
     </div>
 

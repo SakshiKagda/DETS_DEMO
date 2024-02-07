@@ -114,7 +114,7 @@ $result = $conn->query($sql);
                     }
 
                     // Close connection
-                    $conn->close();
+                  
                     ?>
                 </tbody>
             </table>
