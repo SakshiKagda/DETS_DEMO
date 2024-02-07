@@ -1,45 +1,60 @@
 <?php
-// Check if the form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Include your database connection code here
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "expense_db";
+// Start session
+session_start();
 
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
+// Check if the user is logged in
+if (!isset($_SESSION['id'])) {
+    // Redirect to the login page if not logged in
+    header("Location: login.php");
+    exit();
+}
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "expense_db";
 
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Include database connection file
+// include('database.php'); // Replace with the actual filename
 
-    // Prepare and bind parameters
-    $stmt = $conn->prepare("INSERT INTO income (incomeName, incomeAmount, incomeCategory, incomeDescription, incomeDate) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $incomeName, $incomeAmount, $incomeCategory, $incomeDescription, $incomeDate);
+// Check if form is submitted
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Handle form submission
 
-    // Set parameters
+    // Retrieve form data
     $incomeName = $_POST['incomeName'];
     $incomeAmount = $_POST['incomeAmount'];
     $incomeCategory = $_POST['incomeCategory'];
     $incomeDescription = $_POST['incomeDescription'];
     $incomeDate = $_POST['incomeDate'];
+    $userId = $_SESSION['id']; // Retrieve user ID from session
 
-    // Execute query
-    if ($stmt->execute()) {
-        echo "Income added successfully";
+    // Validate form data (perform validation as needed)
+
+    // Insert income into the database
+    $sql = "INSERT INTO income (user_id, incomeName, incomeAmount, incomeCategory, incomeDescription, incomeDate) VALUES (?, ?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("isssss", $userId, $incomeName, $incomeAmount, $incomeCategory, $incomeDescription, $incomeDate);
+    $stmt->execute();
+
+    // Check if income was successfully added
+    if ($stmt->affected_rows > 0) {
+        // Income added successfully
+        // Redirect to view income page or show a success message
+        header("Location: viewincome.php");
+        exit();
     } else {
-        echo "Error: " . $stmt->error;
+        // Handle case where income addition failed
+        // Redirect to an error page or display an error message
+        exit("Failed to add income.");
     }
-
-    // Close statement and connection
-    $stmt->close();
-    $conn->close();
-} else {
-    echo "Form not submitted.";
 }
+
+// Close database connection
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,6 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="date" id="incomeDate" name="incomeDate" class="form-control" required>
             </div>
             <button type="submit" class="btn btn-primary">Add Income</button>
+            <a href="index.php" class="btn btn-primary ">Go Back</a>
         </form>
     </div>
 

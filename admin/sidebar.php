@@ -73,15 +73,15 @@ if ($result !== false && $result->num_rows > 0) {
       <li class="nav-item nav-profile">
       <a href="#" class="nav-link">
       <div class="nav-profile-image">
-        <?php
-        // Check if the 'image' column exists and is not empty
-        if (isset($userDetails['profile_image']) && !empty($userDetails['profile_image'])) {
-            echo '<img src="' . $userDetails['profile_image'] . '" alt="profile">';
-        } else {
-            // Display a default image if the 'image' column is empty or not found
-            echo '<img src="assets/images/default-profile-image.jpg" alt="default-profile">';
-        }
-        ?>
+      <?php
+                    // Check if the 'profile_image' column exists and is not empty
+                    if (isset($userDetails['profile_image']) && !empty($userDetails['profile_image'])) {
+                        echo '<img src="' . $userDetails['profile_image'] . '" alt="profile">';
+                    } else {
+                        // Display a default image if the 'profile_image' column is empty or not found
+                        echo '<img src="assets\images\faces\face1.jpg" alt="default-profile">';
+                    }
+                    ?>
         <span class="login-status online"></span>
         <!--change to offline or busy as needed-->
     </div>

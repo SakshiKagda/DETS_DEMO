@@ -2,7 +2,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require 'C:\xampp\htdocs\DETS_DEMO\vendor\autoload.php';
+require 'C:\xampp\htdocs\DETS(main)\vendor\autoload.php';
 
 $servername = "localhost";
 $db_username = "root";
@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $insertTokenQuery->bind_param("ss", $token, $email);
 
         if ($insertTokenQuery->execute()) {
-            $resetLink = "http://localhost/DETS_DEMO/admin/resetpass.php?token=$token";
+            $resetLink = "http://localhost/DETS(main)/admin/resetpass.php?token=$token";
 
             $mail = new PHPMailer(true);
             try {

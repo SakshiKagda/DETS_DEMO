@@ -4,23 +4,7 @@ session_start();
 
 
 
-// Database connection details
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "expense_db";
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// SQL query to fetch expenses
-$sql = "SELECT * FROM expenses";
-$result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -79,23 +63,26 @@ $result = $conn->query($sql);
                 <tbody>
                     <?php
                     // Database connection details
-                    $servername = "localhost";
-                    $username = "root";
-                    $password = "";
-                    $dbname = "expense_db";
-
-                    // Create connection
-                    $conn = new mysqli($servername, $username, $password, $dbname);
-
-                    // Check connection
+                    $host = 'localhost';
+                    $username = 'root';
+                    $password = '';
+                    $database = 'expense_db';
+                    
+                    $conn = new mysqli($host, $username, $password, $database);
+                    
+                    // Check the connection
                     if ($conn->connect_error) {
                         die("Connection failed: " . $conn->connect_error);
                     }
-
-                    // SQL query to fetch expenses
-                    $sql = "SELECT * FROM expenses";
+                    
+                    // Retrieve user ID from the session
+                    $user_id = $_SESSION['id'];
+                    
+                    // Retrieve expenses for the logged-in user
+                    $sql = "SELECT * FROM expenses WHERE user_id = $user_id"; // Modify the query based on your database schema
+                    
                     $result = $conn->query($sql);
-
+                    
                     // Check if any expenses exist
                     if ($result->num_rows > 0) {
                         // Output data of each row
@@ -117,7 +104,7 @@ $result = $conn->query($sql);
                     }
 
                     // Close connection
-                    $conn->close();
+                  
                     ?>
                 </tbody>
             </table>

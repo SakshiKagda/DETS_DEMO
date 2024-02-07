@@ -1,26 +1,7 @@
 <?php
-// Start session
 session_start();
 
 
-
-// Database connection details
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "expense_db";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// SQL query to fetch expenses
-$sql = "SELECT * FROM income";
-$result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -77,23 +58,40 @@ $result = $conn->query($sql);
                 <tbody>
                     <?php
                     // Database connection details
+                    // session_start();
+                    
+                    // Check if the user is logged in
+                    if (!isset($_SESSION['id'])) {
+                        // Redirect to the login page if not logged in
+                        header("Location: login.php");
+                        exit();
+                    }
+                    
+                    // Include your database connection file
+                    // include('database.php'); // Replace with the actual filename
+                    
+                    // Database connection details
                     $servername = "localhost";
                     $username = "root";
                     $password = "";
                     $dbname = "expense_db";
-
+                    
                     // Create connection
                     $conn = new mysqli($servername, $username, $password, $dbname);
-
+                    
                     // Check connection
                     if ($conn->connect_error) {
                         die("Connection failed: " . $conn->connect_error);
                     }
-
-                    // SQL query to fetch expenses
-                    $sql = "SELECT * FROM income";
+                    
+                    // Retrieve user ID from session
+                    $user_id = $_SESSION['id'];
+                    
+                    // SQL query to fetch income records for the current user
+                    $sql = "SELECT * FROM income WHERE user_id = $user_id";
+                    
                     $result = $conn->query($sql);
-
+                    
                     // Check if any expenses exist
                     if ($result->num_rows > 0) {
                         // Output data of each row

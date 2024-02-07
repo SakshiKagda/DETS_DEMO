@@ -1,6 +1,16 @@
 <?php
+
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    session_start();
+
+// Check if the user is logged in
+if (!isset($_SESSION['id'])) {
+    // Redirect to the login page if not logged in
+    header("Location: login.php");
+    exit();
+}
+}
     // Check if all required fields are present
     if (isset($_POST['expenseName'], $_POST['expenseAmount'], $_POST['expenseCategory'], $_POST['expenseDescription'], $_POST['expenseDate'])) {
         // Include your database connection code here
@@ -16,17 +26,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
+        $user_id = $_SESSION['id'];
+      
 
+// Retrieve expense details from the form
+$expenseName = $_POST['expenseName'];
+$expenseAmount = $_POST['expenseAmount'];
+$expenseCategory = $_POST['expenseCategory'];
+$expenseDescription = $_POST['expenseDescription'];
+$expenseDate = $_POST['expenseDate'];
         // Prepare and bind parameters
-        $stmt = $conn->prepare("INSERT INTO expenses (expenseName, expenseAmount, expenseCategory, expenseDescription, expenseDate, billImage) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssss", $expenseName, $expenseAmount, $expenseCategory, $expenseDescription, $expenseDate, $billImage);
+        $sql = "INSERT INTO expenses (expenseName, expenseAmount, expenseCategory, expenseDescription, expenseDate, user_id) 
+        VALUES ('$expenseName', '$expenseAmount', '$expenseCategory', '$expenseDescription', '$expenseDate', '$user_id')";
 
-        // Set parameters
-        $expenseName = $_POST['expenseName'];
-        $expenseAmount = $_POST['expenseAmount'];
-        $expenseCategory = $_POST['expenseCategory'];
-        $expenseDescription = $_POST['expenseDescription'];
-        $expenseDate = $_POST['expenseDate'];
+if ($conn->query($sql) === TRUE) {
+    echo "Expense added successfully";
+} else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
+}
+      
 
         // Handle file upload for billImage
         $billImage = "";
@@ -40,23 +58,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             //     exit();
             // }
         }
+    }
 
         // Execute query
-        if ($stmt->execute()) {
-            echo "New record created successfully";
-        } else {
-            echo "Error: " . $stmt->error;
-        }
+      
 
-        // Close statement and connection
-        $stmt->close();
-        $conn->close();
-    } else {
-        echo "One or more required fields are missing.";
-    }
-} else {
-    echo "Form not submitted.";
-}
 ?>
 
 
@@ -107,6 +113,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="file" class="form-control-file" id="billImage" name="billImage" accept="uploads/">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
+        <a href="index.php" class="btn btn-primary ">Go Back</a>
     </form>
 </div>
 

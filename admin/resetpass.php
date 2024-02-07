@@ -2,7 +2,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require 'C:\xampp\htdocs\DETS_DEMO\vendor\autoload.php';
+require 'C:\xampp\htdocs\DETS(main)\vendor\autoload.php';
 
 $servername = "localhost";
 $db_username = "root";
