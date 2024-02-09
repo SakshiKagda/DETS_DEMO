@@ -70,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($update_stmt)) {
         $update_stmt->close();
     }
- 
+
 } else {
     echo "Invalid request.";
 }
@@ -118,7 +118,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
                                 <div class="form-group">
                                     <input type="password" class="form-control form-control-lg"
-                                        id="exampleInputConfirm1" name="confirmPassword" placeholder="Confirm Password" required>
+                                        id="exampleInputConfirm1" name="confirmPassword" placeholder="Confirm Password"
+                                        required>
                                 </div>
 
                                 <div class="mt-3 text-center">

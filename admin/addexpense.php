@@ -40,7 +40,8 @@ $expenseDate = $_POST['expenseDate'];
         VALUES ('$expenseName', '$expenseAmount', '$expenseCategory', '$expenseDescription', '$expenseDate', '$user_id')";
 
 if ($conn->query($sql) === TRUE) {
-    echo "Expense added successfully";
+    // echo "Expense added successfully";
+    header("Location: viewexpense.php");
 } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
 }

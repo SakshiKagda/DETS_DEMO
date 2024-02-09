@@ -96,9 +96,7 @@ session_start();
                     } else {
                         echo "<tr><td colspan='8'>No records found</td></tr>";
                     }
-                    
-                    // Close connection
-                    $conn->close();
+                   
                     ?>
                 </tbody>
             </table>
