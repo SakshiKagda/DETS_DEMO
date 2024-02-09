@@ -1,7 +1,5 @@
 <?php
 session_start();
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,74 +43,61 @@ session_start();
         <div class="container mt-5">
             <h2>View Income</h2>
             
-            <!-- Table to display expenses -->
+            <!-- Table to display income -->
             <table class="table table-bordered table-striped"> 
                 <thead class="thead-sucess">
-                <th>Income Name</th>
-                    <th>Income Amount</th>
-                    <th>Income Category</th>
-                    <th>Income Description</th>
-                    <th>Income Date</th>
-                    <th>Action</th>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Income Name</th>
+                        <th>Amount</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Date</th>
+                    </tr>
                 </thead>
                 <tbody>
                     <?php
                     // Database connection details
-                    // session_start();
-                    
-                    // Check if the user is logged in
-                    if (!isset($_SESSION['id'])) {
-                        // Redirect to the login page if not logged in
-                        header("Location: login.php");
-                        exit();
-                    }
-                    
-                    // Include your database connection file
-                    // include('database.php'); // Replace with the actual filename
-                    
-                    // Database connection details
-                    $servername = "localhost";
-                    $username = "root";
-                    $password = "";
-                    $dbname = "expense_db";
+                    $host = 'localhost';
+                    $username = 'root';
+                    $password = '';
+                    $database = 'expense_db';
                     
                     // Create connection
-                    $conn = new mysqli($servername, $username, $password, $dbname);
+                    $conn = new mysqli($host, $username, $password, $database);
                     
                     // Check connection
                     if ($conn->connect_error) {
                         die("Connection failed: " . $conn->connect_error);
                     }
                     
-                    // Retrieve user ID from session
-                    $user_id = $_SESSION['id'];
-                    
-                    // SQL query to fetch income records for the current user
-                    $sql = "SELECT * FROM income WHERE user_id = $user_id";
+                    // SQL query to fetch users who have added income and their income records
+                    $sql = "SELECT users.id AS user_id, users.username AS username, users.email AS email, income.* FROM users INNER JOIN income ON users.id = income.user_id";
                     
                     $result = $conn->query($sql);
                     
-                    // Check if any expenses exist
+                    // Check if any records exist
                     if ($result->num_rows > 0) {
                         // Output data of each row
                         while ($row = $result->fetch_assoc()) {
                             echo "<tr>";
+                            echo "<td>" . $row["user_id"] . "</td>";
+                            echo "<td>" . $row["username"] . "</td>";
+                            echo "<td>" . $row["email"] . "</td>";
                             echo "<td>" . $row["incomeName"] . "</td>";
                             echo "<td>" . $row["incomeAmount"] . "</td>";
                             echo "<td>" . $row["incomeCategory"] . "</td>";
                             echo "<td>" . $row["incomeDescription"] . "</td>";
                             echo "<td>" . $row["incomeDate"] . "</td>";
-                            echo "<td>";
-                            echo "<a href='edit_income.php?id=" . $row["id"] . "' class='btn btn-primary'>Edit</a> ";
-                            echo "<a href='delete_income.php?id=" . $row["id"] . "' class='btn btn-danger'>Delete</a>";
-                            echo "</td>";
+                            echo "</tr>";
                         }
                     } else {
-                        echo "<tr><td colspan='6'>No income records found</td></tr>";
+                        echo "<tr><td colspan='8'>No records found</td></tr>";
                     }
-
-                    // Close connection
-                  
+                    
+                   
                     ?>
                 </tbody>
             </table>

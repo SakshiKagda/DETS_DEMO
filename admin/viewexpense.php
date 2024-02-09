@@ -1,10 +1,5 @@
 <?php
-// Start session
 session_start();
-
-
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -52,12 +47,14 @@ session_start();
             <table class="table table-bordered table-striped"> 
                 <thead class="thead-sucess">
                     <tr>
+                        <th>User ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
                         <th>Expense Name</th>
-                        <th>Expense Date</th>
-                        <th>Expense Category</th>
-                        <th>Expense Description</th>
-                        <th>Expense Amount</th>
-                        <th>Action</th>
+                        <th>Amount</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Date</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -68,43 +65,40 @@ session_start();
                     $password = '';
                     $database = 'expense_db';
                     
+                    // Create connection
                     $conn = new mysqli($host, $username, $password, $database);
                     
-                    // Check the connection
+                    // Check connection
                     if ($conn->connect_error) {
                         die("Connection failed: " . $conn->connect_error);
                     }
                     
-                    // Retrieve user ID from the session
-                    $user_id = $_SESSION['id'];
-                    
-                    // Retrieve expenses for the logged-in user
-                    $sql = "SELECT * FROM expenses WHERE user_id = $user_id"; // Modify the query based on your database schema
+                    // SQL query to fetch users who have added expenses and their expense records
+                    $sql = "SELECT users.id AS user_id, users.username AS username, users.email AS email, expenses.* FROM users INNER JOIN expenses ON users.id = expenses.user_id";
                     
                     $result = $conn->query($sql);
                     
-                    // Check if any expenses exist
+                    // Check if any records exist
                     if ($result->num_rows > 0) {
                         // Output data of each row
                         while ($row = $result->fetch_assoc()) {
                             echo "<tr>";
+                            echo "<td>" . $row["user_id"] . "</td>";
+                            echo "<td>" . $row["username"] . "</td>";
+                            echo "<td>" . $row["email"] . "</td>";
                             echo "<td>" . $row["expenseName"] . "</td>";
-                            echo "<td>" . $row["expenseDate"] . "</td>";
+                            echo "<td>" . $row["expenseAmount"] . "</td>";
                             echo "<td>" . $row["expenseCategory"] . "</td>";
                             echo "<td>" . $row["expenseDescription"] . "</td>";
-                            echo "<td>$" . $row["expenseAmount"] . "</td>";
-                            echo "<td>";
-                            echo "<a href='edit_expense.php?id=" . $row["id"] . "' class='btn btn-warning btn-sm'>Edit</a>";
-                            echo "<a href='delete_expense.php?id=" . $row["id"] . "' class='btn btn-danger btn-sm ml-1'>Delete</a>";
-                            echo "</td>";
+                            echo "<td>" . $row["expenseDate"] . "</td>";
                             echo "</tr>";
                         }
                     } else {
-                        echo "<tr><td colspan='6'>No expenses found.</td></tr>";
+                        echo "<tr><td colspan='8'>No records found</td></tr>";
                     }
-
+                    
                     // Close connection
-                  
+                    $conn->close();
                     ?>
                 </tbody>
             </table>
