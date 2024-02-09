@@ -20,21 +20,19 @@ if ($conn->connect_error) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve form data
     $user_id = $_SESSION['id']; // Assuming user is logged in
-    $name = $_POST['name'];
     $category = $_POST['category'];
-    $amount = $_POST['amount'];
-    $startdate = $_POST['startdate'];
-    $enddate = $_POST['enddate'];
-    $description = $_POST['description'];
+    $planned_amount = $_POST['planned_amount'];
+    $start_date = $_POST['start_date'];
+    $end_date = $_POST['end_date'];
 
     // Prepare and execute SQL query to insert budget data
-    $sql = "INSERT INTO budget (user_id, name, category, amount, startdate, enddate, description)
-            VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO budget (user_id, category, planned_amount, actual_amount, start_date, end_date)
+            VALUES (?, ?, ?, 0, ?, ?)"; // Set actual_amount initially to 0
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("issssss", $user_id, $name, $category, $amount, $startdate, $enddate, $description);
+    $stmt->bind_param("issss", $user_id, $category, $planned_amount, $start_date, $end_date);
     
     if ($stmt->execute()) {
-        // Budget added successfully, redirect to viewbudget.php or any other page
+        // Budget added successfully, redirect to view_budget.php or any other page
         header("Location: viewbudget.php");
         exit();
     } else {
@@ -43,56 +41,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Close statement and connection
     $stmt->close();
-    $conn->close();
+   
 }
 ?>
-
-<!-- HTML form to add a budget -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Budget</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="container mt-4">
+    <div class="container">
         <h2>Add Budget</h2>
-        <form method="POST" action="">
-            <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" class="form-control" required>
-            </div>
+        <form method="POST" action="viewbudget.php">
             <div class="form-group">
                 <label for="category">Category:</label>
-                <input type="text" id="category" name="category" class="form-control">
+                <input type="text" id="category" name="category" class="form-control" required>
             </div>
             <div class="form-group">
-                <label for="amount">Amount:</label>
-                <input type="number" id="amount" name="amount" class="form-control" step="0.01" required>
+                <label for="planned_amount">Planned Amount:</label>
+                <input type="number" id="planned_amount" name="planned_amount" class="form-control" step="0.01" required>
             </div>
             <div class="form-group">
-                <label for="startdate">Start Date:</label>
-                <input type="date" id="startdate" name="startdate" class="form-control" required>
+                <label for="start_date">Start Date:</label>
+                <input type="date" id="start_date" name="start_date" class="form-control" required>
             </div>
             <div class="form-group">
-                <label for="enddate">End Date:</label>
-                <input type="date" id="enddate" name="enddate" class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label for="description">Description:</label>
-                <textarea id="description" name="description" class="form-control"></textarea>
+                <label for="end_date">End Date:</label>
+                <input type="date" id="end_date" name="end_date" class="form-control" required>
             </div>
             <button type="submit" class="btn btn-primary">Add Budget</button>
             <a href="viewbudget.php" class="btn btn-secondary">Cancel</a>
         </form>
     </div>
-
-    <!-- Bootstrap JS and Popper.js -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </body>
 </html>
+

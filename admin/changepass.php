@@ -1,52 +1,81 @@
 <?php
-// Assuming you have a database connection
-$pdo = new PDO("mysql:host=localhost;dbname=expense_db", "root", "");
+// Start session
+session_start();
 
 // Check if form is submitted
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Assuming you have session authentication
-    session_start();
-    
-    // Get user ID from the session
-    $user_id = $_SESSION['user_id'];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Database connection details
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "expense_db";
 
-    // Retrieve current password hash from the database
-    $stmt = $pdo->prepare("SELECT password FROM users WHERE id = ?");
-    $stmt->execute([$user_id]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
 
-    if (!$user) {
-        // User not found, handle accordingly
-        echo "User not found";
-        exit();
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
     }
 
-    // Verify old password
+    // Retrieve user ID from the session
+    $user_id = $_SESSION['id'];
+
+    // Retrieve form data
     $old_password = $_POST['currentPassword'];
-    if (!password_verify($old_password, $user['password'])) {
-        // Old password is incorrect, handle accordingly
-        echo "Invalid old password";
+    $new_password = $_POST['newPassword'];
+    $confirm_password = $_POST['confirmPassword'];
+
+    // Validate form data
+    if (empty($old_password) || empty($new_password) || empty($confirm_password)) {
+        echo "All fields are required.";
         exit();
     }
 
-    // Hash the new password
-    $new_password = $_POST['newPassword'];
-    $hashed_password = password_hash($new_password, PASSWORD_BCRYPT);
-
-    // Update the password in the database
-    $update_stmt = $pdo->prepare("UPDATE users SET password = ? WHERE id = ?");
-    $update_stmt->execute([$hashed_password, $user_id]);
-
-    if ($update_stmt->rowCount() > 0) {
-        // Password updated successfully
-        echo "Password changed successfully";
-    } else {
-        // Error updating password
-        echo "Error updating password";
+    // Check if the new password and confirm password match
+    if ($new_password !== $confirm_password) {
+        echo "New password and confirm password do not match.";
+        exit();
     }
-    exit(); // Prevent the HTML form from being displayed after processing the form submission
+
+    // Hash the old password to compare with the stored password in the database
+    $old_password_hashed = hash('sha256', $old_password);
+
+    // Check if the old password matches the one stored in the database
+    $sql = "SELECT * FROM users WHERE id = ? AND password = ?";
+    echo $sql;
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("is", $user_id, $old_password_hashed);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows == 1) {
+        // Old password is correct, update the password in the database
+        $new_password_hashed = hash('sha256', $new_password);
+        $update_sql = "UPDATE users SET password = ? WHERE id = ?";
+        echo $update_sql;
+        $update_stmt = $conn->prepare($update_sql);
+        $update_stmt->bind_param("si", $new_password_hashed, $user_id);
+        if ($update_stmt->execute()) {
+            echo "Password changed successfully.";
+        } else {
+            echo "Error updating password: " . $conn->error;
+        }
+    } else {
+        echo "Incorrect old password.";
+    }
+
+    // Close statement and connection
+    $stmt->close();
+    if (isset($update_stmt)) {
+        $update_stmt->close();
+    }
+ 
+} else {
+    echo "Invalid request.";
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -55,30 +84,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Daily Expense Tracker System</title>
-    <script>
-        function changePassword() {
-            var currentPassword = document.getElementById('exampleInputOld1').value;
-            var newPassword = document.getElementById('exampleInputNew1').value;
-            var confirmPassword = document.getElementById('exampleInputConfirm1').value;
-
-            // Check if new password and confirm password match
-            if (newPassword !== confirmPassword) {
-                alert('New password and confirm password do not match');
-                return false;
-            }
-
-            // Perform the password change logic here (you may want to send an API request to the server)
-
-            // Display success message (you can replace this with your desired behavior)
-            alert('Password changed successfully!');
-        }
-    </script>
     <!-- plugins:css -->
     <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
     <!-- endinject -->
-    <!-- Plugin css for this page -->
-    <!-- End plugin css for this page -->
     <!-- inject:css -->
     <!-- endinject -->
     <!-- Layout styles -->
@@ -98,23 +107,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <img src="assets/images/logo.png">
                             </div>
                             <h4>Want to Change Password?</h4>
-                            <form class="pt-3" onsubmit="changePassword()">
+                            <form class="pt-3" action="" method="post">
                                 <div class="form-group">
                                     <input type="password" class="form-control form-control-lg" id="exampleInputOld1"
-                                        name="currentPassword" placeholder="Old Password">
+                                        name="currentPassword" placeholder="Old Password" required>
                                 </div>
                                 <div class="form-group">
                                     <input type="password" class="form-control form-control-lg" id="exampleInputNew1"
-                                        name="newPassword" placeholder="New Password">
+                                        name="newPassword" placeholder="New Password" required>
                                 </div>
                                 <div class="form-group">
                                     <input type="password" class="form-control form-control-lg"
-                                        id="exampleInputConfirm1" name="confirmPassword" placeholder="Confirm Password">
+                                        id="exampleInputConfirm1" name="confirmPassword" placeholder="Confirm Password" required>
                                 </div>
 
                                 <div class="mt-3 text-center">
-                                    <button type="submit" name="submit"
-                                        class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn"><a>SAVE</a></button>
+                                    <button type="submit"
+                                        class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">SAVE</button>
                                     <a class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn"
                                         href="index.php">BACK</a>
                                 </div>
