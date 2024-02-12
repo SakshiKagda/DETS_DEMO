@@ -78,7 +78,7 @@ session_start();
                     if ($budgetResult->num_rows > 0) {
                         echo "<h3>User: $username ($email)</h3>";
                         // Output table for budget
-                        echo "<table class='table table-bordered table-striped'>"; 
+                        echo "<table class='table table-bordered table-hover'>"; 
                         echo "<thead class='thead-sucess'>";
                         echo "<tr>";
                         echo "<th>User ID</th>";
