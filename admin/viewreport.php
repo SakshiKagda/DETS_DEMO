@@ -164,10 +164,22 @@ $result_users = $conn->query($sql_users);
                 echo "</tbody></table>";
                 echo "<br><br><br>";
             }
-
+            $results_per_page = 10; // Set the desired number of results per page
+            if (!isset($_GET['page'])) {
+                $page = 1;
+            } else {
+                $page = $_GET['page'];
+            }
+            $offset = ($page - 1) * $results_per_page;
           
             ?>
-            
+                     <ul class="pagination">
+  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+  <li class="page-item"><a class="page-link" href="#">1</a></li>
+  <li class="page-item"><a class="page-link" href="#">2</a></li>
+  <li class="page-item"><a class="page-link" href="#">3</a></li>
+  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+</ul>
             <a href="index.php" class="btn btn-primary mt-3">Go Back</a>
         </div>
     </div>
