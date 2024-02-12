@@ -1,16 +1,43 @@
+<?php
+// Start session
+session_start();
+
+// Check if the user is logged in
+if (!isset($_SESSION['id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+// Database connection details
+$host = 'localhost';
+$username = 'root';
+$password = '';
+$database = 'expense_db';
+
+// Create connection
+$conn = new mysqli($host, $username, $password, $database);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Retrieve all users who have added both expenses and income
+$sql_users = "SELECT DISTINCT u.id, u.username, u.email FROM users u
+                INNER JOIN expenses e ON u.id = e.user_id
+                INNER JOIN income i ON u.id = i.user_id";
+$result_users = $conn->query($sql_users);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Expense Tracker System</title>
+    <title>Combined Expense and Income Report</title>
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <!-- jsPDF library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -52,115 +79,97 @@
         }
     </style>
 </head>
-
-<body>
-    
-<header>
-        <?php
-        include("header.php");
-        ?>
+<body> 
+    <header>
+        <?php include("header.php"); ?>
     </header>
-    <div class="main">
-    <sidebar>
-    <?php
-        include("sidebar.php");
-        ?>
-    </sidebar>
-    <div class="container">
     
-        <h2>View Reports</h2>
-
-        <!-- Tab navigation for expenses and income reports -->
+    <div class="main">
+        <sidebar>
+            <?php include("sidebar.php"); ?>
+        </sidebar>
+        <div class="container mt-5">
+            <h2>Combined Expense and Income Report</h2>
+            <!-- Tab navigation for expenses and income reports -->
         <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link active" id="expenses-tab" data-bs-toggle="tab" href="#expenses">Expenses Report</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="income-tab" data-bs-toggle="tab" href="#income">Income Report</a>
-            </li>
-            <!-- PDF icon for generating PDF report -->
-            <i class="fas fa-file-pdf pdf-icon" onclick="generatePDF()"></i>
-        </ul>
+          
+          <!-- PDF icon for generating PDF report -->
+          <i class="fas fa-file-pdf pdf-icon" onclick="generatePDF()"></i>
+      </ul>
 
-        <!-- Tab content for expenses and income reports -->
-        <div class="tab-content">
-            <!-- Expenses Report -->
-            <div class="tab-pane fade show active" id="expenses">
-                <h3>Expenses Report</h3>
-                <!-- Table to display expenses report -->
-                <table class="table table-bordered table-hover">
-                    <thead class="table-info">
-                        <tr>
-                            <th>Date</th>
-                            <th>Amount</th>
-                            <th>Category</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>2022-03-15</td>
-                            <td>$50.00</td>
-                            <td>Food</td>
-                            <td>Monthly grocery shopping</td>
-                        </tr>
-                        <!-- Add more rows for each expense entry -->
-                    </tbody>
-                </table>
-            </div>
+            <?php
+            // Loop through each user who has added both expenses and income
+            while ($row_user = $result_users->fetch_assoc()) {
+                $user_id = $row_user['id'];
+                $user_username = $row_user['username'];
+                $user_email = $row_user['email'];
 
-            <!-- Income Report -->
-            <div class="tab-pane fade" id="income">
-                <h3>Income Report</h3>
-                <!-- Table to display income report -->
-                <table class="table table-bordered table-hover">
-                    <thead class="table-danger">
-                        <tr>
-                            <th>Date</th>
-                            <th>Amount</th>
-                            <th>Category</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>2022-03-20</td>
-                            <td>$200.00</td>
-                            <td>Freelance</td>
-                            <td>Website development project</td>
-                        </tr>
-                        <!-- Add more rows for each income entry -->
-                    </tbody>
-                </table>
-            </div>
+                // Retrieve expense records for the user
+                $sql_expense = "SELECT expenseName AS name, expenseAmount AS amount, expenseCategory AS category, expenseDescription AS description, expenseDate AS date FROM expenses WHERE user_id = $user_id";
+                $result_expense = $conn->query($sql_expense);
+
+                // Retrieve income records for the user
+                $sql_income = "SELECT incomeName AS name, incomeAmount AS amount, incomeCategory AS category, incomeDescription AS description, incomeDate AS date FROM income WHERE user_id = $user_id";
+                $result_income = $conn->query($sql_income);
+
+                // Display user details
+                echo "<h3>User: $user_username ($user_email)</h3>";
+
+                // Table to display combined report
+                echo "<table class='table table-bordered table-striped'> 
+                        <thead class='thead-sucess'>
+                            <tr>
+                                <th>Type</th>
+                                <th>Name</th>
+                                <th>Amount</th>
+                                <th>Category</th>
+                                <th>Description</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>";
+
+                // Output expense records
+                while ($row = $result_expense->fetch_assoc()) {
+                    echo "<tr>";
+                    echo "<td>Expense</td>";
+                    echo "<td>" . $row['name'] . "</td>";
+                    echo "<td>$" . $row['amount'] . "</td>";
+                    echo "<td>" . $row['category'] . "</td>";
+                    echo "<td>" . $row['description'] . "</td>";
+                    echo "<td>" . $row['date'] . "</td>";
+                    echo "</tr>";
+                }
+
+                // Output income records
+                while ($row = $result_income->fetch_assoc()) {
+                    echo "<tr>";
+                    echo "<td>Income</td>";
+                    echo "<td>" . $row['name'] . "</td>";
+                    echo "<td>$" . $row['amount'] . "</td>";
+                    echo "<td>" . $row['category'] . "</td>";
+                    echo "<td>" . $row['description'] . "</td>";
+                    echo "<td>" . $row['date'] . "</td>";
+                    echo "</tr>";
+                }
+
+                echo "</tbody></table>";
+            }
+
+          
+            ?>
+            
+            <a href="index.php" class="btn btn-primary mt-3">Go Back</a>
         </div>
-
-        <!-- Button to go back or perform other actions -->
-        <a href="index.php" class="btn btn-primary mt-3">Go Back</a>
-    </div>
     </div>
 
     <!-- Bootstrap JS and Popper.js -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Font Awesome JS -->
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
-    <script>
-        function generatePDF() {
-            // Create a new jsPDF instance
-            var doc = new jsPDF();
-
-            // Add content to the PDF
-            doc.text('Expense Report', 10, 10);
-            // ... Add more content as needed ...
-
-            // Save the PDF with a specific name
-            doc.save('expense_report.pdf');
-        }
-    </script>
     <footer>
-        <?php include('footer.php'); ?>
+        <?php include("footer.php"); ?>
     </footer>
 </body>
-
 </html>
