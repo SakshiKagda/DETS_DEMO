@@ -28,17 +28,17 @@ if ($conn->connect_error) {
 }
 
 // Retrieve current user details from the database
-$user_id = $_SESSION['id'];
-$sql = "SELECT * FROM users WHERE id = $user_id"; // Modify the query based on your database schema
+$admin_id = $_SESSION['id'];
+$sql = "SELECT * FROM admins WHERE id = $admin_id"; // Modify the query based on your database schema
 
 $result = $conn->query($sql);
 
 if ($result !== false) {
     if ($result->num_rows > 0) {
-        $userDetails = $result->fetch_assoc();
+        $adminDetails = $result->fetch_assoc();
     } else {
         // Handle the case where user details are not found
-        $userDetails = array(); // Empty array if user not found
+        $adminDetails = array(); // Empty array if user not found
     }
 } else {
     // Handle the case where the SQL query fails
@@ -52,12 +52,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newEmail = mysqli_real_escape_string($conn, $_POST['new_email']);
 
     // Update user details in the database
-    $updateSql = "UPDATE users SET username = '$newName', email = '$newEmail' WHERE id = $user_id";
+    $updateSql = "UPDATE admins SET username = '$newName', email = '$newEmail' WHERE id = $admin_id";
     
     if ($conn->query($updateSql) === true) {
         // Update the userDetails array for display
-        $userDetails['username'] = $newName;
-        $userDetails['email'] = $newEmail;
+        $adminDetails['username'] = $newName;
+        $adminDetails['email'] = $newEmail;
 
         echo "Profile updated successfully!";
     } else {
@@ -121,10 +121,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <form method="post" action="">
         <label for="new_name">New Name:</label>
-        <input type="text" id="new_name" name="new_name" value="<?php echo isset($userDetails['username']) ? $userDetails['username'] : ''; ?>" required>
+        <input type="text" id="new_name" name="new_name" value="<?php echo isset($adminDetails['username']) ? $adminDetails['username'] : ''; ?>" required>
 
         <label for="new_email">New Email:</label>
-        <input type="email" id="new_email" name="new_email" value="<?php echo isset($userDetails['email']) ? $userDetails['email'] : ''; ?>" required>
+        <input type="email" id="new_email" name="new_email" value="<?php echo isset($adminDetails['email']) ? $adminDetails['email'] : ''; ?>" required>
 
         <button type="submit">Update Profile</button>
     </form>

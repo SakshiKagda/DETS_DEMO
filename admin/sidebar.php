@@ -29,16 +29,16 @@ if ($conn->connect_error) {
 }
 
 // Retrieve user details from the database
-$user_id = $_SESSION['id'];
-$sql = "SELECT * FROM users WHERE id = $user_id"; // Modify the query based on your database schema
+$admin_id = $_SESSION['id'];
+$sql = "SELECT * FROM admins WHERE id = $admin_id"; // Modify the query based on your database schema
 
 $result = $conn->query($sql);
 
 if ($result !== false && $result->num_rows > 0) {
-    $userDetails = $result->fetch_assoc();
+    $adminDetails = $result->fetch_assoc();
 } else {
     // Handle the case where user details are not found
-    $userDetails = array(); // Empty array if user not found
+    $adminDetails = array(); // Empty array if user not found
 }
 
 
@@ -75,8 +75,8 @@ if ($result !== false && $result->num_rows > 0) {
       <div class="nav-profile-image">
       <?php
                     // Check if the 'profile_image' column exists and is not empty
-                    if (isset($userDetails['profile_image']) && !empty($userDetails['profile_image'])) {
-                        echo '<img src="' . $userDetails['profile_image'] . '" alt="profile">';
+                    if (isset($adminDetails['profile_image']) && !empty($adminDetails['profile_image'])) {
+                        echo '<img src="' . $adminDetails['profile_image'] . '" alt="profile">';
                     } else {
                         // Display a default image if the 'profile_image' column is empty or not found
                         echo '<img src="assets\images\faces\face1.jpg" alt="default-profile">';
@@ -86,8 +86,8 @@ if ($result !== false && $result->num_rows > 0) {
         <!--change to offline or busy as needed-->
     </div>
     <div class="nav-profile-text d-flex flex-column">
-        <span class="font-weight-bold mb-2"><?php echo isset($userDetails['username']) ? $userDetails['username'] : ''; ?></span>
-        <span class="text-secondary text-small"><?php echo isset($userDetails['email']) ? $userDetails['email'] : ''; ?></span>
+        <span class="font-weight-bold mb-2"><?php echo isset($adminDetails['username']) ? $adminDetails['username'] : ''; ?></span>
+        <span class="text-secondary text-small"><?php echo isset($adminDetails['email']) ? $adminDetails['email'] : ''; ?></span>
     </div>
     <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
 </a>

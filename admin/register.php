@@ -13,52 +13,41 @@ $conn = new mysqli($servername, $username, $password, $database);
 if (!$conn) {
   die("connection failed=" . $conn->connect_error);
 }
-// echo "connected successfully<br>";
+
 if (isset($_REQUEST['submit'])) {
 
   $username = ($_POST["username"]);
   $email = ($_POST["email"]);
   $password = ($_POST["password"]);
-  // $profile_image = $_FILES["profile_image"];
   $gender = $_POST["gender"];
   $mobile_number = $_POST["mobile_number"];
-  // $confirm_password = $_POST["confirm_password"];
 
-  // if ($password !== $confirm_password) {
-  //   echo "Error: Passwords do not match.";
-  // } else {
-  //   // Hash the password
-  //   $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-  // During registration
-$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+  // Hash the password
+  $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-// $profile_image = $_FILES["profile_image"];
-$profile_image = $_FILES['profile_image']['name'];
+  // Get the profile image file name
+  $profile_image = $_FILES['profile_image']['name'];
 
-    // Insert user data into the database
-    $sql = "INSERT INTO users (username, email, password, profile_image, gender, mobile_number) VALUES ('$username', '$email', '$hashedPassword', '$profile_image', '$gender', '$mobile_number')";
+  // Move the profile image to the desired location
+  $target_dir = "uploads/";
+  $target_file = $target_dir . basename($_FILES["profile_image"]["name"]);
+  move_uploaded_file($_FILES["profile_image"]["tmp_name"], $target_file);
 
+  // Insert admin data into the database
+  $sql = "INSERT INTO admins (username, email, password, profile_image, gender, mobile_number) VALUES ('$username', '$email', '$hashedPassword', '$profile_image', '$gender', '$mobile_number')";
 
-    if ($conn->query($sql) == TRUE) {
-      echo "Registration successful!";
-      header("Location: login.php");
-      exit();
-
-    } else {
-      echo "Error: " . $sql . "<br>" . $conn->error;
-    }
-
+  if ($conn->query($sql) === TRUE) {
+    echo "Registration successful!";
+    header("Location: login.php");
+    exit();
+  } else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
   }
-  
-//   // Example debugging statements
-// $profile_image = "image/*" . $_FILES["profile_image"]["name"];
-// echo "Profile Image Path: " . $profile_image;
 
-
- 
-
+}
 
 ?>
+
 
 
 

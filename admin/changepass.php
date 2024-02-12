@@ -1,4 +1,6 @@
 <?php
+session_start(); // Start the session
+
 // Establish a connection to your database
 $servername = "localhost";
 $username = "root";
@@ -24,10 +26,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($newPassword != $confirmPassword) {
         echo "New password and confirm password do not match.";
     } else {
-        // Validate current password against database
-        // Assuming you have a table named `users` with columns `id`, `username`, and `password`
-        $userID = 13; // Assuming user ID is 1 for demonstration purposes
+        // Retrieve user ID from session
+        if (!isset($_SESSION["user_id"])) {
+            echo "User ID not found in session.";
+            exit; // Exit script
+        }
+        $userID = $_SESSION["user_id"];
 
+        // Validate current password against database
         $sql = "SELECT * FROM users WHERE id = '$userID'";
         $result = $conn->query($sql);
 
@@ -53,9 +59,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 }
-
-
 ?>
+
 
 
 <!DOCTYPE html>
