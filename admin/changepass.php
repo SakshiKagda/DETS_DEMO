@@ -1,80 +1,62 @@
 <?php
-// Start session
-session_start();
+// Establish a connection to your database
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "expense_db";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Database connection details
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "expense_db";
-
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    // Retrieve user ID from the session
-    $user_id = $_SESSION['id'];
-
     // Retrieve form data
-    $old_password = $_POST['currentPassword'];
-    $new_password = $_POST['newPassword'];
-    $confirm_password = $_POST['confirmPassword'];
+    $currentPassword = $_POST["currentPassword"];
+    $newPassword = $_POST["newPassword"];
+    $confirmPassword = $_POST["confirmPassword"];
 
-    // Validate form data
-    if (empty($old_password) || empty($new_password) || empty($confirm_password)) {
-        echo "All fields are required.";
-        exit();
-    }
-
-    // Check if the new password and confirm password match
-    if ($new_password !== $confirm_password) {
+    // Validate that new password matches confirmation password
+    if ($newPassword != $confirmPassword) {
         echo "New password and confirm password do not match.";
-        exit();
-    }
-
-    // Hash the old password to compare with the stored password in the database
-    $old_password_hashed = hash('sha256', $old_password);
-
-    // Check if the old password matches the one stored in the database
-    $sql = "SELECT * FROM users WHERE id = ? AND password = ?";
-    echo $sql;
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("is", $user_id, $old_password_hashed);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows == 1) {
-        // Old password is correct, update the password in the database
-        $new_password_hashed = hash('sha256', $new_password);
-        $update_sql = "UPDATE users SET password = ? WHERE id = ?";
-        echo $update_sql;
-        $update_stmt = $conn->prepare($update_sql);
-        $update_stmt->bind_param("si", $new_password_hashed, $user_id);
-        if ($update_stmt->execute()) {
-            echo "Password changed successfully.";
-        } else {
-            echo "Error updating password: " . $conn->error;
-        }
     } else {
-        echo "Incorrect old password.";
-    }
+        // Validate current password against database
+        // Assuming you have a table named `users` with columns `id`, `username`, and `password`
+        $userID = 13; // Assuming user ID is 1 for demonstration purposes
 
-    // Close statement and connection
-    $stmt->close();
-    if (isset($update_stmt)) {
-        $update_stmt->close();
-    }
+        $sql = "SELECT * FROM users WHERE id = '$userID'";
+        $result = $conn->query($sql);
 
-} else {
-    echo "Invalid request.";
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $hashedPassword = $row["password"];
+
+            // Verify the current password using password_verify
+            if (password_verify($currentPassword, $hashedPassword)) {
+                // Update password in the database
+                $hashedNewPassword = password_hash($newPassword, PASSWORD_DEFAULT); // Hash the new password
+                $updateSql = "UPDATE users SET password = '$hashedNewPassword' WHERE id = '$userID'";
+                if ($conn->query($updateSql) === TRUE) {
+                    echo "Password changed successfully!";
+                } else {
+                    echo "Error updating password: " . $conn->error;
+                }
+            } else {
+                echo "Current password is incorrect.";
+            }
+        } else {
+            echo "User not found.";
+        }
+    }
 }
+
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -118,8 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
                                 <div class="form-group">
                                     <input type="password" class="form-control form-control-lg"
-                                        id="exampleInputConfirm1" name="confirmPassword" placeholder="Confirm Password"
-                                        required>
+                                        id="exampleInputConfirm1" name="confirmPassword" placeholder="Confirm Password" required>
                                 </div>
 
                                 <div class="mt-3 text-center">
