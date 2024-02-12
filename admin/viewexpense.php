@@ -43,63 +43,79 @@ session_start();
         <div class="container mt-5">
             <h2>View Expenses</h2>
             
-            <!-- Table to display expenses -->
-            <table class="table table-bordered table-striped"> 
-                <thead class="thead-sucess">
-                    <tr>
-                        <th>User ID</th>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Expense Name</th>
-                        <th>Amount</th>
-                        <th>Category</th>
-                        <th>Description</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    // Database connection details
-                    $host = 'localhost';
-                    $username = 'root';
-                    $password = '';
-                    $database = 'expense_db';
+            <?php
+            // Database connection details
+            $host = 'localhost';
+            $username = 'root';
+            $password = '';
+            $database = 'expense_db';
+            
+            // Create connection
+            $conn = new mysqli($host, $username, $password, $database);
+            
+            // Check connection
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
+            
+            // SQL query to fetch users who have added expenses
+            $sql = "SELECT DISTINCT users.id AS user_id, users.username AS username, users.email AS email FROM users INNER JOIN expenses ON users.id = expenses.user_id";
+            $result = $conn->query($sql);
+            
+            // Check if any users exist
+            if ($result->num_rows > 0) {
+                // Output data of each user
+                while ($row = $result->fetch_assoc()) {
+                    $userId = $row["user_id"];
+                    $username = $row["username"];
+                    $email = $row["email"];
                     
-                    // Create connection
-                    $conn = new mysqli($host, $username, $password, $database);
+                    // SQL query to fetch expenses for the current user
+                    $expenseSql = "SELECT * FROM expenses WHERE user_id = $userId";
+                    $expenseResult = $conn->query($expenseSql);
                     
-                    // Check connection
-                    if ($conn->connect_error) {
-                        die("Connection failed: " . $conn->connect_error);
-                    }
-                    
-                    // SQL query to fetch users who have added expenses and their expense records
-                    $sql = "SELECT users.id AS user_id, users.username AS username, users.email AS email, expenses.* FROM users INNER JOIN expenses ON users.id = expenses.user_id";
-                    
-                    $result = $conn->query($sql);
-                    
-                    // Check if any records exist
-                    if ($result->num_rows > 0) {
-                        // Output data of each row
-                        while ($row = $result->fetch_assoc()) {
+                    // Check if any expenses exist for the current user
+                    if ($expenseResult->num_rows > 0) {
+                        echo "<h3>User: $username ($email)</h3>";
+                        // Output table for expenses
+                        echo "<table class='table table-bordered table-striped'>"; 
+                        echo "<thead class='thead-sucess'>";
+                        echo "<tr>";
+                        echo "<th>User ID</th>";
+                        echo "<th>Expense Name</th>";
+                        echo "<th>Amount</th>";
+                        echo "<th>Category</th>";
+                        echo "<th>Description</th>";
+                        echo "<th>Date</th>";
+                        echo "</tr>";
+                        echo "</thead>";
+                        echo "<tbody>";
+                        
+                        // Output data of each expense
+                        while ($expenseRow = $expenseResult->fetch_assoc()) {
                             echo "<tr>";
-                            echo "<td>" . $row["user_id"] . "</td>";
-                            echo "<td>" . $row["username"] . "</td>";
-                            echo "<td>" . $row["email"] . "</td>";
-                            echo "<td>" . $row["expenseName"] . "</td>";
-                            echo "<td>" . $row["expenseAmount"] . "</td>";
-                            echo "<td>" . $row["expenseCategory"] . "</td>";
-                            echo "<td>" . $row["expenseDescription"] . "</td>";
-                            echo "<td>" . $row["expenseDate"] . "</td>";
+                            echo "<td>" . $expenseRow["user_id"] . "</td>";
+                            echo "<td>" . $expenseRow["expenseName"] . "</td>";
+                            echo "<td>" . $expenseRow["expenseAmount"] . "</td>";
+                            echo "<td>" . $expenseRow["expenseCategory"] . "</td>";
+                            echo "<td>" . $expenseRow["expenseDescription"] . "</td>";
+                            echo "<td>" . $expenseRow["expenseDate"] . "</td>";
                             echo "</tr>";
                         }
+                        
+                        echo "</tbody>";
+                        echo "</table>";
                     } else {
-                        echo "<tr><td colspan='8'>No records found</td></tr>";
+                        echo "<p>No expenses found for user: $username ($email)</p>";
                     }
-                   
-                    ?>
-                </tbody>
-            </table>
+                }
+            } else {
+                echo "<p>No users found.</p>";
+            }
+           
+           
+            ?>
+            
             <a href="index.php" class="btn btn-primary mt-3">Go Back</a>
         </div>
     </div>
