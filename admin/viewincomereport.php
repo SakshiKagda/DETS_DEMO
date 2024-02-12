@@ -147,6 +147,7 @@
                     } else {
                         echo "<p>No income found for user: $username ($email)</p>";
                     }
+                    echo "<br><br><br>";
                 }
             } else {
                 echo "<p>No users found.</p>";

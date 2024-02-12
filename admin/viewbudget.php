@@ -108,13 +108,14 @@ session_start();
                     } else {
                         echo "<p>No budget found for user: $username ($email)</p>";
                     }
+                    echo "<br><br><br>";
                 }
             } else {
                 echo "<p>No users found.</p>";
             }
            
             // Close connection
-            $conn->close();
+          
             ?>
             
             <a href="index.php" class="btn btn-primary mt-3">Go Back</a>
