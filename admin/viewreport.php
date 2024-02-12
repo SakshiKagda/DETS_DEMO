@@ -73,6 +73,14 @@ $result_users = $conn->query($sql_users);
             transform: translateY(-50%);
             cursor: pointer;
         }
+
+        .expense-row {
+            color: red; /* Set text color to red for expense rows */
+        }
+
+        .income-row {
+            color: green; /* Set text color to green for income rows */
+        }
         .main{
             display: flex;
             padding-top: 70px ;
@@ -116,7 +124,7 @@ $result_users = $conn->query($sql_users);
                 echo "<h3>User: $user_username ($user_email)</h3>";
 
                 // Table to display combined report
-                echo "<table class='table table-bordered table-striped'> 
+                echo "<table class='table table-bordered '> 
                         <thead class='thead-sucess'>
                             <tr>
                                 <th>Type</th>
@@ -131,7 +139,7 @@ $result_users = $conn->query($sql_users);
 
                 // Output expense records
                 while ($row = $result_expense->fetch_assoc()) {
-                    echo "<tr>";
+                    echo "<tr class='expense-row'>"; // Add expense-row class
                     echo "<td>Expense</td>";
                     echo "<td>" . $row['name'] . "</td>";
                     echo "<td>$" . $row['amount'] . "</td>";
@@ -143,7 +151,7 @@ $result_users = $conn->query($sql_users);
 
                 // Output income records
                 while ($row = $result_income->fetch_assoc()) {
-                    echo "<tr>";
+                    echo "<tr class='income-row'>"; // Add income-row class
                     echo "<td>Income</td>";
                     echo "<td>" . $row['name'] . "</td>";
                     echo "<td>$" . $row['amount'] . "</td>";
