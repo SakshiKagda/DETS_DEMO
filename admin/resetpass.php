@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["new_password"])) {
         $password = $_POST["new_password"];
 
-        $checkTokenQuery = "SELECT * FROM users WHERE reset_token = ? AND reset_token_expiry > NOW()";
+        $checkTokenQuery = "SELECT * FROM admins WHERE reset_token = ? AND reset_token_expiry > NOW()";
 $checkTokenStmt = $conn->prepare($checkTokenQuery);
 $checkTokenStmt->bind_param("s", $token);
 $checkTokenStmt->execute();
