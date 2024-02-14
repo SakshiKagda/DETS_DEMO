@@ -3,7 +3,6 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 require 'C:\xampp\htdocs\DETS(main)\vendor\autoload.php';
-
 $servername = "localhost";
 $db_username = "root";
 $db_password = "";
@@ -24,11 +23,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($checkUserResult->num_rows > 0) {
         $token = md5(uniqid(rand(), true));
 
-        $insertTokenQuery = $conn->prepare("UPDATE admins SET reset_token = ?, reset_token_expiry = DATE_ADD(NOW(), INTERVAL 1 HOUR) WHERE email = ?");
+        $insertTokenQuery = $conn->prepare("UPDATE admins SET reset_password_token = ?, reset_password_expires_at = DATE_ADD(NOW(), INTERVAL 1 HOUR) WHERE email = ?");
         $insertTokenQuery->bind_param("ss", $token, $email);
 
         if ($insertTokenQuery->execute()) {
             $resetLink = "http://localhost/DETS(main)/admin/resetpass.php?token=$token";
+
 
             $mail = new PHPMailer(true);
             try {
