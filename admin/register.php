@@ -28,10 +28,10 @@ if (isset($_REQUEST['submit'])) {
   // Get the profile image file name
   $profile_image = $_FILES['profile_image']['name'];
 
-  // Move the profile image to the desired location
-  $target_dir = "uploads/";
-  $target_file = $target_dir . basename($_FILES["profile_image"]["name"]);
-  move_uploaded_file($_FILES["profile_image"]["tmp_name"], $target_file);
+    // Move the profile image to the desired location
+    $target_dir = "uploads/";
+    $target_file = $target_dir . basename($_FILES["profile_image"]["name"]);
+    move_uploaded_file($_FILES["profile_image"]["tmp_name"], $target_file);
 
   // Insert admin data into the database
   $sql = "INSERT INTO admins (username, email, password, profile_image, gender, mobile_number) VALUES ('$username', '$email', '$hashedPassword', '$profile_image', '$gender', '$mobile_number')";
@@ -122,14 +122,14 @@ if (isset($_REQUEST['submit'])) {
               </div>
               <h4>New here?</h4>
               <h6 class="font-weight-light">Signing up is easy. It only takes a few steps</h6>
-              <form class="pt-3" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return validate()" enctype="multipart/form-data">
+              <form class="pt-3" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"
+                                enctype="multipart/form-data">
 
 
               <div class="form-group">
-              <label for="exampleInputprofile1">Profile Picture</label>
-    <input type="file" id="exampleInputprofile1" name="profile_image" accept="image/*" required>
-
-                </div>
+                <label for="profile_image">Profile Image</label>
+                <input type="file" class="form-control-file" id="profile_image" name="profile_image" accept="image/*" required>
+            </div>
                 <div class="form-group">
                   <input type="text" class="form-control form-control-lg" id="exampleInputUsername1"
                     placeholder="Username" name="username" required>
