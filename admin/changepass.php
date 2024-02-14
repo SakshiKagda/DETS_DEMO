@@ -27,14 +27,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "New password and confirm password do not match.";
     } else {
         // Retrieve user ID from session
-        if (!isset($_SESSION["user_id"])) {
+        if (!isset($_SESSION["id"])) {
             echo "User ID not found in session.";
             exit; // Exit script
         }
-        $userID = $_SESSION["user_id"];
+        $userID = $_SESSION["id"];
 
         // Validate current password against database
-        $sql = "SELECT * FROM users WHERE id = '$userID'";
+        $sql = "SELECT * FROM admins WHERE id = '$userID'";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (password_verify($currentPassword, $hashedPassword)) {
                 // Update password in the database
                 $hashedNewPassword = password_hash($newPassword, PASSWORD_DEFAULT); // Hash the new password
-                $updateSql = "UPDATE users SET password = '$hashedNewPassword' WHERE id = '$userID'";
+                $updateSql = "UPDATE admins SET password = '$hashedNewPassword' WHERE id = '$userID'";
                 if ($conn->query($updateSql) === TRUE) {
                     echo "Password changed successfully!";
                 } else {
@@ -60,8 +60,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -94,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <img src="assets/images/logo.png">
                             </div>
                             <h4>Want to Change Password?</h4>
-                            <form class="pt-3" action="" method="post">
+                            <form class="pt-3" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                                 <div class="form-group">
                                     <input type="password" class="form-control form-control-lg" id="exampleInputOld1"
                                         name="currentPassword" placeholder="Old Password" required>

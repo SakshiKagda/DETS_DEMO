@@ -136,18 +136,26 @@ if (isset($_REQUEST['submit'])) {
                     <span id="usernameError" class="error"></span>
                 </div>
                 <div class="form-group">
-                  <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email"
-                    name="email" required>
+                  <!-- <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email"
+                    name="email" required> -->
+                    <label for="exampleInputEmail1" class="form-control form-control-lg">Email
+                      
+                    </label>
                 </div>
                 <div class="form-group">
-                <input type="text" class="form-control form-control-lg" id="exampleInputGender1" placeholder="Gender"
-                    name="gender" required>
-                <div class="gender-radio">
-                     <label><input type="radio" name="gender" value="male" required> Male</label>
-                    <label><input type="radio" name="gender" value="female" required> Female</label>
-                    <label><input type="radio" name="gender" value="other" required> Other</label>
-                </div>
-                </div>
+    <label for="exampleInputGender1" class="form-control form-control-lg">Gender</label>
+    <div class="gender-radio">
+        <input type="radio" id="male" name="gender" value="male" required>
+        <label for="male">Male</label>
+
+        <input type="radio" id="female" name="gender" value="female" required>
+        <label for="female">Female</label>
+
+        <input type="radio" id="other" name="gender" value="other" required>
+        <label for="other">Other</label>
+    </div>
+</div>
+
                 
                 <div class="form-group">
                   <input type="text" class="form-control form-control-lg" id="exampleInputnumber1" placeholder="Mobile Number"
