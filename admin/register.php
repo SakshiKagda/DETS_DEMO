@@ -137,11 +137,11 @@ if (isset($_REQUEST['submit'])) {
                   <span id="usernameError" class="error"></span>
                 </div>
                 <div class="form-group">
-                  <!-- <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email"
-                    name="email" required> -->
-                  <label for="exampleInputEmail1" class="form-control form-control-lg">Email
+                  <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email"
+                    name="email" required>
+                  <!-- <label for="exampleInputEmail1" class="form-control form-control-lg">Email -->
 
-                  </label>
+                  <!-- </label> -->
                 </div>
                 <div class="form-group">
                   <label for="exampleInputGender1" class="form-control form-control-lg">Gender</label>

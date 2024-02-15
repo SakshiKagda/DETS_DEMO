@@ -176,7 +176,7 @@ if (isset($_REQUEST['submit'])) {
                     class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn"><a> SIGN
                       UP</a></button>
                 </div>
-                <div class="text-center mt-4 font-weight-light"> Already have an account? <a href="login.php"
+                <div class="text-center mt-4 font-weight-light"> Already have an account? <a href="user_login.php"
                     class="text-primary">Login</a>
                 </div>
               </form>

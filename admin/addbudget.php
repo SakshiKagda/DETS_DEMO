@@ -29,26 +29,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $end_date = $_POST['end_date'];
 
     // Prepare and execute SQL query to insert budget data
-    $sql = "INSERT INTO budget (user_id, budget_name, category, planned_amount,actual_amount, start_date, end_date)
-            VALUES (?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO budget (user_id, budget_name, category, planned_amount, actual_amount, start_date, end_date)
+            VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("isssss", $user_id, $budget_name, $category, $planned_amount, $actual_amount, $start_date, $end_date);
-    
-    if ($stmt->execute()) {
-        // Budget added successfully, redirect to viewbudget.php or any other page
-        header("Location: viewbudget.php");
-        exit();
+
+    // Check if SQL statement preparation succeeded
+    if ($stmt) {
+        // Bind parameters and execute statement
+        $stmt->bind_param("issssss", $user_id, $budget_name, $category, $planned_amount, $actual_amount, $start_date, $end_date);
+        if ($stmt->execute()) {
+            // Budget added successfully, redirect to viewbudget.php or any other page
+            header("Location: viewbudget.php");
+            exit();
+        } else {
+            echo "Error executing SQL statement: " . $stmt->error;
+        }
     } else {
-        echo "Error: " . $conn->error;
+        echo "Error preparing SQL statement: " . $conn->error;
     }
 
     // Close statement and connection
     $stmt->close();
-   
+    $conn->close();
 } else {
     // echo "Invalid request.";
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
