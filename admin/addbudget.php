@@ -24,14 +24,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $budget_name = $_POST['budget_name'];
     $category = $_POST['category'];
     $planned_amount = $_POST['planned_amount'];
+    $actual_amount = $_POST['actual_amount'];
     $start_date = $_POST['start_date'];
     $end_date = $_POST['end_date'];
 
     // Prepare and execute SQL query to insert budget data
-    $sql = "INSERT INTO budget (user_id, budget_name, category, planned_amount, start_date, end_date)
+    $sql = "INSERT INTO budget (user_id, budget_name, category, planned_amount,actual_amount, start_date, end_date)
             VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("isssss", $user_id, $budget_name, $category, $planned_amount, $start_date, $end_date);
+    $stmt->bind_param("isssss", $user_id, $budget_name, $category, $planned_amount, $actual_amount, $start_date, $end_date);
     
     if ($stmt->execute()) {
         // Budget added successfully, redirect to viewbudget.php or any other page
@@ -74,6 +75,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-group">
                 <label for="planned_amount">Planned Amount:</label>
                 <input type="number" id="planned_amount" name="planned_amount" class="form-control" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="actual_amount">Actual Amount:</label>
+                <input type="number" id="actual_amount" name="actual_amount" class="form-control" step="0.01" required>
             </div>
             <div class="form-group">
                 <label for="start_date">Start Date:</label>
