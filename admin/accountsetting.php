@@ -34,62 +34,72 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve form data
     $username = $_POST["username"];
     $email = $_POST["email"];
+    // $password = $_POST["password"];
     $mobile_number = $_POST["mobile_number"];
     $gender = $_POST["gender"];
 
-    // Check if a file is uploaded
-    if ($_FILES['profile_image']['error'] === UPLOAD_ERR_OK) {
-        $file_tmp_name = $_FILES['profile_image']['tmp_name'];
-        $file_name = $_FILES['profile_image']['name'];
-        $new_file_name = 'profile_' . $admin_id . '_' . $file_name; // Unique filename
+    // Update the admin's details in the database
+    if ($_FILES['profile_image']['name'] != '') {
+        // Handle the file upload
+        $target_dir = "uploads/";
+        $target_file = $target_dir . basename($_FILES["profile_image"]["name"]);
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-        // Move uploaded file to a permanent location
-        $upload_directory = "uploads1/";
-        $new_file_path = $upload_directory . $new_file_name;
-        if (move_uploaded_file($file_tmp_name, $new_file_path)) {
-            // Update the profile image path in the database
-            $updateQuery = "UPDATE admins SET username=?, email=?, mobile_number=?, gender=?, profile_image=? WHERE id = ?";
-            $stmt = $conn->prepare($updateQuery);
-
-            if (!$stmt) {
-                die("Prepare failed: " . $conn->error);
-            }
-
-            $stmt->bind_param("sssssi", $username, $email, $mobile_number, $gender, $new_file_path, $admin_id);
-            if ($stmt->execute()) {
-                echo "Admin details updated successfully";
-                // Refresh the page or redirect to a success page
-                header("Location: index.php");
-                exit();
-            } else {
-                echo "Error updating admin details: " . $conn->error;
-            }
-
-            $stmt->close();
+        // Check if the file is an actual image or fake image
+        $check = getimagesize($_FILES["profile_image"]["tmp_name"]);
+        if ($check !== false) {
+            $uploadOk = 1;
         } else {
-            echo "Error moving uploaded file.";
+            echo "File is not an image.";
+            $uploadOk = 0;
+        }
+
+        // Check file size
+        if ($_FILES["profile_image"]["size"] > 500000) {
+            echo "Sorry, your file is too large.";
+            $uploadOk = 0;
+        }
+
+        // Allow only certain file formats
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+            && $imageFileType != "gif") {
+            echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+            $uploadOk = 0;
+        }
+
+        // If everything is ok, try to upload file
+        if ($uploadOk == 1) {
+            if (move_uploaded_file($_FILES["profile_image"]["tmp_name"], $target_file)) {
+                echo "The file " . basename($_FILES["profile_image"]["name"]) . " has been uploaded.";
+                $profile_image_path = $target_file;
+            } else {
+                echo "Sorry, there was an error uploading your file.";
+            }
         }
     } else {
-        // Update admin's details without profile image
-        $updateQuery = "UPDATE admins SET username=?, email=?, mobile_number=?, gender=? WHERE id = ?";
-        $stmt = $conn->prepare($updateQuery);
-
-        if (!$stmt) {
-            die("Prepare failed: " . $conn->error);
-        }
-
-        $stmt->bind_param("ssssi", $username, $email, $mobile_number, $gender, $admin_id);
-        if ($stmt->execute()) {
-            echo "Admin details updated successfully";
-            // Refresh the page or redirect to a success page
-            header("Location: index.php");
-            exit();
-        } else {
-            echo "Error updating admin details: " . $conn->error;
-        }
-
-        $stmt->close();
+        // If no file is selected, keep the existing profile image
+        $profile_image_path = $admin['profile_image'];
     }
+
+    // Update the admin's details in the database
+    $updateQuery = "UPDATE admins SET username=?, email=?, mobile_number=?, gender=?, profile_image=? WHERE id = ?";
+    $stmt = $conn->prepare($updateQuery);
+
+    if (!$stmt) {
+        die("Prepare failed: " . $conn->error);
+    }
+
+    $stmt->bind_param("sssssi", $username, $email, $mobile_number, $gender, $profile_image_path, $admin_id);
+    if ($stmt->execute()) {
+        echo "Admin details updated successfully";
+        header("Location: index.php");
+        exit();
+    } else {
+        echo "Error updating admin details: " . $conn->error;
+    }
+
+    $stmt->close();
 }
 ?>
 
@@ -116,8 +126,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             position: relative;
         }
     </style>
-    <!-- plugins:css -->
-    <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
+      <!-- plugins:css -->
+      <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
     <!-- endinject -->
     <!-- Plugin css for this page -->
@@ -132,63 +142,65 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-<header>
-    <?php
-    include("header.php");
-    ?>
-</header>
-
-<div class="main">
-    <sidebar>
+    <header>
         <?php
-        include("sidebar.php");
+        include("header.php");
         ?>
-    </sidebar>
+    </header>
+
+    <div class="main">
+        <sidebar>
+            <?php
+            include("sidebar.php");
+            ?>
+        </sidebar>
 
 <body>
-<div class="container mt-5">
-    <h2>Update Profile</h2>
-    <form action="" method="post" enctype="multipart/form-data">
-        <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" class="form-control" id="username" name="username"
-                   value="<?php echo $admin['username']; ?>" required>
-        </div>
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" name="email"
-                   value="<?php echo $admin['email']; ?>" required>
-        </div>
-        <div class="form-group">
-            <label for="mobile_number">Mobile Number</label>
-            <input type="text" class="form-control" id="mobile_number" name="mobile_number"
-                   value="<?php echo $admin['mobile_number']; ?>" required>
-        </div>
-        <div class="form-group">
-            <label for="gender">Gender</label>
-            <select class="form-control" id="gender" name="gender" required>
-                <option value="Male" <?php if ($admin['gender'] == 'Male') echo 'selected'; ?>>Male</option>
-                <option value="Female" <?php if ($admin['gender'] == 'Female') echo 'selected'; ?>>Female</option>
-                <option value="Others" <?php if ($admin['gender'] == 'Others') echo 'selected'; ?>>Others</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="profile_image">Profile Image</label>
-            <input type="file" class="form-control-file" id="profile_image" name="profile_image">
-        </div>
-        <button type="submit" class="btn btn-primary">Update</button>
-    </form>
-</div>
-<!-- Bootstrap JS and Popper.js -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-</div>
-<footer>
-    <?php
-    include("footer.php");
-    ?>
-</footer>
+    <div class="container mt-5">
+        <h2>Update Profile</h2>
+        <form action="" method="post">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" name="username" value="<?php echo $admin['username']; ?>" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" value="<?php echo $admin['email']; ?>" required>
+            </div>
+            <div class="form-group">
+                <label for="mobile_number">Mobile Number</label>
+                <input type="text" class="form-control" id="mobile_number" name="mobile_number" value="<?php echo $admin['mobile_number']; ?>" required>
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select class="form-control" id="gender" name="gender" required>
+                    <option value="Male" <?php if ($admin['gender'] == 'Male') echo 'selected'; ?>>Male</option>
+                    <option value="Female" <?php if ($admin['gender'] == 'Female') echo 'selected'; ?>>Female</option>
+                    <option value="Others" <?php if ($admin['gender'] == 'Others') echo 'selected'; ?>>Others</option>
+                </select>
+            </div>
+            <div class="form-group">
+                    <label for="profile_image">Profile Image</label>
+                    <input type="file" class="form-control-file" id="profile_image" name="profile_image">
+                    <?php
+                    if (isset($admin['profile_image']) && !empty($admin['profile_image'])) {
+                        echo '<img src="uploads/' . $admin['profile_image'] . '" alt="profile">';
+                    }
+                    ?>
+                </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+    </div>
+ <!-- Bootstrap JS and Popper.js -->
+ <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    </div>
+    <footer>
+        <?php
+        include("footer.php");
+        ?>
+    </footer>
 </body>
 
 </html>

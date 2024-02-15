@@ -73,7 +73,7 @@ if ($result !== false && $result->num_rows > 0) {
       <?php
                     // Check if the 'profile_image' column exists and is not empty
                     if (isset($adminDetails['profile_image']) && !empty($adminDetails['profile_image'])) {
-                        echo '<img src="uploads/uploads1/' . $adminDetails['profile_image'] . '" alt="profile">';
+                        echo '<img src="uploads/' . $adminDetails['profile_image'] . '" alt="profile">';
                     } else {
                         // Display a default image if the 'profile_image' column is empty or not found
                         echo '<img src="assets\images\faces\face1.jpg" alt="default-profile">';
