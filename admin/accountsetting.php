@@ -40,26 +40,77 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Update the admin's details in the database
     $updateQuery = "UPDATE admins SET username=?, email=?, mobile_number=?, gender=? WHERE id = ?";
-    $stmt = $conn->prepare($updateQuery);
+  // Update the admin's details in the database, including the profile image path
+$updateQuery = "UPDATE admins SET username=?, email=?, mobile_number=?, gender=?, profile_image=? WHERE id = ?";
+$stmt = $conn->prepare($updateQuery);
 
-    // Check if the prepared statement was successfully created
-    if (!$stmt) {
-        die("Prepare failed: " . $conn->error);
-    }
+// Check if a file is selected
+if ($_FILES['profile_image']['name'] != '') {
+    // Handle the file upload
+    $target_dir = "uploads/"; // Directory where you want to store the uploaded images
+    $target_file = $target_dir . basename($_FILES["profile_image"]["name"]);
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-    // Bind parameters and execute the statement
-    $stmt->bind_param("ssssi", $username, $email, $mobile_number, $gender, $admin_id); // Change 'i' to 's' if the ID is a string
-    if ($stmt->execute()) {
-        echo "Admin details updated successfully";
-        // Refresh the page or redirect to a success page
-        header("Location: index.php");
-        exit();
+    // Check if the file is an actual image or fake image
+    $check = getimagesize($_FILES["profile_image"]["tmp_name"]);
+    if ($check !== false) {
+        $uploadOk = 1;
     } else {
-        echo "Error updating admin details: " . $conn->error;
+        echo "File is not an image.";
+        $uploadOk = 0;
     }
 
-    // Close the prepared statement
-    $stmt->close();
+    // Check file size
+    if ($_FILES["profile_image"]["size"] > 500000) { // Adjust the file size limit as per your requirement
+        echo "Sorry, your file is too large.";
+        $uploadOk = 0;
+    }
+
+    // Allow only certain file formats
+    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+        && $imageFileType != "gif") {
+        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+        $uploadOk = 0;
+    }
+
+    // If everything is ok, try to upload file
+    if ($uploadOk == 1) {
+        if (move_uploaded_file($_FILES["profile_image"]["tmp_name"], $target_file)) {
+            echo "The file " . basename($_FILES["profile_image"]["name"]) . " has been uploaded.";
+            // Update the database with the new profile image path
+            $profile_image_path = $target_file;
+            $updateQuery = "UPDATE admins SET username=?, email=?, mobile_number=?, gender=?, profile_image=? WHERE id = ?";
+            $stmt = $conn->prepare($updateQuery);
+            $stmt->bind_param("sssssi", $username, $email, $mobile_number, $gender, $profile_image_path, $admin_id);
+            // Execute the statement
+            $stmt->execute();
+        } else {
+            echo "Sorry, there was an error uploading your file.";
+        }
+    }
+}
+
+// Check if the prepared statement was successfully created
+if (!$stmt) {
+    die("Prepare failed: " . $conn->error);
+}
+
+// Bind parameters and execute the statement
+$stmt->bind_param("sssssi", $username, $email, $mobile_number, $gender, $profile_image_path, $admin_id);
+if ($stmt->execute()) {
+    echo "Admin details updated successfully";
+    // Refresh the page or redirect to a success page
+    header("Location: index.php");
+    exit();
+} else {
+    echo "Error updating admin details: " . $conn->error;
+}
+
+// Close the prepared statement
+$stmt->close();
+
+
 }
 ?>
 
@@ -119,6 +170,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container mt-5">
         <h2>Update Profile</h2>
         <form action="" method="post">
+        <div class="form-group">
+    <label for="profile_image">Profile Image</label>
+    <input type="file" class="form-control-file" id="profile_image" name="profile_image">
+</div>
+
             <div class="form-group">
                 <label for="username">Username</label>
                 <input type="text" class="form-control" id="username" name="username" value="<?php echo $admin['username']; ?>" required>

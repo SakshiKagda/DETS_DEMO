@@ -29,6 +29,9 @@ session_start();
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             position: relative;
         }
+        .exceeded {
+            color: red;
+        }
     </style>
 </head>
 <body> 
@@ -97,7 +100,17 @@ session_start();
                             echo "<td>" . $budgetRow["user_id"] . "</td>";
                             echo "<td>" . $budgetRow["category"] . "</td>";
                             echo "<td>" . $budgetRow["planned_amount"] . "</td>";
-                            echo "<td>" . $budgetRow["actual_amount"] . "</td>";
+                            
+                            // Check if actual amount exceeds planned amount
+                            if ($budgetRow["actual_amount"] > $budgetRow["planned_amount"]) {
+                                // If exceeded, add class for styling
+                                echo "<td class='exceeded'>" . $budgetRow["actual_amount"] . "</td>";
+                                // Show alert
+                                echo "<script>alert('Actual amount exceeds planned amount for category: " . $budgetRow["category"] . "');</script>";
+                            } else {
+                                echo "<td>" . $budgetRow["actual_amount"] . "</td>";
+                            }
+                            
                             echo "<td>" . $budgetRow["start_date"] . "</td>";
                             echo "<td>" . $budgetRow["end_date"] . "</td>";
                             echo "</tr>";
@@ -115,21 +128,21 @@ session_start();
             }
            
             $results_per_page = 10; // Set the desired number of results per page
-if (!isset($_GET['page'])) {
-    $page = 1;
-} else {
-    $page = $_GET['page'];
-}
-$offset = ($page - 1) * $results_per_page;
+            if (!isset($_GET['page'])) {
+                $page = 1;
+            } else {
+                $page = $_GET['page'];
+            }
+            $offset = ($page - 1) * $results_per_page;
           
             ?>
-                     <ul class="pagination">
-  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-  <li class="page-item"><a class="page-link" href="#">1</a></li>
-  <li class="page-item"><a class="page-link" href="#">2</a></li>
-  <li class="page-item"><a class="page-link" href="#">3</a></li>
-  <li class="page-item"><a class="page-link" href="#">Next</a></li>
-</ul>
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            </ul>
             <a href="index.php" class="btn btn-primary mt-3">Go Back</a>
         </div>
     </div>

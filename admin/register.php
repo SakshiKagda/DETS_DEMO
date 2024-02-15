@@ -68,8 +68,8 @@ if (isset($_REQUEST['submit'])) {
       var allowedExtensions = ["jpg", "jpeg", "png", "gif"];
 
       // Validate name
-      if (!/^[A-z]{1,10}$/.test(username)) {
-        alert("Name should only contain letters and have a maximum length of 10 characters.");
+      if (!/^[A-z]{1,100}$/.test(username)) {
+        alert("Name should only contain letters and have a maximum length of 100 characters.");
         return false;
       }
 
