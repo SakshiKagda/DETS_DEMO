@@ -50,67 +50,81 @@ if ($result->num_rows > 0) {
     <?php
     include('sidebar.php');
     ?>
-        <div class="row">
-          <div class="col-12 grid-margin">
-            <div class="card">
-              <div class="card-body">
-                <h4 class="card-title"> Users</h4>
-                <div class="table-responsive">
-                  <table class="table table-stripped table-border">
-                    <thead>
-                      <tr>
-                        <th>Profile Image</th>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Gender</th>
-                        <th>Mobile Number</th>
-                        <th>Status</th>
-                        <!-- <th>Registration Date</th> -->
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <?php foreach ($users as $user): ?>
-                        <tr>
-                        <td><img src="<?php echo $user['profile_image']; ?>" alt="Profile Image" style="width: 50px; height: 50px;"></td>
-                          <td>
-                            <?php echo $user['username']; ?>
-                          </td>
-                          <td>
-                            <?php echo $user['email']; ?>
-                          </td>
-                          <td>
-                            <?php echo $user['gender']; ?>
-                          </td>
-                          <td>
-                            <?php echo $user['mobile_number']; ?>
-                          </td>
-                          <td> 
-                            <form method="post" action="update_pricing_status.php">
-  <label for="user_id">Select User:</label>
-  <select name="user_id" id="user_id">
-    <?php foreach ($users as $user): ?>
-      <option value="<?php echo $user['user_id']; ?>"><?php echo $user['username']; ?></option>
-    <?php endforeach; ?>
-  </select>
-  <button type="submit" name="pricing_status" value="active">Active</button>
-  <button type="submit" name="pricing_status" value="inactive">Cancel</button>
-</form>
-                          </td>
-                        </tr>
-                      <?php endforeach; ?>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+    <div class="row">
+      <div class="col-12 grid-margin">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Users</h4>
+            <div class="table-responsive">
+              <table class="table table-stripped table-border">
+                <thead>
+                  <tr>
+                    <th>Profile Image</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Gender</th>
+                    <th>Mobile Number</th>
+                    <th>Current Status</th>
+                    <th>Action</th>
+                    <!-- <th>Registration Date</th> -->
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php foreach ($users as $user): ?>
+                    <tr>
+                      <td><img src="<?php echo $user['profile_image']; ?>" alt="Profile Image"
+                          style="width: 50px; height: 50px;"></td>
+                      <td>
+                        <?php echo $user['username']; ?>
+                      </td>
+                      <td>
+                        <?php echo $user['email']; ?>
+                      </td>
+                      <td>
+                        <?php echo $user['gender']; ?>
+                      </td>
+                      <td>
+                        <?php echo $user['mobile_number']; ?>
+                      </td>
+                      <td>
+                      <?php 
+                        if($user['pricing_status'] == 0) {
+                          echo "Inactive";
+                        } else if($user['pricing_status'] == 1) {
+                          echo "Active";
+                        } else if($user['pricing_status'] == 2) {
+                          echo "Pending";
+                        }
+                        ?>
+                      </td>
+                      <td>
+                        <form method="post" action="update_pricing_status.php">
+                          <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
+                          <input type="hidden" name="pricing_status" id="pricing_status">
+                          <button type="submit" name="pricing_status" value="active"
+                           >Active</button>
+                          <button type="submit" name="pricing_status" value="inactive"
+                           >Deactive</button>
+                            <button type="submit" name="pricing_status" value="pending"
+                           >Pending</button>
+                          
+                        </form>
+                      </td>
+                    </tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
-        <?php
-      include('footer.php');
-      ?>
-      <!-- partial -->
+      </div>
     </div>
-    <!-- main-panel ends -->
+    <?php
+    include('footer.php');
+    ?>
+    <!-- partial -->
+  </div>
+  <!-- main-panel ends -->
   </div>
   <!-- page-body-wrapper ends -->
   </div>
