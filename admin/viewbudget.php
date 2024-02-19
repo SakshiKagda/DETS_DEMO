@@ -62,7 +62,7 @@ session_start();
             }
             
             // SQL query to fetch users who have set budgets
-            $sql = "SELECT DISTINCT users.id AS user_id, users.username AS username, users.email AS email FROM users INNER JOIN budget ON users.id = budget.user_id";
+            $sql = "SELECT DISTINCT users.user_id AS user_id, users.username AS username, users.email AS email FROM users INNER JOIN budgets ON users.user_id = budgets.user_id";
             $result = $conn->query($sql);
             
             // Check if any users exist
@@ -74,7 +74,7 @@ session_start();
                     $email = $row["email"];
                     
                     // SQL query to fetch budget for the current user
-                    $budgetSql = "SELECT * FROM budget WHERE user_id = $userId";
+                    $budgetSql = "SELECT * FROM budgets WHERE user_id = $userId";
                     $budgetResult = $conn->query($budgetSql);
                     
                     // Check if any budget exist for the current user

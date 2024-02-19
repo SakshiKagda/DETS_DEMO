@@ -59,7 +59,9 @@ session_start();
             }
             
             // SQL query to fetch users who have added expenses
-            $sql = "SELECT DISTINCT users.id AS user_id, users.username AS username, users.email AS email FROM users INNER JOIN expenses ON users.id = expenses.user_id";
+            $sql = "SELECT DISTINCT users.user_id AS user_id, users.username AS username, users.email AS email FROM users INNER JOIN expenses ON users.user_id = expenses.user_id";
+
+            // echo $sql;
             $result = $conn->query($sql);
             
             // Check if any users exist
@@ -121,6 +123,9 @@ if (!isset($_GET['page'])) {
     $page = $_GET['page'];
 }
 $offset = ($page - 1) * $results_per_page;
+if (!$result) {
+    die("Error: " . $conn->error);
+}
 
            
             ?>

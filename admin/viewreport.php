@@ -23,9 +23,9 @@ if ($conn->connect_error) {
 }
 
 // Retrieve all users who have added both expenses and income
-$sql_users = "SELECT DISTINCT u.id, u.username, u.email FROM users u
-                INNER JOIN expenses e ON u.id = e.user_id
-                INNER JOIN income i ON u.id = i.user_id";
+$sql_users = "SELECT DISTINCT u.user_id, u.username, u.email FROM users u
+                INNER JOIN expenses e ON u.user_id = e.user_id
+                INNER JOIN incomes i ON u.user_id = i.user_id";
 $result_users = $conn->query($sql_users);
 
 ?>
@@ -108,7 +108,7 @@ $result_users = $conn->query($sql_users);
             <?php
             // Loop through each user who has added both expenses and income
             while ($row_user = $result_users->fetch_assoc()) {
-                $user_id = $row_user['id'];
+                $user_id = $row_user['user_id'];
                 $user_username = $row_user['username'];
                 $user_email = $row_user['email'];
 
@@ -117,7 +117,7 @@ $result_users = $conn->query($sql_users);
                 $result_expense = $conn->query($sql_expense);
 
                 // Retrieve income records for the user
-                $sql_income = "SELECT incomeName AS name, incomeAmount AS amount, incomeCategory AS category, incomeDescription AS description, incomeDate AS date FROM income WHERE user_id = $user_id";
+                $sql_income = "SELECT incomeName AS name, incomeAmount AS amount, incomeCategory AS category, incomeDescription AS description, incomeDate AS date FROM incomes WHERE user_id = $user_id";
                 $result_income = $conn->query($sql_income);
 
                 // Display user details

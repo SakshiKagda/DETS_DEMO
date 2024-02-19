@@ -109,7 +109,42 @@ if ($result->num_rows > 0) {
             </div>
           </div>
         </div>
+        <?php
+// session_start();
+if (!isset($_SESSION)) {
+  session_start();
+}
+// Establish a connection to your database
+$servername = "localhost";
+$username = "root";
+$password = "";
+$database = "expense_db";
 
+// Create connection
+$conn = new mysqli($servername, $username, $password, $database);
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+
+// Fetch user details from the user table
+$sql = "SELECT * FROM users";
+$result = $conn->query($sql);
+
+// Check if there are any users
+if ($result->num_rows > 0) {
+  // Fetch user details and populate the $users array
+  $users = array();
+  while ($row = $result->fetch_assoc()) {
+    $users[] = $row;
+  }
+} else {
+  $users = array(); // If no users found, initialize an empty array
+}
+?>
+
+    
         <div class="row">
           <div class="col-12 grid-margin">
             <div class="card">
@@ -131,8 +166,7 @@ if ($result->num_rows > 0) {
                     <tbody>
                       <?php foreach ($users as $user): ?>
                         <tr>
-                          <td><img src="<?php echo $user['profile_image']; ?>" alt="Profile Image"
-                              style="width: 50px; height: 50px;"></td>
+                        <td><img src="<?php echo $user['profile_image']; ?>" alt="Profile Image" style="width: 50px; height: 50px;"></td>
                           <td>
                             <?php echo $user['username']; ?>
                           </td>
@@ -145,8 +179,17 @@ if ($result->num_rows > 0) {
                           <td>
                             <?php echo $user['mobile_number']; ?>
                           </td>
-                          <td style="color: <?php echo ($user['status'] == 'active') ? 'green' : 'red'; ?>;">
-                            <?php echo $user['status']; ?>
+                          <td> 
+                            <form method="post" action="update_pricing_status.php">
+  <label for="user_id">Select User:</label>
+  <select name="user_id" id="user_id">
+    <?php foreach ($users as $user): ?>
+      <option value="<?php echo $user['user_id']; ?>"><?php echo $user['username']; ?></option>
+    <?php endforeach; ?>
+  </select>
+  <button type="submit" name="pricing_status" value="active">Active</button>
+  <button type="submit" name="pricing_status" value="inactive">Cancel</button>
+</form>
                           </td>
                         </tr>
                       <?php endforeach; ?>
@@ -157,6 +200,8 @@ if ($result->num_rows > 0) {
             </div>
           </div>
         </div>
+      
+  
         <div class="row">
           <div class="col-md-7 grid-margin stretch-card">
             <div class="card">

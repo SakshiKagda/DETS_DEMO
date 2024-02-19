@@ -98,7 +98,9 @@
             }
             
             // SQL query to fetch users who have added income
-            $sql = "SELECT DISTINCT users.id AS user_id, users.username AS username, users.email AS email FROM users INNER JOIN income ON users.id = income.user_id";
+           // SQL query to fetch users who have added income
+$sql = "SELECT DISTINCT users.user_id AS user_id, users.username AS username, users.email AS email FROM users INNER JOIN incomes ON users.user_id = incomes.user_id";
+
             $result = $conn->query($sql);
             
             // Check if any users exist
@@ -110,7 +112,7 @@
                     $email = $row["email"];
                     
                     // SQL query to fetch income for the current user
-                    $incomeSql = "SELECT * FROM income WHERE user_id = $userId";
+                    $incomeSql = "SELECT * FROM incomes WHERE user_id = $userId";
                     $incomeResult = $conn->query($incomeSql);
                     
                     // Check if any income exist for the current user
