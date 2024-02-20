@@ -14,7 +14,7 @@ if ($conn->connect_error) {
 }
 
 // Check if the admin is logged in
-if (!isset($_SESSION['admin_id'])) {
+if (!isset($_SESSION['id'])) {
     // Redirect to the login page or display an error message
     // header("Location: login.php");
     // exit(); // Stop further execution
@@ -204,3 +204,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </body>
 
 </html>
+

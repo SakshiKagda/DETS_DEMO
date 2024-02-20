@@ -52,8 +52,8 @@ if ($result->num_rows > 0) {
         th{
           color: blue;
         }
-    .container-fluid {
-      max-width: 985px;
+    .container {
+      max-width: 900px;
     }
     .active{
       background-color: green;
@@ -77,7 +77,7 @@ if ($result->num_rows > 0) {
     <sidebar>
       <?php include("sidebar.php"); ?>
     </sidebar>
-    <div class="container-fluid mt-5">
+    <div class="container">
       <h2>Users Details</h2>
       <div class="table-responsive">
         <table class="table table-stripped table-border">
@@ -125,9 +125,9 @@ if ($result->num_rows > 0) {
                 <form method="post" action="update_pricing_status.php">
                     <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
                     <input type="hidden" name="pricing_status" id="pricing_status">
-                    <button type="submit" name="pricing_status" value="active" class="btn btn-success active">Active</button>
-                    <button type="submit" name="pricing_status" value="inactive" class="btn btn-danger inactive">Inactive</button>
-                    <button type="submit" name="pricing_status" value="pending" class="btn btn-warning pending">Pending</button>
+                    <button type="submit" name="pricing_status" value="active" class="btn-sm btn-success active ">Active</button>
+                    <button type="submit" name="pricing_status" value="inactive" class="btn-sm btn-danger inactive">Inactive</button>
+                    <button type="submit" name="pricing_status" value="pending" class="btn-sm btn-warning pending">Pending</button>
                   </form>
                 </td>
               </tr>
@@ -136,8 +136,6 @@ if ($result->num_rows > 0) {
         </table>
       </div>
     </div>
-  </div>
-  </div>
   </div>
   <!-- Bootstrap JS and Popper.js -->
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>

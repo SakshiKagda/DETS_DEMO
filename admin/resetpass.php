@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $password = $_POST["new_password"];
 
         // Check if the token is valid and not expired
-        $checkTokenQuery = "SELECT * FROM admins WHERE reset_password_token = ? AND reset_password_expires_at > NOW()";
+        $checkTokenQuery = "SELECT * FROM admins WHERE reset_token = ? AND reset_token_expiry > NOW()";
         $checkTokenStmt = $conn->prepare($checkTokenQuery);
         if (!$checkTokenStmt) {
             die("Prepare failed: " . $conn->error);
@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $email = $user["email"];
 
             // Update the password and set status and last_password_change fields
-            $updatePasswordQuery = $conn->prepare("UPDATE admins SET password = ?, status = 1, last_password_change = NOW() WHERE email = ?");
+            $updatePasswordQuery = $conn->prepare("UPDATE admins SET password = ?, reset_status = 1, last_password_change = NOW() WHERE email = ?");
             if (!$updatePasswordQuery) {
                 die("Prepare failed: " . $conn->error);
             }

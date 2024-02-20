@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($checkUserResult->num_rows > 0) {
         $token = md5(uniqid(rand(), true));
 
-        $insertTokenQuery = $conn->prepare("UPDATE admins SET reset_password_token = ?, reset_password_expires_at = DATE_ADD(NOW(), INTERVAL 1 HOUR) WHERE email = ?");
+        $insertTokenQuery = $conn->prepare("UPDATE admins SET reset_token = ?, reset_token_expiry = DATE_ADD(NOW(), INTERVAL 1 HOUR) WHERE email = ?");
         $insertTokenQuery->bind_param("ss", $token, $email);
 
         if ($insertTokenQuery->execute()) {
