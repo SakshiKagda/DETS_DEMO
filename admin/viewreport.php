@@ -43,7 +43,7 @@ $result_users = $conn->query($sql_users);
             font-family: 'Arial', sans-serif;
             background-color: #f8f9fa;
         }
-
+/* 
         .container {
             max-width: 800px;
             margin: 50px auto;
@@ -52,7 +52,7 @@ $result_users = $conn->query($sql_users);
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             position: relative;
-        }
+        } */
 
         h2 {
             color: blueviolet;

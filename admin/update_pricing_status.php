@@ -39,9 +39,7 @@ if (isset($_POST['pricing_status'])) {
 
   if ($conn->query($sql) === TRUE) {
     echo "Pricing status updated successfully";
-
-    
-    
+    header('Location: user.php');    
     // Send email if the status is updated to "active"
     if ($pricing_status_value == 1) { // Change this to 1
       // Email credentials
@@ -170,6 +168,7 @@ if (isset($_POST['pricing_status'])) {
       
           $mail->send();
           echo 'Email sent successfully!';
+          header('Location: user.php');
       } catch (Exception $e) {
           echo "Email could not be sent. Mailer Error: {$mail->ErrorInfo}";
       }

@@ -46,7 +46,7 @@ if ($result->num_rows > 0) {
       display: flex;
       padding-top: 70px;
     }
-    .container {
+    /* .container {
       max-width: 800px;
       margin: 50px auto;
       background-color: #ffffff;
@@ -54,7 +54,7 @@ if ($result->num_rows > 0) {
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       position: relative;
-    }
+    } */
     .active{
       background-color: green;
 
@@ -148,6 +148,31 @@ if ($result->num_rows > 0) {
   <footer>
     <?php include("footer.php"); ?>
   </footer>
+  <script>
+    // Get the button elements
+    var activeButtons = document.querySelectorAll('.active');
+    var inactiveButtons = document.querySelectorAll('.inactive');
+    var pendingButtons = document.querySelectorAll('.pending');
+
+    // Add event listeners to the buttons
+    activeButtons.forEach(function(button) {
+      button.addEventListener('click', function() {
+        alert('User status updated to Active and Email Sent sucessfully');
+      });
+    });
+
+    inactiveButtons.forEach(function(button) {
+      button.addEventListener('click', function() {
+        alert('User status updated to Inactive');
+      });
+    });
+
+    pendingButtons.forEach(function(button) {
+      button.addEventListener('click', function() {
+        alert('User status updated to Pending');
+      });
+    });
+  </script>
 </body>
 
 </html>

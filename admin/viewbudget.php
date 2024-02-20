@@ -20,7 +20,7 @@ session_start();
         tr{
             color: blue;
         }
-        .container {
+        /* .container {
             max-width: 800px;
             margin: 50px auto;
             background-color: #ffffff;
@@ -28,7 +28,7 @@ session_start();
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             position: relative;
-        }
+        } */
         .exceeded {
             color: red;
         }
