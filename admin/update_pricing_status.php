@@ -29,11 +29,11 @@ if (isset($_POST['pricing_status'])) {
 
   // Update the pricing status in the users table
   if ($pricing_status == 'active') {
-    $pricing_status_value = 2;
+    $pricing_status_value = 1; // Change this to 1
   } else if ($pricing_status == 'inactive') {
     $pricing_status_value = 0;
   } else if ($pricing_status == 'pending') {
-    $pricing_status_value = 1;
+    $pricing_status_value = 2;
   }
   $sql = "UPDATE users SET pricing_status = '$pricing_status_value' WHERE user_id = $user_id";
 
@@ -43,7 +43,7 @@ if (isset($_POST['pricing_status'])) {
     
     
     // Send email if the status is updated to "active"
-    if ($pricing_status_value == 2) {
+    if ($pricing_status_value == 1) { // Change this to 1
       // Email credentials
       $sender_email = "kagdasakshi09@gmailcom";
       $sender_password = "qmqe rosa rkev qlcw";
@@ -170,13 +170,6 @@ if (isset($_POST['pricing_status'])) {
       
           $mail->send();
           echo 'Email sent successfully!';
-
-          $sql = "UPDATE users SET pricing_status = 1 WHERE user_id = $user_id";
-          if ($conn->query($sql) === TRUE) {
-            echo "Pricing status updated to 1 (pending) successfully";
-          } else {
-            echo "Error updating pricing status to 1 (pending): " . $conn->error;
-          }
       } catch (Exception $e) {
           echo "Email could not be sent. Mailer Error: {$mail->ErrorInfo}";
       }

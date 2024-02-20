@@ -35,100 +35,119 @@ if ($result->num_rows > 0) {
 <!DOCTYPE html>
 <html lang="en">
 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Expense Tracker System</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <style>
+    .main {
+      display: flex;
+      padding-top: 70px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 50px auto;
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+    .active{
+      background-color: green;
+
+    }
+    .inactive{
+      background-color: red;
+    }
+    .pending{
+      background-color: yellow;
+    }
+  </style>
+</head>
+
 <body>
-  <!-- partial:partials/_navbar.html -->
-  <?php
+  <header>
+    <?php include("header.php"); ?>
+  </header>
 
+  <div class="main">
+    <sidebar>
+      <?php include("sidebar.php"); ?>
+    </sidebar>
+    <div class="container mt-5">
+      <h2>Users Details</h2>
+      <div class="table-responsive">
+        <table class="table table-stripped table-border">
+          <thead>
+            <tr>
+              <th>Profile Image</th>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Gender</th>
+              <th>Mobile Number</th>
+              <th>Current Status</th>
+              <th>Action</th>
+              <!-- <th>Registration Date</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach ($users as $user): ?>
+              <tr>
+                <td><img src="<?php echo $user['profile_image']; ?>" alt="Profile Image"
+                    style="width: 50px; height: 50px;"></td>
+                <td>
+                  <?php echo $user['username']; ?>
+                </td>
+                <td>
+                  <?php echo $user['email']; ?>
+                </td>
+                <td>
+                  <?php echo $user['gender']; ?>
+                </td>
+                <td>
+                  <?php echo $user['mobile_number']; ?>
+                </td>
+                <td>
+                  <?php
+                  if ($user['pricing_status'] == 0) {
+                    echo "Inactive";
+                  } else if ($user['pricing_status'] == 1) {
+                    echo "Active";
+                  } else if ($user['pricing_status'] == 2) {
+                    echo "Pending";
+                  }
+                  ?>
+                </td>
+                <td>
+                  <form method="post" action="update_pricing_status.php">
+                    <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
+                    <input type="hidden" name="pricing_status" id="pricing_status">
+                    <button type="submit" name="pricing_status" value="active" class="active">Active</button>
+                    <button type="submit" name="pricing_status" value="inactive" class="inactive">Inactive</button>
+                    <button type="submit" name="pricing_status" value="pending" class="pending">Pending</button>
 
-  include("header.php");
-
-  ?>
-
-  <!-- partial -->
-  <div class="container-fluid page-body-wrapper">
-    <!-- partial:partials/_sidebar.html -->
-    <?php
-    include('sidebar.php');
-    ?>
-    <div class="row">
-      <div class="col-12 grid-margin">
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title">Users</h4>
-            <div class="table-responsive">
-              <table class="table table-stripped table-border">
-                <thead>
-                  <tr>
-                    <th>Profile Image</th>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>Gender</th>
-                    <th>Mobile Number</th>
-                    <th>Current Status</th>
-                    <th>Action</th>
-                    <!-- <th>Registration Date</th> -->
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php foreach ($users as $user): ?>
-                    <tr>
-                      <td><img src="<?php echo $user['profile_image']; ?>" alt="Profile Image"
-                          style="width: 50px; height: 50px;"></td>
-                      <td>
-                        <?php echo $user['username']; ?>
-                      </td>
-                      <td>
-                        <?php echo $user['email']; ?>
-                      </td>
-                      <td>
-                        <?php echo $user['gender']; ?>
-                      </td>
-                      <td>
-                        <?php echo $user['mobile_number']; ?>
-                      </td>
-                      <td>
-                      <?php 
-                        if($user['pricing_status'] == 0) {
-                          echo "Inactive";
-                        } else if($user['pricing_status'] == 1) {
-                          echo "Active";
-                        } else if($user['pricing_status'] == 2) {
-                          echo "Pending";
-                        }
-                        ?>
-                      </td>
-                      <td>
-                        <form method="post" action="update_pricing_status.php">
-                          <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
-                          <input type="hidden" name="pricing_status" id="pricing_status">
-                          <button type="submit" name="pricing_status" value="active"
-                           >Active</button>
-                          <button type="submit" name="pricing_status" value="inactive"
-                           >Deactive</button>
-                            <button type="submit" name="pricing_status" value="pending"
-                           >Pending</button>
-                          
-                        </form>
-                      </td>
-                    </tr>
-                  <?php endforeach; ?>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+                  </form>
+                </td>
+              </tr>
+            <?php endforeach; ?>
+          </tbody>
+        </table>
       </div>
     </div>
-    <?php
-    include('footer.php');
-    ?>
-    <!-- partial -->
   </div>
-  <!-- main-panel ends -->
   </div>
-  <!-- page-body-wrapper ends -->
   </div>
-  <!-- container-scroller -->
+  <!-- Bootstrap JS and Popper.js -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+  <footer>
+    <?php include("footer.php"); ?>
+  </footer>
 </body>
 
 </html>
