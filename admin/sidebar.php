@@ -102,6 +102,12 @@ if ($result !== false && $result->num_rows > 0) {
         </a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" href="sub.php">
+          <span class="menu-title">Subscription  Details</span>
+          <i class="mdi mdi-bell menu-icon"></i>
+        </a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
           <span class="menu-title">Expense</span>
           <i class="menu-arrow"></i>
