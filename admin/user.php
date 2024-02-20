@@ -46,15 +46,15 @@ if ($result->num_rows > 0) {
       display: flex;
       padding-top: 70px;
     }
-    /* .container {
-      max-width: 800px;
-      margin: 50px auto;
-      background-color: #ffffff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      position: relative;
-    } */
+    h2{
+            color: blueviolet;
+        }
+        th{
+          color: blue;
+        }
+    .container-fluid {
+      max-width: 985px;
+    }
     .active{
       background-color: green;
 
@@ -77,7 +77,7 @@ if ($result->num_rows > 0) {
     <sidebar>
       <?php include("sidebar.php"); ?>
     </sidebar>
-    <div class="container mt-5">
+    <div class="container-fluid mt-5">
       <h2>Users Details</h2>
       <div class="table-responsive">
         <table class="table table-stripped table-border">
@@ -122,13 +122,12 @@ if ($result->num_rows > 0) {
                   ?>
                 </td>
                 <td>
-                  <form method="post" action="update_pricing_status.php">
+                <form method="post" action="update_pricing_status.php">
                     <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
                     <input type="hidden" name="pricing_status" id="pricing_status">
-                    <button type="submit" name="pricing_status" value="active" class="active">Active</button>
-                    <button type="submit" name="pricing_status" value="inactive" class="inactive">Inactive</button>
-                    <button type="submit" name="pricing_status" value="pending" class="pending">Pending</button>
-
+                    <button type="submit" name="pricing_status" value="active" class="btn btn-success active">Active</button>
+                    <button type="submit" name="pricing_status" value="inactive" class="btn btn-danger inactive">Inactive</button>
+                    <button type="submit" name="pricing_status" value="pending" class="btn btn-warning pending">Pending</button>
                   </form>
                 </td>
               </tr>
@@ -157,7 +156,7 @@ if ($result->num_rows > 0) {
     // Add event listeners to the buttons
     activeButtons.forEach(function(button) {
       button.addEventListener('click', function() {
-        alert('User status updated to Active and Email Sent sucessfully');
+        alert('User status updated to Active and Email Sent Sucessfully');
       });
     });
 
