@@ -68,7 +68,7 @@ if ($result->num_rows > 0) {
                 <h4 class="font-weight-normal mb-3">Total Income <i
                     class="mdi mdi-currency-inr mdi-24px float-right"></i>
                 </h4>
-                <h2 class="mb-5">₹ 95,0000</h2>
+                <h2 class="mb-5">₹ 95,000</h2>
                 <h6 class="card-text">Increased by 60%</h6>
               </div>
             </div>
@@ -80,7 +80,7 @@ if ($result->num_rows > 0) {
                 <img src="assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image">
                 <h4 class="font-weight-normal mb-3">Total Expense <i class="mdi mdi-wallet mdi-24px float-right"></i>
                 </h4>
-                <h2 class="mb-5">₹ 45,6334</h2>
+                <h2 class="mb-5">₹ 45,633</h2>
                 <h6 class="card-text">Decreased by 10%</h6>
               </div>
             </div>
