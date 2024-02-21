@@ -1,3 +1,42 @@
+<?php
+session_start(); // Start the session
+
+// Include the database connection
+$servername = "localhost";
+$db_username = "root";
+$db_password = "";
+$dbname = "expense_db";
+
+$conn = new mysqli($servername, $db_username, $db_password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Check if the admin is logged in
+if (!isset($_SESSION['id'])) {
+    // Redirect to the login page or display an error message
+    // header("Location: login.php");
+    // exit(); // Stop further execution
+}
+
+// Retrieve the admin's current details from the database
+$admin_id = $_SESSION['id'];
+$selectQuery = "SELECT * FROM admins WHERE id = ?";
+$stmt = $conn->prepare($selectQuery);
+$stmt->bind_param("i", $admin_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$admin = $result->fetch_assoc();
+
+// Retrieve subscription details from the database
+$selectSubQuery = "SELECT * FROM subscription";
+$stmtSub = $conn->prepare($selectSubQuery);
+$stmtSub->execute();
+$resultSub = $stmtSub->get_result();
+$subscriptions = $resultSub->fetch_all(MYSQLI_ASSOC);
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -53,44 +92,44 @@
     <div class="container mt-5">
       <h2>Subscription Details</h2>
       <div class="table-responsive">
-        <table class="table table-stripped table-border">
-          <thead>
+      <table class="table table-bordered">
+        <tr>
+            <th>Subscription ID</th>
+            <th>User ID</th>
+            <th>Subscription Plan</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Billing Frequency</th>
+            <th>Amount</th>
+            <th>Payment Method</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        <?php foreach ($subscriptions as $subscription) : ?>
             <tr>
-              <th>Subscription ID</th>
-              <th>User ID</th>
-              <th>Subscription Plan</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-              <th>Status</th>
+                <td><?php echo $subscription['subscription_id']; ?></td>
+                <td><?php echo $subscription['user_id']; ?></td>
+                <td><?php echo $subscription['subscription_plan']; ?></td>
+                <td><?php echo $subscription['start_date']; ?></td>
+                <td><?php echo $subscription['end_date']; ?></td>
+                <td><?php echo $subscription['billing_frequency']; ?></td>
+                <td><?php echo $subscription['amount']; ?></td>
+                <td><?php echo $subscription['payment_method']; ?></td>
+                <td><?php echo $subscription['status']; ?></td>
+                <td>
+                  <form action="update_subscription_status.php" method="post">
+                    <input type="hidden" name="subscription_id" value="<?php echo $subscription['subscription_id']; ?>">
+                    <select name="status">
+                      <option value="active">Active</option>
+                      <option value="inactive">Inactive</option>
+                      <option value="pending">Pending</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary">Update Status</button>
+                  </form>
+                </td>
             </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>1</td>
-              <td>Premium Plan</td>
-              <td>2024-02-19</td>
-              <td>2025-02-19</td>
-              <td>Active</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>2</td>
-              <td>Premium Plan</td>
-              <td>2024-01-01</td>
-              <td>2025-01-01</td>
-              <td>Inactive</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>3</td>
-              <td>Premium Plan</td>
-              <td>2022-01-01</td>
-              <td>2022-12-31</td>
-              <td>Pending</td>
-            </tr>
-          </tbody>
-        </table>
+        <?php endforeach; ?>
+    </table>
       </div>
     </div>
   </div>
@@ -104,31 +143,6 @@
   <footer>
     <?php include("footer.php"); ?>
   </footer>
-  <script>
-    // Get the button elements
-    var activeButtons = document.querySelectorAll('.active');
-    var inactiveButtons = document.querySelectorAll('.inactive');
-    var pendingButtons = document.querySelectorAll('.pending');
-
-    // Add event listeners to the buttons
-    activeButtons.forEach(function(button) {
-      button.addEventListener('click', function() {
-        alert('User status updated to Active and Email Sent Sucessfully');
-      });
-    });
-
-    inactiveButtons.forEach(function(button) {
-      button.addEventListener('click', function() {
-        alert('User status updated to Inactive');
-      });
-    });
-
-    pendingButtons.forEach(function(button) {
-      button.addEventListener('click', function() {
-        alert('User status updated to Pending');
-      });
-    });
-  </script>
 </body>
 
 </html>
