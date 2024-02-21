@@ -17,19 +17,18 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch user details from the user table
+
 $sql = "SELECT * FROM users";
 $result = $conn->query($sql);
 
 // Check if there are any users
 if ($result->num_rows > 0) {
-  // Fetch user details and populate the $users array
   $users = array();
   while ($row = $result->fetch_assoc()) {
     $users[] = $row;
   }
 } else {
-  $users = array(); // If no users found, initialize an empty array
+  $users = array(); 
 }
 ?>
 <!DOCTYPE html>
@@ -114,7 +113,7 @@ if ($result->num_rows > 0) {
           <div class="col-md-7 grid-margin stretch-card">
             <div class="card">
               <div class="card-body">
-                <h4 class="card-title">Project Status</h4>
+                <h4 class="card-title">User Status</h4>
                 <div class="table-responsive">
                   <table class="table">
                     <thead>
