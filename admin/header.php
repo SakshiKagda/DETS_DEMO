@@ -77,7 +77,7 @@ if ($result !== false && $result->num_rows > 0) {
 
       <ul class="navbar-nav navbar-nav-right">
         <li class="nav-item nav-profile dropdown">
-          <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-bs-toggle="dropdown"
+          <a class="nav-link dropdown-toggle" id="profileDropdown" href="" data-bs-toggle="dropdown"
             aria-expanded="false">
             <div class="nav-profile-img">
             <?php
@@ -96,7 +96,7 @@ if ($result !== false && $result->num_rows > 0) {
           </a>
           <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">
+            <a class="dropdown-item" href="logout.php">
               <i class="mdi mdi-logout me-2 text-primary"></i> Signout </a>
           </div>
         </li>

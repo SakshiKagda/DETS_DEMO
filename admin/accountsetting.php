@@ -94,6 +94,7 @@ session_start();
                     echo "<input type='file' class='form-control-file' id='profile_image' name='profile_image'>";
                     echo "</div>";
                     echo "<button type='submit' class='btn btn-primary'>Update Profile</button>";
+                    echo "<button type='submit' class='btn btn-primary'>Back</button>";
                     echo "</form>";
                 }
             } else {
