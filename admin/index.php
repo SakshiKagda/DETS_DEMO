@@ -117,11 +117,11 @@ if ($result->num_rows > 0) {
                 <div class="table-responsive">
                   <table class="table">
                     <thead>
-                      <tr>
+                    <tr>
                         <th> # </th>
                         <th> Name </th>
                         <th> Due Date </th>
-                        <th> Progress </th>
+                        <th> Status </th>
                       </tr>
                     </thead>
                     <tbody>
