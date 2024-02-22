@@ -113,8 +113,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <a class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn"
                                         href="index.php">BACK</a>
                                 </div>
-
-                        </div>
+                                                </div>
                         </form>
                     </div>
                 </div>
