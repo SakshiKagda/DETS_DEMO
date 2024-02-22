@@ -92,7 +92,7 @@ $subscriptions = $resultSub->fetch_all(MYSQLI_ASSOC);
     <div class="container mt-5">
       <h2>Subscription Details</h2>
       <div class="table-responsive">
-      <table class="table table-bordered">
+      <table class="table">
         <tr>
             <th>Subscription ID</th>
             <th>User ID</th>
