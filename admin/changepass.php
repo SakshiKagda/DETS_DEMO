@@ -93,7 +93,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <img src="assets/images/logo.png">
                             </div>
                             <h4>Want to Change Password?</h4>
-                            <form class="pt-3" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                            <form class="pt-3" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"
+                                method="post">
                                 <div class="form-group">
                                     <input type="password" class="form-control form-control-lg" id="exampleInputOld1"
                                         name="currentPassword" placeholder="Old Password" required>
@@ -104,7 +105,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
                                 <div class="form-group">
                                     <input type="password" class="form-control form-control-lg"
-                                        id="exampleInputConfirm1" name="confirmPassword" placeholder="Confirm Password" required>
+                                        id="exampleInputConfirm1" name="confirmPassword" placeholder="Confirm Password"
+                                        required>
                                 </div>
 
                                 <div class="mt-3 text-center">
@@ -113,7 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <a class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn"
                                         href="index.php">BACK</a>
                                 </div>
-                                                </div>
+                        </div>
                         </form>
                     </div>
                 </div>
