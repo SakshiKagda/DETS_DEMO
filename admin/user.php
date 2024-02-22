@@ -56,14 +56,14 @@ if ($result->num_rows > 0) {
       max-width: 900px;
     }
     .active{
-      background-color: green;
+      background-color:  #b8a9c9;
 
     }
     .inactive{
-      background-color: red;
+      background-color:  #e06377;
     }
     .pending{
-      background-color: yellow;
+      background-color:#eeac99 ;
     }
   </style>
 </head>
@@ -125,9 +125,9 @@ if ($result->num_rows > 0) {
                 <form method="post" action="update_pricing_status.php">
                     <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
                     <input type="hidden" name="pricing_status" id="pricing_status">
-                    <button type="submit" name="pricing_status" value="active" class="btn-sm btn-success active ">Active</button>
-                    <button type="submit" name="pricing_status" value="inactive" class="btn-sm btn-danger inactive">Inactive</button>
-                    <button type="submit" name="pricing_status" value="pending" class="btn-sm btn-warning pending">Pending</button>
+                    <button type="submit" name="pricing_status" value="active" class="btn-sm active ">Active</button>
+                    <button type="submit" name="pricing_status" value="inactive" class="btn-sm inactive">Inactive</button>
+                    <button type="submit" name="pricing_status" value="pending" class="btn-sm  pending">Pending</button>
                   </form>
                 </td>
               </tr>
