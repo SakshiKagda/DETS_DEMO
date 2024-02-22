@@ -103,7 +103,7 @@ $subscriptions = $resultSub->fetch_all(MYSQLI_ASSOC);
             <th>Amount</th>
             <th>Payment Method</th>
             <th>Status</th>
-            <th>Action</th>
+           
         </tr>
         <?php foreach ($subscriptions as $subscription) : ?>
             <tr>
@@ -117,7 +117,7 @@ $subscriptions = $resultSub->fetch_all(MYSQLI_ASSOC);
                 <td><?php echo $subscription['payment_method']; ?></td>
                 <td><?php echo $subscription['status']; ?></td>
                 <td>
-                  <form action="update_subscription_status.php" method="post">
+                  <!-- <form action="update_subscription_status.php" method="post">
                     <input type="hidden" name="subscription_id" value="<?php echo $subscription['subscription_id']; ?>">
                     <select name="status">
                       <option value="active">Active</option>
@@ -125,7 +125,7 @@ $subscriptions = $resultSub->fetch_all(MYSQLI_ASSOC);
                       <option value="pending">Pending</option>
                     </select>
                     <button type="submit" class="btn btn-primary">Update Status</button>
-                  </form>
+                  </form> -->
                 </td>
             </tr>
         <?php endforeach; ?>

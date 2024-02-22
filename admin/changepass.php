@@ -31,10 +31,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "User ID not found in session.";
             exit; // Exit script
         }
-        $userID = $_SESSION["id"];
+        $adminID = $_SESSION["id"];
 
         // Validate current password against database
-        $sql = "SELECT * FROM admins WHERE id = '$userID'";
+        $sql = "SELECT * FROM admins WHERE id = '$adminID'";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
@@ -45,9 +45,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (password_verify($currentPassword, $hashedPassword)) {
                 // Update password in the database
                 $hashedNewPassword = password_hash($newPassword, PASSWORD_DEFAULT); // Hash the new password
-                $updateSql = "UPDATE admins SET password = '$hashedNewPassword' WHERE id = '$userID'";
+                $updateSql = "UPDATE admins SET password = '$hashedNewPassword' WHERE id = '$adminID'";
                 if ($conn->query($updateSql) === TRUE) {
                     echo "Password changed successfully!";
+                    header('Location:index.php');
                 } else {
                     echo "Error updating password: " . $conn->error;
                 }

@@ -46,24 +46,22 @@ if ($result->num_rows > 0) {
       display: flex;
       padding-top: 70px;
     }
-    h2{
-            color: blueviolet;
-        }
-        th{
-          color: blue;
-        }
+
+    h2 {
+      color: blueviolet;
+    }
+
+    th {
+      color: blue;
+    }
+
     .container {
       max-width: 900px;
     }
-    .active{
-      background-color:  #b8a9c9;
-
-    }
-    .inactive{
-      background-color:  #e06377;
-    }
-    .pending{
-      background-color:#eeac99 ;
+    .badge{
+      border: none;
+      /* width: 76px; */
+      /* height: 36px; */
     }
   </style>
 </head>
@@ -122,12 +120,12 @@ if ($result->num_rows > 0) {
                   ?>
                 </td>
                 <td>
-                <form method="post" action="update_pricing_status.php">
+                  <form method="post" action="update_pricing_status.php">
                     <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
                     <input type="hidden" name="pricing_status" id="pricing_status">
-                    <button type="submit" name="pricing_status" value="active" class="btn-sm active ">Active</button>
-                    <button type="submit" name="pricing_status" value="inactive" class="btn-sm inactive">Inactive</button>
-                    <button type="submit" name="pricing_status" value="pending" class="btn-sm  pending">Pending</button>
+                    <button id="active" type="submit" name="pricing_status" value="active" class="badge  bg-success ">Active</button>
+                    <button id="inactive" type="submit" name="pricing_status" value="inactive" class="badge  bg-danger">Inactive</button>
+                    <button id="pending" type="submit" name="pricing_status" value="pending" class="badge  bg-primary">Pending</button>
                   </form>
                 </td>
               </tr>
@@ -147,28 +145,23 @@ if ($result->num_rows > 0) {
   </footer>
   <script>
     // Get the button elements
-    var activeButtons = document.querySelectorAll('.active');
-    var inactiveButtons = document.querySelectorAll('.inactive');
-    var pendingButtons = document.querySelectorAll('.pending');
+    var activeBadge = document.getElementById('active');
+    var inactiveButtons = document.getElementById('inactive');
+    var pendingButtons = document.getElementById('pending');
 
     // Add event listeners to the buttons
-    activeButtons.forEach(function(button) {
-      button.addEventListener('click', function() {
+    document.getElementById('active').addEventListener('click', function() {
         alert('User status updated to Active and Email Sent Sucessfully');
       });
-    });
+  
 
-    inactiveButtons.forEach(function(button) {
-      button.addEventListener('click', function() {
+   document.getElementById('inactive').addEventListener('click', function() {
         alert('User status updated to Inactive');
       });
-    });
 
-    pendingButtons.forEach(function(button) {
-      button.addEventListener('click', function() {
+      document.getElementById('pending').addEventListener('click', function() {
         alert('User status updated to Pending');
       });
-    });
   </script>
 </body>
 
