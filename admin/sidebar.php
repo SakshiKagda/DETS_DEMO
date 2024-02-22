@@ -1,15 +1,13 @@
-
 <?php
-  if(!isset($_SESSION)) 
-  { 
-      session_start(); 
-  } 
+if (!isset($_SESSION)) {
+  session_start();
+}
 
 // Check if the user is logged in
 if (!isset($_SESSION['id'])) {
-    // Redirect to the login page if not logged in
-    header("Location: login.php");
-    exit();
+  // Redirect to the login page if not logged in
+  header("Location: login.php");
+  exit();
 }
 
 
@@ -22,7 +20,7 @@ $conn = new mysqli($host, $username, $password, $database);
 
 // Check the connection
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+  die("Connection failed: " . $conn->connect_error);
 }
 
 // Retrieve user details from the database
@@ -32,10 +30,10 @@ $sql = "SELECT * FROM admins WHERE id = $admin_id"; // Modify the query based on
 $result = $conn->query($sql);
 
 if ($result !== false && $result->num_rows > 0) {
-    $adminDetails = $result->fetch_assoc();
+  $adminDetails = $result->fetch_assoc();
 } else {
-    // Handle the case where user details are not found
-    $adminDetails = array(); // Empty array if user not found
+  // Handle the case where user details are not found
+  $adminDetails = array(); // Empty array if user not found
 }
 
 
@@ -68,26 +66,30 @@ if ($result !== false && $result->num_rows > 0) {
   <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
       <li class="nav-item nav-profile">
-      <a href="accountsetting.php" class="nav-link">
-      <div class="nav-profile-image">
-      <?php
-                    // Check if the 'profile_image' column exists and is not empty
-                    if (isset($adminDetails['profile_image']) && !empty($adminDetails['profile_image'])) {
-                        echo '<img src="uploads/' . $adminDetails['profile_image'] . '" alt="profile">';
-                    } else {
-                        // Display a default image if the 'profile_image' column is empty or not found
-                        echo '<img src="assets\images\faces\face1.jpg" alt="default-profile">';
-                    }
-                    ?>
-        <span class="login-status online"></span>
-        <!--change to offline or busy as needed-->
-    </div>
-    <div class="nav-profile-text d-flex flex-column">
-        <span class="font-weight-bold mb-2"><?php echo isset($adminDetails['username']) ? $adminDetails['username'] : ''; ?></span>
-        <span class="text-secondary text-small"><?php echo isset($adminDetails['email']) ? $adminDetails['email'] : ''; ?></span>
-    </div>
-    <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
-</a>
+        <a href="accountsetting.php" class="nav-link">
+          <div class="nav-profile-image">
+            <?php
+            // Check if the 'profile_image' column exists and is not empty
+            if (isset($adminDetails['profile_image']) && !empty($adminDetails['profile_image'])) {
+              echo '<img src="uploads/' . $adminDetails['profile_image'] . '" alt="profile">';
+            } else {
+              // Display a default image if the 'profile_image' column is empty or not found
+              echo '<img src="assets\images\faces\face1.jpg" alt="default-profile">';
+            }
+            ?>
+            <span class="login-status online"></span>
+            <!--change to offline or busy as needed-->
+          </div>
+          <div class="nav-profile-text d-flex flex-column">
+            <span class="font-weight-bold mb-2">
+              <?php echo isset($adminDetails['username']) ? $adminDetails['username'] : ''; ?>
+            </span>
+            <span class="text-secondary text-small">
+              <?php echo isset($adminDetails['email']) ? $adminDetails['email'] : ''; ?>
+            </span>
+          </div>
+          <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
+        </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="index.php">
@@ -103,7 +105,7 @@ if ($result !== false && $result->num_rows > 0) {
       </li>
       <li class="nav-item">
         <a class="nav-link" href="sub.php">
-          <span class="menu-title">Subscription  Details</span>
+          <span class="menu-title">Subscription Details</span>
           <i class="mdi mdi-bell menu-icon"></i>
         </a>
       </li>
@@ -129,7 +131,7 @@ if ($result !== false && $result->num_rows > 0) {
         </a>
         <div class="collapse" id="ui-basic-1">
           <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="addincome.php">Add Income</a></li>
+            <li class="nav-item"> <a class="nav-link" href="addincome.php">Add Income</a></li>
             <li class="nav-item"> <a class="nav-link" href="viewincome.php">Manage Income</a></li>
           </ul>
         </div>
@@ -142,7 +144,7 @@ if ($result !== false && $result->num_rows > 0) {
         </a>
         <div class="collapse" id="ui-basic-2">
           <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="addbudget.php">Add Budget</a></li>
+            <li class="nav-item"> <a class="nav-link" href="addbudget.php">Add Budget</a></li>
             <li class="nav-item"> <a class="nav-link" href="viewbudget.php">Manage Budget</a></li>
           </ul>
         </div>
