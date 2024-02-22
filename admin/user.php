@@ -60,8 +60,9 @@ if ($result->num_rows > 0) {
     }
     .badge{
       border: none;
-      /* width: 76px; */
-      /* height: 36px; */
+      width: 70px;
+      height: 39px;
+      
     }
   </style>
 </head>
