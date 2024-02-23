@@ -67,6 +67,7 @@ try {
 
         $mail->send();
         echo 'Message has been sent';
+        header("Location:index.php");
     } else {
         echo "0 results";
     }
