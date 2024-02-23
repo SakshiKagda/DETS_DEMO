@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 // Import PHPMailer classes into the global namespace
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -30,11 +30,6 @@ try {
     ];
     //Recipients
     $mail->setFrom('kagdasakshi09@gmail.com', ' Sakshi');
-    $mail->addAddress('sakshikagda8@gmail.com', 'Priya');
-
-
-    // Content
-    $mail->isHTML(true);                                  // Set email format to HTML
 
     // Fetch expiry date from the database
     $servername = "localhost";
@@ -52,24 +47,26 @@ try {
     // Get current date
     $current_date = date("2025-02-18");
 
-
-    $user_id = 15;
-    $sql="SELECT * FROM users WHERE user_id =$user_id";
-    $sql = "SELECT * FROM subscription WHERE user_id = $user_id AND end_date = DATE_ADD('$current_date', INTERVAL 3 DAY)";
+    // Get users whose subscription is expiring in 3 days
+    $sql = "SELECT s.*, u.username, u.email FROM subscription s JOIN users u ON s.user_id = u.user_id WHERE s.end_date = DATE_ADD('$current_date', INTERVAL 3 DAY)";
+    // echo"$sql";
     $result = $conn->query($sql);
 
-    if ($result->num_rows > 0) {
+    if ($result !== false && $result->num_rows > 0) {
         // Output data of each row
         while($row = $result->fetch_assoc()) {
-            $end_date = $row["end_date"];
+            $username = $row["username"];
+            $email = $row["email"];
 
-            $mail->Subject = 'Your Exclusive Renewal Offer Awaits!';
-            $mail->Body    = 'Your subscription is expiring on ' . $end_date . '. Please renew your subscription.';
-            $mail->AltBody = 'Your subscription is expiring on ' . $end_date . '. Please renew your subscription.';
-
-            $mail->send();
-            echo 'Message has been sent';
+            $mail->addAddress($email, $username);
         }
+
+        $mail->Subject = 'Your Exclusive Renewal Offer Awaits!';
+        $mail->Body    = 'Your subscription is expiring on ' . $current_date . '. Please renew your subscription.';
+        $mail->AltBody = 'Your subscription is expiring on ' . $current_date . '. Please renew your subscription.';
+
+        $mail->send();
+        echo 'Message has been sent';
     } else {
         echo "0 results";
     }

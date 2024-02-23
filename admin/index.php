@@ -28,7 +28,44 @@ if ($result->num_rows > 0) {
     $users[] = $row;
   }
 } else {
-  $users = array(); 
+  $users = array();
+}
+if (!isset($_SESSION['id'])) {
+  // Redirect to the login page or display an error message
+  // header("Location: login.php");
+  // exit(); // Stop further execution
+}
+
+// Retrieve the admin's current details from the database
+$admin_id = $_SESSION['id'];
+$selectQuery = "SELECT * FROM admins WHERE id = ?";
+$stmt = $conn->prepare($selectQuery);
+$stmt->bind_param("i", $admin_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$admin = $result->fetch_assoc();
+
+// Retrieve subscription details from the database
+$selectSubQuery = "SELECT s.*, u.username FROM subscription s JOIN users u ON s.user_id = u.user_id";
+$stmtSub = $conn->prepare($selectSubQuery);
+$stmtSub->execute();
+$resultSub = $stmtSub->get_result();
+$subscriptions = $resultSub->fetch_all(MYSQLI_ASSOC);
+
+foreach ($subscriptions as $subscription) {
+  $expiryDate = strtotime($subscription['end_date']);
+  $threeDaysBeforeExpiry = strtotime('-3 days', $expiryDate);
+  $currentDate = time();
+
+  if ($currentDate >= $threeDaysBeforeExpiry && $currentDate < $expiryDate) {
+    // Send email to user
+    $to = $subscription['email'];
+    $subject = "Renew Your Subscription";
+    $message = "Dear " . $subscription['username'] . ",\n\nYour subscription is expiring soon. Please renew your subscription to continue using our service.\n\nThank you.";
+    $headers = "From: kagdasakshi09@gmail.com";
+
+    mail($to, $subject, $message, $headers);
+  }
 }
 ?>
 <!DOCTYPE html>
@@ -108,90 +145,39 @@ if ($result->num_rows > 0) {
             </div>
           </div>
         </div>
-
         <div class="row">
           <div class="col-md-7 grid-margin stretch-card">
             <div class="card">
               <div class="card-body">
                 <h4 class="card-title">User Status</h4>
-                <div class="table-responsive">
+                <div class="table">
                   <table class="table">
-                    <thead>
                     <tr>
-                        <th> # </th>
-                        <th> Name </th>
-                        <th> Due Date </th>
-                        <th> Status </th>
-                      </tr>
+                      <th>Subscription ID</th>
+                      <th> Username </th>
+                      <th> End Date </th>
+                      <th> Renew </th>
+                    </tr>
                     </thead>
-                    <tbody>
+                    <?php foreach ($subscriptions as $subscription): ?>
                       <tr>
-                        <td> 1 </td>
-                        <td> Herman Beck </td>
-                        <td> May 15, 2015 </td>
                         <td>
-                          <div class="progress">
-                            <div class="progress-bar bg-gradient-success" role="progressbar" style="width: 25%"
-                              aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
+                          <?php echo $subscription['subscription_id']; ?>
                         </td>
-                      </tr>
-                      <tr>
-                        <td> 2 </td>
-                        <td> Messsy Adam </td>
-                        <td> Jul 01, 2015 </td>
                         <td>
-                          <div class="progress">
-                            <div class="progress-bar bg-gradient-danger" role="progressbar" style="width: 75%"
-                              aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
+                          <?php echo $subscription['username']; ?>
                         </td>
-                      </tr>
-                      <tr>
-                        <td> 3 </td>
-                        <td> John Richards </td>
-                        <td> Apr 12, 2015 </td>
                         <td>
-                          <div class="progress">
-                            <div class="progress-bar bg-gradient-warning" role="progressbar" style="width: 90%"
-                              aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
+                          <?php echo $subscription['end_date']; ?>
                         </td>
-                      </tr>
-                      <tr>
-                        <td> 4 </td>
-                        <td> Peter Meggik </td>
-                        <td> May 15, 2015 </td>
                         <td>
-                          <div class="progress">
-                            <div class="progress-bar bg-gradient-primary" role="progressbar" style="width: 50%"
-                              aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                        </td>
+                    <form action="reminder.php" method="get">
+                      <input type="hidden" name="subscription_id" value="<?php echo $subscription['subscription_id']; ?>">
+                      <button type="submit" class="btn btn-primary">Renew</button>
+                    </form>
+                  </td>
                       </tr>
-                      <tr>
-                        <td> 5 </td>
-                        <td> Edward </td>
-                        <td> May 03, 2015 </td>
-                        <td>
-                          <div class="progress">
-                            <div class="progress-bar bg-gradient-danger" role="progressbar" style="width: 35%"
-                              aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td> 5 </td>
-                        <td> Ronald </td>
-                        <td> Jun 05, 2015 </td>
-                        <td>
-                          <div class="progress">
-                            <div class="progress-bar bg-gradient-info" role="progressbar" style="width: 65%"
-                              aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
+                    <?php endforeach; ?>
                   </table>
                 </div>
               </div>

@@ -98,6 +98,7 @@ if (!$result) {
                         echo "<tbody>";
                         
                         // Output data of each income
+                        $totalIncome = 0; // Initialize total income for the user
                         while ($incomeRow = $incomeResult->fetch_assoc()) {
                             echo "<tr>";
                             echo "<td>" . $incomeRow["user_id"] . "</td>";
@@ -107,7 +108,17 @@ if (!$result) {
                             echo "<td>" . $incomeRow["incomeDescription"] . "</td>";
                             echo "<td>" . $incomeRow["incomeDate"] . "</td>";
                             echo "</tr>";
+                            
+                            // Add the income amount to the total income
+                            $totalIncome += $incomeRow["incomeAmount"];
                         }
+                        
+                        // Display the total income for the user
+                        echo "<tr>";
+                        echo "<td colspan='2'>Total Income</td>";
+                        echo "<td>$totalIncome</td>";
+                        echo "<td colspan='3'></td>"; // colspan='3' to span the remaining columns
+                        echo "</tr>";
                         
                         echo "</tbody>";
                         echo "</table>";

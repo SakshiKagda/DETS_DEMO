@@ -133,8 +133,6 @@ $subscriptions = $resultSub->fetch_all(MYSQLI_ASSOC);
       </div>
     </div>
   </div>
-  </div>
-  </div>
   <!-- Bootstrap JS and Popper.js -->
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>

@@ -117,8 +117,8 @@ if ($result !== false && $result->num_rows > 0) {
         </a>
         <div class="collapse" id="ui-basic">
           <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="addexpense.php">Add Expense</a></li>
-            <li class="nav-item"> <a class="nav-link" href="viewexpense.php">Manage Expense</a></li>
+            <li class="nav-item"> <a class="nav-link" href="viewexpense.php">View Expense</a></li>
+            <li class="nav-item"> <a class="nav-link" href="manageexpense.php">Manage Expense</a></li>
           </ul>
         </div>
 
@@ -131,8 +131,8 @@ if ($result !== false && $result->num_rows > 0) {
         </a>
         <div class="collapse" id="ui-basic-1">
           <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="addincome.php">Add Income</a></li>
-            <li class="nav-item"> <a class="nav-link" href="viewincome.php">Manage Income</a></li>
+          <li class="nav-item"> <a class="nav-link" href="viewincome.php">View Income</a></li>
+            <li class="nav-item"> <a class="nav-link" href="manageincome.php">Manage Income</a></li>
           </ul>
         </div>
       </li>

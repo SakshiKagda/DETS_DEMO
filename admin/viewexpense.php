@@ -94,6 +94,7 @@ session_start();
                         echo "<tbody>";
                         
                         // Output data of each expense
+                        $totalExpense = 0; // Initialize total expense for the user
                         while ($expenseRow = $expenseResult->fetch_assoc()) {
                             echo "<tr>";
                             echo "<td>" . $expenseRow["user_id"] . "</td>";
@@ -103,7 +104,17 @@ session_start();
                             echo "<td>" . $expenseRow["expenseDescription"] . "</td>";
                             echo "<td>" . $expenseRow["expenseDate"] . "</td>";
                             echo "</tr>";
+                            
+                            // Add the expense amount to the total expense
+                            $totalExpense += $expenseRow["expenseAmount"];
                         }
+                        
+                        // Display the total expense for the user
+                        echo "<tr>";
+                        echo "<td colspan='2'>Total Expense</td>";
+                        echo "<td>$totalExpense</td>";
+                        echo "<td colspan='3'></td>"; // colspan='3' to span the remaining columns
+                        echo "</tr>";
                         
                         echo "</tbody>";
                         echo "</table>";
