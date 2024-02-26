@@ -1,6 +1,5 @@
 <?php
 session_start();
-// echo"sakshi";
 ?>
 <!DOCTYPE html>
 <html lang="en">
