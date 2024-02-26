@@ -157,7 +157,7 @@ if ($result !== false && $result->num_rows > 0) {
         </a>
         <div class="collapse" id="ui-basic-3">
           <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="addcategory.php">Add Category</a></li>
+            <li class="nav-item"> <a class="nav-link" href="category.php">Add Category</a></li>
           </ul>
         </div>
       </li>
