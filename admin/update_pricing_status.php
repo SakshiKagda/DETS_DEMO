@@ -127,7 +127,7 @@ if (isset($_POST['pricing_status'])) {
               </div>
               <p>We are committed to providing you with seamless service and ensuring your satisfaction throughout your subscription journey.</p>
               <p>Thank you once again for choosing us. We look forward to serving you!</p>
-              <p>Warm regards,<br>[Your Name]<br>[Your Position/Title]<br>[Your Contact Information]</p>
+              <p>Warm regards</p>
               <div class="footer">
                   <p>This is an automated message. Please do not reply.</p>
               </div>
