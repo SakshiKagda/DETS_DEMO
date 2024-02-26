@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Redirect to the profile page
-    header("Location: accountsetting.php");
+    header("Location: index.php");
     exit();
 }
 ?>
