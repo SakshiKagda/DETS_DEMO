@@ -42,7 +42,44 @@ session_start();
         </sidebar>
         <div class="container mt-5">
             <h2>View Income</h2>
-            
+            <div class="icon">
+    <div class="filter-dropdown">
+        <label for="filter">Filter by:</label>
+        <select id="filter" name="filter">
+            <option value="all">All</option>
+            <option value="yearly">Yearly</option>
+            <option value="monthly">Monthly</option>
+        </select>
+        <input type="submit" value="Apply" onclick="applyFilter()">
+    </div>
+</div>
+<script>
+    function applyFilter() {
+        var filterValue = document.getElementById('filter').value;
+        var incomes = document.querySelectorAll('.income-row');
+
+        incomes.forEach(function(income) {
+            if (filterValue === 'all') {
+                income.style.display = 'table-row';
+            } else if (filterValue === 'yearly') {
+                var date = new Date(income.querySelector('.income-date').textContent);
+                if (date.getFullYear() === new Date().getFullYear()) {
+                    income.style.display = 'table-row';
+                } else {
+                    income.style.display = 'none';
+                }
+            } else if (filterValue === 'monthly') {
+                var date = new Date(income.querySelector('.income-date').textContent);
+                if (date.getMonth() === new Date().getMonth()) {
+                    income.style.display = 'table-row';
+                } else {
+                    income.style.display = 'none';
+                }
+            }
+        });
+    }
+</script>
+
             <?php
             // Database connection details
             $host = 'localhost';

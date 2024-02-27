@@ -47,7 +47,50 @@ session_start();
         </sidebar>
         <div class="container mt-5">
             <h2>View Budget</h2>
-            
+            <div class="icon">
+    <div class="filter-dropdown">
+        <label for="filter">Filter by:</label>
+        <select id="filter" name="filter">
+            <option value="all">All</option>
+            <option value="yearly">Yearly</option>
+            <option value="monthly">Monthly</option>
+        </select>
+        <input type="submit" value="Apply" onclick="applyFilter()">
+    </div>
+</div>
+<script>
+    function applyFilter() {
+        var filterValue = document.getElementById('filter').value;
+        var budgets = document.querySelectorAll('.budget-row');
+
+        budgets.forEach(function(budget) {
+            if (filterValue === 'all') {
+                budget.style.display = 'table-row';
+            } else if (filterValue === 'yearly') {
+                var startDate = new Date(budget.querySelector('.start-date').textContent);
+                var endDate = new Date(budget.querySelector('.end-date').textContent);
+                var currentDate = new Date();
+
+                if (startDate.getFullYear() <= currentDate.getFullYear() && endDate.getFullYear() >= currentDate.getFullYear()) {
+                    budget.style.display = 'table-row';
+                } else {
+                    budget.style.display = 'none';
+                }
+            } else if (filterValue === 'monthly') {
+                var startDate = new Date(budget.querySelector('.start-date').textContent);
+                var endDate = new Date(budget.querySelector('.end-date').textContent);
+                var currentDate = new Date();
+
+                if (startDate.getMonth() <= currentDate.getMonth() && endDate.getMonth() >= currentDate.getMonth()) {
+                    budget.style.display = 'table-row';
+                } else {
+                    budget.style.display = 'none';
+                }
+            }
+        });
+    }
+</script>
+
             <?php
             // Database connection details
             $host = 'localhost';

@@ -29,8 +29,9 @@ session_start();
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             position: relative;
         } */
-       
-
+      .icon{
+        display: flex;
+      }
     </style>
 </head>
 <body> 
@@ -45,6 +46,43 @@ session_start();
         
         <div class="container mt-5">
             <h2>View Expenses</h2>
+            <div class="icon">
+    <div class="filter-dropdown">
+        <label for="filter">Filter by:</label>
+        <select id="filter" name="filter">
+            <option value="all">All</option>
+            <option value="yearly">Yearly</option>
+            <option value="monthly">Monthly</option>
+        </select>
+        <input type="submit" value="Apply" onclick="applyFilter()">
+    </div>
+</div>
+<script>
+    function applyFilter() {
+    var filterValue = document.getElementById('filter').value;
+    var expenses = document.querySelectorAll('.expense-row');
+
+    expenses.forEach(function(expense) {
+        if (filterValue === 'all') {
+            expense.style.display = 'table-row';
+        } else if (filterValue === 'yearly') {
+            var date = new Date(expense.querySelector('.expense-date').textContent);
+            if (date.getFullYear() === new Date().getFullYear()) {
+                expense.style.display = 'table-row';
+            } else {
+                expense.style.display = 'none';
+            }
+        } else if (filterValue === 'monthly') {
+            var date = new Date(expense.querySelector('.expense-date').textContent);
+            if (date.getMonth() === new Date().getMonth()) {
+                expense.style.display = 'table-row';
+            } else {
+                expense.style.display = 'none';
+            }
+        }
+    });
+}
+</script>
             <?php
             // Database connection details
             $host = 'localhost';
@@ -98,13 +136,13 @@ session_start();
                         // Output data of each expense
                         $totalExpense = 0; // Initialize total expense for the user
                         while ($expenseRow = $expenseResult->fetch_assoc()) {
-                            echo "<tr>";
+                            echo "<tr class='expense-row'>";
                             echo "<td>" . $expenseRow["user_id"] . "</td>";
                             echo "<td>" . $expenseRow["expenseName"] . "</td>";
                             echo "<td>" . $expenseRow["expenseAmount"] . "</td>";
                             echo "<td>" . $expenseRow["expenseCategory"] . "</td>";
                             echo "<td>" . $expenseRow["expenseDescription"] . "</td>";
-                            echo "<td>" . $expenseRow["expenseDate"] . "</td>";
+                            echo "<td class='expense-date'>" . $expenseRow["expenseDate"] . "</td>";
                             echo "</tr>";
                             
                             // Add the expense amount to the total expense
