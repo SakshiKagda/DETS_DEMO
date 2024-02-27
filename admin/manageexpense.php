@@ -76,7 +76,7 @@ if ($result->num_rows > 0) {
         </sidebar>
         <div class="container mt-5">
         <h2>Income VS Expense</h2>
-    <canvas id="myChart" style="display: block; box-sizing: border-box; height: 1000px; width: 2000px;"></canvas>
+    <canvas id="myChart"></canvas>
     <script>
         // Prepare data for Chart.js
         var data = {
