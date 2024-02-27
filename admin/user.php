@@ -76,7 +76,7 @@ if ($result->num_rows > 0) {
     <sidebar>
       <?php include("sidebar.php"); ?>
     </sidebar>
-    <div class="container">
+    <div class="container mt-5">
       <h2>Users Details</h2>
       <div class="table-responsive">
         <table class="table table-stripped table-border">

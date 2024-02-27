@@ -68,7 +68,7 @@ $result = $conn->query($sql);
 // Check if any categories exist
 if ($result->num_rows > 0) {
     // Output table for categories
-    echo "<h3>Categories</h3>";
+    // echo "<h3>Categories</h3>";
     echo "<table class='table table-bordered table-hover'>"; 
     echo "<thead class='thead-sucess'>";
     echo "<tr>";

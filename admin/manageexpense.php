@@ -57,8 +57,11 @@ if ($result->num_rows > 0) {
             padding-top: 70px ;
         }
     #myChart{
-        width: 5872;
-        height: 5872;
+        width: 1000px;
+        height: 2000px;
+    }
+    h2 {
+      color: blueviolet;
     }
     </style>
 </head>
@@ -71,6 +74,7 @@ if ($result->num_rows > 0) {
         <sidebar>
             <?php include("sidebar.php"); ?>
         </sidebar>
+        <div class="container mt-5">
         <h2>Income VS Expense</h2>
     <canvas id="myChart" style="display: block; box-sizing: border-box; height: 1000px; width: 2000px;"></canvas>
     <script>
@@ -111,6 +115,7 @@ if ($result->num_rows > 0) {
             }
         });
     </script>
+    </div>
     </div>
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
