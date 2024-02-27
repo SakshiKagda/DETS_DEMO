@@ -71,6 +71,7 @@ if ($result->num_rows > 0) {
         <sidebar>
             <?php include("sidebar.php"); ?>
         </sidebar>
+        <h2>Income VS Expense</h2>
     <canvas id="myChart" style="display: block; box-sizing: border-box; height: 1000px; width: 2000px;"></canvas>
     <script>
         // Prepare data for Chart.js
