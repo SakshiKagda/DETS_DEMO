@@ -31,8 +31,9 @@ session_start();
             position: relative;
         } */
         .exceeded {
-            color: red;
-        }
+    color: red;
+    font-weight: bold;
+}
     </style>
 </head>
 <body> 
@@ -101,17 +102,23 @@ session_start();
                             echo "<td>" . $budgetRow["user_id"] . "</td>";
                             echo "<td>" . $budgetRow["category"] . "</td>";
                             echo "<td>" . $budgetRow["planned_amount"] . "</td>";
-                            
-                            // Check if actual amount exceeds planned amount
-                            if ($budgetRow["actual_amount"] > $budgetRow["planned_amount"]) {
+                        
+                            // SQL query to fetch total expense for the current category
+                            $totalExpenseSql = "SELECT SUM(expenseAmount) AS totalExpense FROM expenses WHERE user_id = $userId AND expenseCategory = '" . $budgetRow["category"] . "'";
+                            $totalExpenseResult = $conn->query($totalExpenseSql);
+                            $totalExpenseRow = $totalExpenseResult->fetch_assoc();
+                            $totalExpense = $totalExpenseRow["totalExpense"];
+                        
+                            // Check if total expense exceeds planned amount
+                            if ($totalExpense > $budgetRow["planned_amount"]) {
                                 // If exceeded, add class for styling
-                                echo "<td class='exceeded'>" . $budgetRow["actual_amount"] . "</td>";
+                                echo "<td class='exceeded'>" . $totalExpense . "</td>";
                                 // Show alert
-                                echo "<script>alert('Actual amount exceeds planned amount for category: " . $budgetRow["category"] . "');</script>";
+                                echo "<script>alert('Total expense exceeds planned amount for category: " . $budgetRow["category"] . "');</script>";
                             } else {
-                                echo "<td>" . $budgetRow["actual_amount"] . "</td>";
+                                echo "<td>" . $totalExpense . "</td>";
                             }
-                            
+                        
                             echo "<td>" . $budgetRow["start_date"] . "</td>";
                             echo "<td>" . $budgetRow["end_date"] . "</td>";
                             echo "</tr>";

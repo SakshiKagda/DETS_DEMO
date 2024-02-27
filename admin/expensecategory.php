@@ -122,5 +122,6 @@ if ($result->num_rows > 0) {
     <footer>
         <?php include("footer.php"); ?>
     </footer>
+    
 </body>
 </html>

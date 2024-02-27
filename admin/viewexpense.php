@@ -29,6 +29,8 @@ session_start();
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             position: relative;
         } */
+       
+
     </style>
 </head>
 <body> 
@@ -40,9 +42,9 @@ session_start();
         <sidebar>
             <?php include("sidebar.php"); ?>
         </sidebar>
+        
         <div class="container mt-5">
             <h2>View Expenses</h2>
-            
             <?php
             // Database connection details
             $host = 'localhost';
