@@ -84,8 +84,8 @@ if ($result->num_rows > 0) {
         echo "<tr>";
         echo "<td>" . $row["category_id"] . "</td>";
         echo "<td>" . $row["category_name"] . "</td>";
-        echo "<td><a href='edit_category.php?id=" . $row["category_id"] . "'>Edit</a></td>";
-        echo "<td><a href='delete_category.php?id=" . $row["category_id"] . "'>Delete</a></td>";
+        echo "<td><a href='editexpense_category.php?id=" . $row["category_id"] . "'>Edit</a></td>";
+        echo "<td><a href='deleteexpense_category.php?id=" . $row["category_id"] . "'>Delete</a></td>";
         echo "</tr>";
     }
 
