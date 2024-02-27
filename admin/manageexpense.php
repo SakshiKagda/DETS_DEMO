@@ -38,8 +38,6 @@ if ($result->num_rows > 0) {
         $expenseData[] = $row['expenseAmount'];
     }
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -51,81 +49,86 @@ if ($result->num_rows > 0) {
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-   <style>
-     .main{
+    <style>
+        .main {
             display: flex;
-            padding-top: 70px ;
+            padding-top: 70px;
         }
-    #myChart{
-        width: 1000px;
-        height: 2000px;
-    }
-    h2 {
-      color: blueviolet;
-    }
+
+        h2 {
+            color: blueviolet;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
     </style>
 </head>
 <body>
 <header>
-        <?php include("header.php"); ?>
-    </header>
-    
-    <div class="main">
-        <sidebar>
-            <?php include("sidebar.php"); ?>
-        </sidebar>
-        <div class="container mt-5">
+    <?php include("header.php"); ?>
+</header>
+
+<div class="main">
+    <sidebar>
+        <?php include("sidebar.php"); ?>
+    </sidebar>
+    <div class="container mt-5">
         <h2>Income VS Expense</h2>
-    <canvas id="myChart"></canvas>
-    <script>
-        // Prepare data for Chart.js
-        var data = {
-            labels: ["January", "February", "March", "April", "May", "June", "July"],
-            datasets: [
-                {
-                    label: "Income",
-                    backgroundColor: "rgba(75, 192, 192, 0.2)",
-                    borderColor: "rgba(75, 192, 192, 1)",
-                    borderWidth: 1,
-                    data: <?php echo json_encode($incomeData); ?>
-                },
-                {
-                    label: "Expense",
-                    backgroundColor: "rgba(255, 99, 132, 0.2)",
-                    borderColor: "rgba(255, 99, 132, 1)",
-                    borderWidth: 1,
-                    data: <?php echo json_encode($expenseData); ?>
-                }
-            ]
-        };
+        <canvas id="myChart"></canvas>
+        <script>
+            // Prepare data for Chart.js
+            var data = {
+                labels: ["January", "February", "March", "April", "May", "June", "July"],
+                datasets: [
+                    {
+                        label: "Income",
+                        backgroundColor: "rgba(75, 192, 192, 0.2)",
+                        borderColor: "rgba(75, 192, 192, 1)",
+                        borderWidth: 1,
+                        data: <?php echo json_encode($incomeData); ?>
+                    },
+                    {
+                        label: "Expense",
+                        backgroundColor: "rgba(255, 99, 132, 0.2)",
+                        borderColor: "rgba(255, 99, 132, 1)",
+                        borderWidth: 1,
+                        data: <?php echo json_encode($expenseData); ?>
+                    }
+                ]
+            };
 
-        // Create a new chart
-        var ctx = document.getElementById('myChart').getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: data,
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
+            // Create a new chart
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
                 }
-            }
-        });
-    </script>
+            });
+        </script>
     </div>
-    </div>
-    <!-- Bootstrap JS and Popper.js -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</div>
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
-    <footer>
-        <?php include("footer.php"); ?>
-    </footer>
+<footer>
+    <?php include("footer.php"); ?>
+</footer>
 </body>
 </html>
-
-
