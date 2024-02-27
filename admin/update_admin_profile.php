@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name']; // Change 'username' to 'name'
     $email = $_POST['email'];
     $mobile = $_POST['mobile']; // Change 'mobile_number' to 'mobile'
-    $gender = $_POST['gender'];
+   
 
     // Check if a new profile picture was uploaded
     if ($_FILES['profile_image']['size'] > 0) {
@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Update the admin's name, email, mobile number, and gender in the database
-    $sql = "UPDATE admins SET username = '$name', email = '$email', mobile_number = '$mobile', gender = '$gender' WHERE id = $adminId";
+    $sql = "UPDATE admins SET username = '$name', email = '$email', mobile_number = '$mobile'  WHERE id = $adminId";
     if ($conn->query($sql) === false) {
         die("Error updating profile: " . $conn->error);
     }
