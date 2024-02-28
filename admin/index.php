@@ -18,9 +18,11 @@ if ($conn->connect_error) {
 }
 
 
-$sql = "SELECT * FROM users WHERE user_id=";
-$result = $conn->query($sql);
-
+$sql = "SELECT * FROM users WHERE user_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
 // Check if there are any users
 if ($result->num_rows > 0) {
   $users = array();
@@ -65,10 +67,13 @@ foreach ($subscriptions as $subscription) {
     mail($to, $subject, $message, $headers);
   }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
+<head>
+ 
+</head>
 <body>
 
   <?php
@@ -154,6 +159,7 @@ foreach ($subscriptions as $subscription) {
                       <th> Username </th>
                       <th> End Date </th>
                       <th> Renew </th>
+                      
                     </tr>
                     </thead>
                     <?php foreach ($subscriptions as $subscription): ?>
@@ -181,7 +187,7 @@ foreach ($subscriptions as $subscription) {
               </div>
             </div>
           </div>
-          <div class="row">
+           <div class="row">
           <div class="col-md-7 grid-margin stretch-card">
             <div class="card">
               <div class="card-body">
