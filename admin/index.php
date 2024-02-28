@@ -18,7 +18,7 @@ if ($conn->connect_error) {
 }
 
 
-$sql = "SELECT * FROM users";
+$sql = "SELECT * FROM users WHERE user_id=";
 $result = $conn->query($sql);
 
 // Check if there are any users
@@ -31,12 +31,10 @@ if ($result->num_rows > 0) {
   $users = array();
 }
 if (!isset($_SESSION['id'])) {
-  // Redirect to the login page or display an error message
-  // header("Location: login.php");
-  // exit(); // Stop further execution
+
 }
 
-// Retrieve the admin's current details from the database
+
 $admin_id = $_SESSION['id'];
 $selectQuery = "SELECT * FROM admins WHERE id = ?";
 $stmt = $conn->prepare($selectQuery);
@@ -45,7 +43,7 @@ $stmt->execute();
 $result = $stmt->get_result();
 $admin = $result->fetch_assoc();
 
-// Retrieve subscription details from the database
+
 $selectSubQuery = "SELECT s.*, u.username FROM subscription s JOIN users u ON s.user_id = u.user_id";
 $stmtSub = $conn->prepare($selectSubQuery);
 $stmtSub->execute();
@@ -58,7 +56,7 @@ foreach ($subscriptions as $subscription) {
   $currentDate = time();
 
   if ($currentDate >= $threeDaysBeforeExpiry && $currentDate < $expiryDate) {
-    // Send email to user
+
     $to = $subscription['email'];
     $subject = "Renew Your Subscription";
     $message = "Dear " . $subscription['username'] . ",\n\nYour subscription is expiring soon. Please renew your subscription to continue using our service.\n\nThank you.";
@@ -72,7 +70,7 @@ foreach ($subscriptions as $subscription) {
 <html lang="en">
 
 <body>
-  <!-- partial:partials/_navbar.html -->
+
   <?php
 
 
@@ -80,9 +78,9 @@ foreach ($subscriptions as $subscription) {
 
   ?>
 
-  <!-- partial -->
+
   <div class="container-fluid page-body-wrapper">
-    <!-- partial:partials/_sidebar.html -->
+
     <?php
     include('sidebar.php');
     ?>
@@ -97,50 +95,49 @@ foreach ($subscriptions as $subscription) {
           </h3>
         </div>
         <div class="row">
-          <div class="col-md-6 stretch-card grid-margin">
-            <div class="card bg-gradient-danger card-img-holder text-white">
-              <div class="card-body">
-                <img src="assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image">
-                <h4 class="font-weight-normal mb-3">Total Income <i
-                    class="mdi mdi-currency-inr mdi-24px float-right"></i>
-                </h4>
-                <h2 class="mb-5">₹ 95,000</h2>
-                <h6 class="card-text">Increased by 60%</h6>
-              </div>
-            </div>
-          </div>
+          <?php
+          $sql = "SELECT COUNT(*) AS total_users FROM users";
+          $result = $conn->query($sql);
 
-          <div class="col-md-6 stretch-card grid-margin">
+          if ($result->num_rows > 0) {
+            // output data of each row
+            while ($row = $result->fetch_assoc()) {
+              echo "<div class='col-md-4 stretch-card grid-margin'>";
+              echo "<div class='card bg-gradient-danger card-img-holder text-white'>";
+              echo "<div class='card-body'>";
+              echo "<img src='assets/images/dashboard/circle.svg' class='card-img-absolute' alt='circle-image'>";
+              echo "<h4 class='font-weight-normal mb-3'>Total Users <i class='mdi mdi-account-circle mdi-24px float-right'></i></h4>";
+              echo "<h2 class='mb-5'>" . $row["total_users"] . "</h2>";
+              echo "<h6 class='card-text'>Increased by 20%</h6>";
+              echo "</div>";
+              echo "</div>";
+              echo "</div>";
+            }
+          } else {
+            echo "0 results";
+          }
+          ?>
+          <div class="col-md-4 stretch-card grid-margin">
             <div class="card bg-gradient-info card-img-holder text-white">
               <div class="card-body">
                 <img src="assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image">
-                <h4 class="font-weight-normal mb-3">Total Expense <i class="mdi mdi-wallet mdi-24px float-right"></i>
+                <h4 class="font-weight-normal mb-3">Total Subscribe users <i
+                    class="mdi mdi-account-check mdi-24px float-right"></i>
                 </h4>
-                <h2 class="mb-5">₹ 45,633</h2>
+                <h2 class="mb-5">5</h2>
                 <h6 class="card-text">Decreased by 10%</h6>
               </div>
             </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-md-7 grid-margin stretch-card">
-            <div class="card">
+          <div class="col-md-4 stretch-card grid-margin">
+            <div class="card bg-gradient-success card-img-holder text-white">
               <div class="card-body">
-                <div class="clearfix">
-                  <h4 class="card-title float-left">Visit And Sales Statistics</h4>
-                  <div id="visit-sale-chart-legend"
-                    class="rounded-legend legend-horizontal legend-top-right float-right"></div>
-                </div>
-                <canvas id="visit-sale-chart" class="mt-4"></canvas>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-5 grid-margin stretch-card">
-            <div class="card">
-              <div class="card-body">
-                <h4 class="card-title">Traffic Sources</h4>
-                <canvas id="traffic-chart"></canvas>
-                <div id="traffic-chart-legend" class="rounded-legend legend-vertical legend-bottom-left pt-4"></div>
+                <img src="assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image">
+                <h4 class="font-weight-normal mb-3">Free Users <i
+                    class="mdi mdi-account-minus mdi-24px float-right"></i>
+                </h4>
+                <h2 class="mb-5">15</h2>
+                <h6 class="card-text">Decreased by 15%</h6>
               </div>
             </div>
           </div>
@@ -171,11 +168,12 @@ foreach ($subscriptions as $subscription) {
                           <?php echo $subscription['end_date']; ?>
                         </td>
                         <td>
-                    <form action="reminder.php" method="get">
-                      <input type="hidden" name="subscription_id" value="<?php echo $subscription['subscription_id']; ?>">
-                      <button type="submit" class="btn btn-primary">Renew</button>
-                    </form>
-                  </td>
+                          <form action="reminder.php" method="get">
+                            <input type="hidden" name="subscription_id"
+                              value="<?php echo $subscription['subscription_id']; ?>">
+                            <button type="submit" class="btn btn-primary">Renew</button>
+                          </form>
+                        </td>
                       </tr>
                     <?php endforeach; ?>
                   </table>
@@ -183,7 +181,21 @@ foreach ($subscriptions as $subscription) {
               </div>
             </div>
           </div>
-          <div class="col-md-5 grid-margin stretch-card">
+          <div class="row">
+          <div class="col-md-7 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <div class="clearfix">
+                  <h4 class="card-title float-left">Visit And Sales Statistics</h4>
+                  <div id="visit-sale-chart-legend"
+                    class="rounded-legend legend-horizontal legend-top-right float-right"></div>
+                </div>
+                <canvas id="visit-sale-chart" class="mt-4"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+          <!-- <div class="col-md-5 grid-margin stretch-card">
             <div class="card">
               <div class="card-body">
                 <h4 class="card-title text-white">Todo</h4>
@@ -240,7 +252,7 @@ foreach ($subscriptions as $subscription) {
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
       <!-- content-wrapper ends -->

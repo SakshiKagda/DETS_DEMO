@@ -166,7 +166,7 @@ if ($result !== false && $result->num_rows > 0) {
         <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic-3" aria-expanded="false" aria-controls="ui-basic">
           <span class="menu-title">Category</span>
           <i class="menu-arrow"></i>
-          <i class=" mdi mdi-checkerboard  menu-icon"></i>
+          <i class=" mdi mdi-buffer  menu-icon"></i>
         </a>
         <div class="collapse" id="ui-basic-3">
           <ul class="nav flex-column sub-menu">
