@@ -54,7 +54,8 @@ foreach ($users as &$user) {
   <title>Daily Expense Tracker System</title>
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.materialdesignicons.com/6.5.95/css/materialdesignicons.min.css">
+
 
   <style>
     .main {
@@ -157,9 +158,8 @@ foreach ($users as &$user) {
       <div class="card">
         <div class="card-body">
           <h4 class="card-title">User Details</h4>
-          <!-- <p class="card-description"> Add class <code>.table-hover</code>
-          </p> -->
-          <table class="table table-hover">
+          <div class="table-wrapper" style="height: 1000px; width: 980px; overflow-y:auto";>
+        <table class=" table  table-hover">
             <thead>
               <tr>
                 <th>Profile Image</th>
@@ -213,13 +213,13 @@ foreach ($users as &$user) {
                       <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
                       <input type="hidden" name="pricing_status" id="pricing_status">
                       <button id="active" type="submit" name="pricing_status" value="active">
-                        <i class="fas fa-check-circle"></i>
+                        <!-- <i class="fas fa-check-circle"></i> -->
                       </button>
                       <button id="inactive" type="submit" name="pricing_status" value="inactive">
-                        <i class="fas fa-times-circle"></i>
+                        <!-- <i class="fas fa-times-circle"></i> -->
                       </button>
                       <button id="pending" type="submit" name="pricing_status" value="pending">
-                        <i class="fas fa-question-circle"></i>
+                        <!-- <i class="fas fa-question-circle"></i> -->
                       </button>
 
                     </form>
@@ -228,10 +228,12 @@ foreach ($users as &$user) {
               <?php endforeach; ?>
             </tbody>
           </table>
+          </div>
         </div>
       </div>
     </div>
   </div>
+  
   <!-- Bootstrap JS and Popper.js -->
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>

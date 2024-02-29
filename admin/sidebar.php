@@ -88,7 +88,7 @@ if ($result !== false && $result->num_rows > 0) {
               <?php echo isset($adminDetails['email']) ? $adminDetails['email'] : ''; ?>
             </span>
           </div>
-          <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
+          <!-- <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i> -->
         </a>
       </li>
       <li class="nav-item">
