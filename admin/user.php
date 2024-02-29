@@ -70,12 +70,13 @@ foreach ($users as &$user) {
       color: blue;
     }
 
-  
 
-    .stretch-card .card .card-body{
+
+    .stretch-card .card .card-body {
       width: 68%;
-    min-width: 65%;
-  }
+      min-width: 65%;
+    }
+
     .card-title {
       margin-bottom: 20px;
     }
@@ -202,24 +203,24 @@ foreach ($users as &$user) {
                     ?>
                   </td>
                   <td>
-                    <?php echo $user['total_expense']; ?>
+                    <?php echo isset($user['total_expense']) ? $user['total_expense'] : 0; ?>
                   </td>
                   <td>
-                    <?php echo $user['total_income']; ?>
+                    <?php echo isset($user['total_income']) ? $user['total_income'] : 0; ?>
                   </td>
                   <td>
                     <form method="post" action="update_pricing_status.php">
                       <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
                       <input type="hidden" name="pricing_status" id="pricing_status">
                       <button id="active" type="submit" name="pricing_status" value="active">
-  <i class="fas fa-check-circle"></i>
-</button>
-<button id="inactive" type="submit" name="pricing_status" value="inactive" >
-  <i class="fas fa-times-circle"></i>
-</button>
-<button id="pending" type="submit" name="pricing_status" value="pending" >
-  <i class="fas fa-question-circle"></i>
-</button>
+                        <i class="fas fa-check-circle"></i>
+                      </button>
+                      <button id="inactive" type="submit" name="pricing_status" value="inactive">
+                        <i class="fas fa-times-circle"></i>
+                      </button>
+                      <button id="pending" type="submit" name="pricing_status" value="pending">
+                        <i class="fas fa-question-circle"></i>
+                      </button>
 
                     </form>
                   </td>
