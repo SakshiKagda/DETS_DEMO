@@ -70,16 +70,12 @@ foreach ($users as &$user) {
       color: blue;
     }
 
-    .card {
-      max-width: 200%;
-      margin-top: 20px;
-    }
+  
 
-    .stretch-card {
-      max-width: 100%;
-      min-width: 100%;
-    }
-
+    .stretch-card .card .card-body{
+      width: 68%;
+    min-width: 65%;
+  }
     .card-title {
       margin-bottom: 20px;
     }

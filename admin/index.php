@@ -17,25 +17,25 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
+$sql = "SELECT 
+            COUNT(*) AS total_users,
+            SUM(CASE WHEN pricing_status = 1 THEN 1 ELSE 0 END) AS subscribed_users,
+            SUM(CASE WHEN pricing_status = 0 THEN 1 ELSE 0 END) AS free_users
+        FROM users";
+$result = $conn->query($sql);
 
-$sql = "SELECT * FROM users WHERE user_id = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
-// Check if there are any users
 if ($result->num_rows > 0) {
-  $users = array();
+  // output data of each row
   while ($row = $result->fetch_assoc()) {
-    $users[] = $row;
+    $total_users = $row["total_users"];
+    $subscribed_users = $row["subscribed_users"];
+    $free_users = $row["free_users"];
   }
 } else {
-  $users = array();
+  $total_users = 0;
+  $subscribed_users = 0;
+  $free_users = 0;
 }
-if (!isset($_SESSION['id'])) {
-
-}
-
 
 $admin_id = $_SESSION['id'];
 $selectQuery = "SELECT * FROM admins WHERE id = ?";
@@ -67,13 +67,21 @@ foreach ($subscriptions as $subscription) {
     mail($to, $subject, $message, $headers);
   }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
- 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    .stretch-card .card {
+      width: 20%;
+      min-width: 68%;
+    }
+  </style>
 </head>
+
 <body>
 
   <?php
@@ -101,74 +109,71 @@ foreach ($subscriptions as $subscription) {
         </div>
         <div class="row">
           <?php
-          $sql = "SELECT COUNT(*) AS total_users FROM users";
-          $result = $conn->query($sql);
+          echo "<div class='col-md-4 stretch-card grid-margin'>";
+          echo "<div class='card bg-gradient-danger card-img-holder text-white'>";
+          echo "<div class='card-body'>";
+          echo "<img src='assets/images/dashboard/circle.svg' class='card-img-absolute' alt='circle-image'>";
+          echo "<h4 class='font-weight-normal mb-3'>Total Users <i class='mdi mdi-account-circle mdi-24px float-right'></i></h4>";
+          echo "<h2 class='mb-5'>" . $total_users . "</h2>";
+          echo "<h6 class='card-text'>Increased by 20%</h6>";
+          echo "</div>";
+          echo "</div>";
+          echo "</div>";
 
-          if ($result->num_rows > 0) {
-            // output data of each row
-            while ($row = $result->fetch_assoc()) {
-              echo "<div class='col-md-4 stretch-card grid-margin'>";
-              echo "<div class='card bg-gradient-danger card-img-holder text-white'>";
-              echo "<div class='card-body'>";
-              echo "<img src='assets/images/dashboard/circle.svg' class='card-img-absolute' alt='circle-image'>";
-              echo "<h4 class='font-weight-normal mb-3'>Total Users <i class='mdi mdi-account-circle mdi-24px float-right'></i></h4>";
-              echo "<h2 class='mb-5'>" . $row["total_users"] . "</h2>";
-              echo "<h6 class='card-text'>Increased by 20%</h6>";
-              echo "</div>";
-              echo "</div>";
-              echo "</div>";
-            }
-          } else {
-            echo "0 results";
-          }
+          echo "<div class='col-md-4 stretch-card grid-margin'>";
+          echo "<div class='card bg-gradient-info card-img-holder text-white'>";
+          echo "<div class='card-body'>";
+          echo "<img src='assets/images/dashboard/circle.svg' class='card-img-absolute' alt='circle-image'>";
+          echo "<h4 class='font-weight-normal mb-3'>Total Subscribe users <i class='mdi mdi-account-check mdi-24px float-right'></i></h4>";
+          echo "<h2 class='mb-5'>" . $subscribed_users . "</h2>";
+          echo "<h6 class='card-text'>Decreased by 10%</h6>";
+          echo "</div>";
+          echo "</div>";
+          echo "</div>";
+
+          echo "<div class='col-md-4 stretch-card grid-margin'>";
+          echo "<div class='card bg-gradient-success card-img-holder text-white'>";
+          echo "<div class='card-body'>";
+          echo "<img src='assets/images/dashboard/circle.svg' class='card-img-absolute' alt='circle-image'>";
+          echo "<h4 class='font-weight-normal mb-3'>Free Users <i class='mdi mdi-account-minus mdi-24px float-right'></i></h4>";
+          echo "<h2 class='mb-5'>" . $free_users . "</h2>";
+          echo "<h6 class='card-text'>Decreased by 15%</h6>";
+          echo "</div>";
+          echo "</div>";
+          echo "</div>";
           ?>
-          <div class="col-md-4 stretch-card grid-margin">
-            <div class="card bg-gradient-info card-img-holder text-white">
-              <div class="card-body">
-                <img src="assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image">
-                <h4 class="font-weight-normal mb-3">Total Subscribe users <i
-                    class="mdi mdi-account-check mdi-24px float-right"></i>
-                </h4>
-                <h2 class="mb-5">5</h2>
-                <h6 class="card-text">Decreased by 10%</h6>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 stretch-card grid-margin">
-            <div class="card bg-gradient-success card-img-holder text-white">
-              <div class="card-body">
-                <img src="assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image">
-                <h4 class="font-weight-normal mb-3">Free Users <i
-                    class="mdi mdi-account-minus mdi-24px float-right"></i>
-                </h4>
-                <h2 class="mb-5">15</h2>
-                <h6 class="card-text">Decreased by 15%</h6>
-              </div>
-            </div>
-          </div>
         </div>
         <div class="row">
-          <div class="col-md-7 grid-margin stretch-card">
+          <div class="col grid-margin stretch-card">
             <div class="card">
               <div class="card-body">
                 <h4 class="card-title">User Status</h4>
                 <div class="table">
                   <table class="table">
                     <tr>
+                      <th>User Id</th>
                       <th>Subscription ID</th>
                       <th> Username </th>
+                      <th> Start Date</th>
                       <th> End Date </th>
                       <th> Renew </th>
-                      
+                      <th>Total Expense</th>
+                      <th>Total Income</th>
                     </tr>
                     </thead>
                     <?php foreach ($subscriptions as $subscription): ?>
                       <tr>
                         <td>
+                          <?php echo $subscription['user_id']; ?>
+                        </td>
+                        <td>
                           <?php echo $subscription['subscription_id']; ?>
                         </td>
                         <td>
                           <?php echo $subscription['username']; ?>
+                        </td>
+                        <td>
+                          <?php echo $subscription['start_date']; ?>
                         </td>
                         <td>
                           <?php echo $subscription['end_date']; ?>
@@ -180,6 +185,26 @@ foreach ($subscriptions as $subscription) {
                             <button type="submit" class="btn btn-primary">Renew</button>
                           </form>
                         </td>
+                        <td>
+                          <?php
+                          // Fetch total expense for the user
+                          $sqlExpense = "SELECT SUM(expenseAmount) AS total_expense FROM expenses WHERE user_id = " . $subscription['user_id'];
+                          $resultExpense = $conn->query($sqlExpense);
+                          $totalExpense = $resultExpense->fetch_assoc()['total_expense'];
+                          echo $totalExpense !== null ? $totalExpense : 0;
+                          ;
+                          ?>
+                        </td>
+                        <td>
+                          <?php
+                          // Fetch total income for the user
+                          $sqlIncome = "SELECT SUM(incomeAmount) AS total_income FROM incomes WHERE user_id = " . $subscription['user_id'];
+                          $resultIncome = $conn->query($sqlIncome);
+                          $totalIncome = $resultIncome->fetch_assoc()['total_income'];
+                          echo $totalIncome !== null ? $totalIncome : 0;
+                          ;
+                          ?>
+                        </td>
                       </tr>
                     <?php endforeach; ?>
                   </table>
@@ -187,88 +212,66 @@ foreach ($subscriptions as $subscription) {
               </div>
             </div>
           </div>
-           <div class="row">
-          <div class="col-md-7 grid-margin stretch-card">
-            <div class="card">
-              <div class="card-body">
-                <div class="clearfix">
-                  <h4 class="card-title float-left">Visit And Sales Statistics</h4>
-                  <div id="visit-sale-chart-legend"
-                    class="rounded-legend legend-horizontal legend-top-right float-right"></div>
+          <div class="row">
+            <div class="col-md-7 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <div class="clearfix">
+                    <h4 class="card-title float-left">User Statistics</h4>
+                    <div id="user-chart-legend" class="rounded-legend legend-horizontal legend-top-right float-right">
+                    </div>
+                  </div>
+                  <canvas id="user-chart" class="mt-4"></canvas>
                 </div>
-                <canvas id="visit-sale-chart" class="mt-4"></canvas>
               </div>
             </div>
           </div>
-        </div>
-          <!-- <div class="col-md-5 grid-margin stretch-card">
-            <div class="card">
-              <div class="card-body">
-                <h4 class="card-title text-white">Todo</h4>
-                <div class="add-items d-flex">
-                  <input type="text" class="form-control todo-list-input" placeholder="What do you need to do today?">
-                  <button class="add btn btn-gradient-primary font-weight-bold todo-list-add-btn"
-                    id="add-task">Add</button>
-                </div>
-                <div class="list-wrapper">
-                  <ul class="d-flex flex-column-reverse todo-list todo-list-custom">
-                    <li>
-                      <div class="form-check">
-                        <label class="form-check-label">
-                          <input class="checkbox" type="checkbox"> Meeting with Alisa </label>
-                      </div>
-                      <i class="remove mdi mdi-close-circle-outline"></i>
-                    </li>
-                    <li class="completed">
-                      <div class="form-check">
-                        <label class="form-check-label">
-                          <input class="checkbox" type="checkbox" checked> Call John </label>
-                      </div>
-                      <i class="remove mdi mdi-close-circle-outline"></i>
-                    </li>
-                    <li>
-                      <div class="form-check">
-                        <label class="form-check-label">
-                          <input class="checkbox" type="checkbox"> Create invoice </label>
-                      </div>
-                      <i class="remove mdi mdi-close-circle-outline"></i>
-                    </li>
-                    <li>
-                      <div class="form-check">
-                        <label class="form-check-label">
-                          <input class="checkbox" type="checkbox"> Print Statements </label>
-                      </div>
-                      <i class="remove mdi mdi-close-circle-outline"></i>
-                    </li>
-                    <li class="completed">
-                      <div class="form-check">
-                        <label class="form-check-label">
-                          <input class="checkbox" type="checkbox" checked> Prepare for presentation </label>
-                      </div>
-                      <i class="remove mdi mdi-close-circle-outline"></i>
-                    </li>
-                    <li>
-                      <div class="form-check">
-                        <label class="form-check-label">
-                          <input class="checkbox" type="checkbox"> Pick up kids from school </label>
-                      </div>
-                      <i class="remove mdi mdi-close-circle-outline"></i>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div> -->
+          <script>
+            var ctx = document.getElementById('user-chart').getContext('2d');
+            var userChart = new Chart(ctx, {
+              type: 'bar',
+              data: {
+                labels: ['Registered Users', 'Subscribed Users', 'Non-Subscribed Users'],
+                datasets: [{
+                  label: 'Number of Users',
+                  data: [<?php echo $total_users; ?>, <?php echo $subscribed_users; ?>, <?php echo $free_users; ?>],
+                  backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)'
+                  ],
+                  borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)'
+                  ],
+                  borderWidth: 1
+                }]
+              },
+              options: {
+                scales: {
+                  yAxes: [{
+                    ticks: {
+                      beginAtZero: true
+                    }
+                  }]
+                }
+              }
+            });
+          </script>
         </div>
       </div>
-      <!-- content-wrapper ends -->
-      <!-- partial:partials/_footer.html -->
-      <?php
-      include('footer.php');
-      ?>
-      <!-- partial -->
     </div>
-    <!-- main-panel ends -->
+  </div>
+  </div>
+  <!-- content-wrapper ends -->
+  <!-- partial:partials/_footer.html -->
+  <?php
+  include('footer.php');
+  ?>
+  <!-- partial -->
+  </div>
+  <!-- main-panel ends -->
   </div>
   <!-- page-body-wrapper ends -->
   </div>
