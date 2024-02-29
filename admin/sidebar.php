@@ -137,19 +137,6 @@ if ($result !== false && $result->num_rows > 0) {
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic-6" aria-expanded="false" aria-controls="ui-basic">
-          <span class="menu-title">Income VS Expense</span>
-          <i class="menu-arrow"></i>
-          <i class=" mdi mdi-cash-100 menu-icon"></i>
-        </a>
-        <div class="collapse" id="ui-basic-6">
-          <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="manageexpense.php"> Income Expense</a></li>
-            <!-- <li class="nav-item"> <a class="nav-link" href="manageincome.php">Manage Income</a></li> -->
-          </ul>
-        </div>
-      </li>
-      <li class="nav-item">
         <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic-2" aria-expanded="false" aria-controls="ui-basic">
           <span class="menu-title">Budget</span>
           <i class="menu-arrow"></i>
