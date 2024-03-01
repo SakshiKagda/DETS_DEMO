@@ -156,9 +156,9 @@ foreach ($subscriptions as $subscription) {
                       <th> Username </th>
                       <th> Start Date</th>
                       <th> End Date </th>
-                      <th> Renew </th>
                       <th>Total Expense</th>
                       <th>Total Income</th>
+                      <th>Renew</th>
                     </tr>
                     </thead>
                     <?php foreach ($subscriptions as $subscription): ?>
@@ -179,13 +179,6 @@ foreach ($subscriptions as $subscription) {
                           <?php echo $subscription['end_date']; ?>
                         </td>
                         <td>
-                          <form action="reminder.php" method="get">
-                            <input type="hidden" name="subscription_id"
-                              value="<?php echo $subscription['subscription_id']; ?>">
-                            <button type="submit" class="btn btn-primary">Renew</button>
-                          </form>
-                        </td>
-                        <td>
                           <?php
                           // Fetch total expense for the user
                           $sqlExpense = "SELECT SUM(expenseAmount) AS total_expense FROM expenses WHERE user_id = " . $subscription['user_id'];
@@ -204,6 +197,13 @@ foreach ($subscriptions as $subscription) {
                           echo $totalIncome !== null ? $totalIncome : 0;
                           ;
                           ?>
+                        </td>
+                        <td>
+                          <form action="reminder.php" method="get">
+                            <input type="hidden" name="subscription_id"
+                              value="<?php echo $subscription['subscription_id']; ?>">
+                            <button type="submit" class="btn btn-primary">Renew</button>
+                          </form>
                         </td>
                       </tr>
                     <?php endforeach; ?>

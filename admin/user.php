@@ -64,12 +64,9 @@ foreach ($users as &$user) {
     }
 
     h2 {
-      color: blueviolet;
+      color: black;
     }
 
-    th {
-      color: blue;
-    }
 
 
 
@@ -142,6 +139,22 @@ foreach ($users as &$user) {
       height: 39px;
 
     }
+
+    tr {
+      color: black;
+    }
+
+    .thead {
+      background-color: #b66dff;
+
+    }
+
+    th {
+      color: white;
+    }
+    .pagination .page-item .page-link {
+      color: black;
+    }
   </style>
 </head>
 
@@ -154,86 +167,93 @@ foreach ($users as &$user) {
     <sidebar>
       <?php include("sidebar.php"); ?>
     </sidebar>
-    <div class="col-md-6 grid-margin stretch-card">
-      <div class="card">
-        <div class="card-body">
-          <h4 class="card-title">User Details</h4>
-          <div class="table-wrapper" style="height: 1000px; width: 980px; overflow-y:auto";>
-        <table class=" table  table-hover">
-            <thead>
+    <div class="container mt-5">
+      <h2> User Details</h2>
+      <div class="table-wrapper" style="height: 1000px; width: 980px; overflow-y:auto" ;>
+        <table class=" table table-bordered table-hover">
+          <thead class="thead">
+            <tr>
+              <th>Profile Image</th>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Gender</th>
+              <th>Mobile Number</th>
+              <th>Current Status</th>
+              <th>Total Expense</th>
+              <th>Total Income</th>
+              <th>Action</th>
+             
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach ($users as $user): ?>
               <tr>
-                <th>Profile Image</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Gender</th>
-                <th>Mobile Number</th>
-                <th>Current Status</th>
-                <th>Total Expense</th>
-                <th>Total Income</th>
-                <th>Action</th>
-                <!-- <th>Registration Date</th> -->
-              </tr>
-            </thead>
-            <tbody>
-              <?php foreach ($users as $user): ?>
-                <tr>
-                  <td><img src="<?php echo $user['profile_image']; ?>" alt="Profile Image"
-                      style="width: 50px; height: 50px;"></td>
-                  <td>
-                    <?php echo $user['username']; ?>
-                  </td>
-                  <td>
-                    <?php echo $user['email']; ?>
-                  </td>
-                  <td>
-                    <?php echo $user['gender']; ?>
-                  </td>
-                  <td>
-                    <?php echo $user['mobile_number']; ?>
-                  </td>
-                  <td>
-                    <?php
-                    if ($user['pricing_status'] == 0) {
-                      echo "Inactive";
-                    } else if ($user['pricing_status'] == 1) {
-                      echo "Active";
-                    } else if ($user['pricing_status'] == 2) {
-                      echo "Pending";
-                    }
-                    ?>
-                  </td>
-                  <td>
-                    <?php echo isset($user['total_expense']) ? $user['total_expense'] : 0; ?>
-                  </td>
-                  <td>
-                    <?php echo isset($user['total_income']) ? $user['total_income'] : 0; ?>
-                  </td>
-                  <td>
-                    <form method="post" action="update_pricing_status.php">
-                      <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
-                      <input type="hidden" name="pricing_status" id="pricing_status">
-                      <button id="active" type="submit" name="pricing_status" value="active">
-                        <!-- <i class="fas fa-check-circle"></i> -->
-                      </button>
-                      <button id="inactive" type="submit" name="pricing_status" value="inactive">
-                        <!-- <i class="fas fa-times-circle"></i> -->
-                      </button>
-                      <button id="pending" type="submit" name="pricing_status" value="pending">
-                        <!-- <i class="fas fa-question-circle"></i> -->
-                      </button>
+                <td><img src="<?php echo $user['profile_image']; ?>" alt="Profile Image"
+                    style="width: 50px; height: 50px;"></td>
+                <td>
+                  <?php echo $user['username']; ?>
+                </td>
+                <td>
+                  <?php echo $user['email']; ?>
+                </td>
+                <td>
+                  <?php echo $user['gender']; ?>
+                </td>
+                <td>
+                  <?php echo $user['mobile_number']; ?>
+                </td>
+                <td>
+                  <?php
+                  if ($user['pricing_status'] == 0) {
+                    echo "Inactive";
+                  } else if ($user['pricing_status'] == 1) {
+                    echo "Active";
+                  } else if ($user['pricing_status'] == 2) {
+                    echo "Pending";
+                  }
+                  ?>
+                </td>
+                <td>
+                  <?php echo isset($user['total_expense']) ? $user['total_expense'] : 0; ?>
+                </td>
+                <td>
+                  <?php echo isset($user['total_income']) ? $user['total_income'] : 0; ?>
+                </td>
+                <td>
+                  <form method="post" action="update_pricing_status.php">
+                    <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
+                    <input type="hidden" name="pricing_status" id="pricing_status">
+                    <button id="active" type="submit" name="pricing_status" value="active">
+                      <!-- <i class="fas fa-check-circle"></i> -->
+                    </button>
+                    <button id="inactive" type="submit" name="pricing_status" value="inactive">
+                      <!-- <i class="fas fa-times-circle"></i> -->
+                    </button>
+                    <button id="pending" type="submit" name="pricing_status" value="pending">
+                      <!-- <i class="fas fa-question-circle"></i> -->
+                    </button>
 
-                    </form>
-                  </td>
-                </tr>
-              <?php endforeach; ?>
-            </tbody>
-          </table>
-          </div>
-        </div>
+                  </form>
+                </td>
+              </tr>
+            <?php endforeach; ?>
+          </tbody>
+        </table>
+        <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            </ul>
+            <!-- Button to go back or perform other actions -->
+            <a href="index.php" class="btn btn-primary mt-3">Go Back</a>
       </div>
     </div>
   </div>
-  
+  </div>
+  </div>
+
   <!-- Bootstrap JS and Popper.js -->
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>

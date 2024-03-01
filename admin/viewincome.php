@@ -17,22 +17,30 @@ session_start();
         }
 
         h2 {
-            color: blueviolet;
+            color: black;
         }
 
         tr {
-            color: blue;
+            color: black;
         }
 
-        /* .container {
-            max-width: 800px;
-            margin: 50px auto;
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            position: relative;
-        } */
+        .thead {
+            background-color: #b66dff;
+
+        }
+
+        th {
+            color: white;
+        }
+
+        .icon {
+            float: right;
+            margin-right: 10px;
+        }
+
+        .pagination .page-item .page-link {
+            color: black;
+        }
     </style>
 </head>
 
@@ -131,7 +139,7 @@ session_start();
                         echo "<h3>User: $username ($email)</h3>";
                         // Output table for income
                         echo "<table class='table table-bordered table-hover'>";
-                        echo "<thead class='thead-sucess'>";
+                        echo "<thead class='thead'>";
                         echo "<tr>";
                         echo "<th>User ID</th>";
                         echo "<th>Income Name</th>";
