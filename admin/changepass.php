@@ -1,3 +1,67 @@
+
+<?php
+session_start(); // Start the session
+
+// Establish a connection to your database
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "expense_db";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Check if form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Retrieve form data
+    $currentPassword = $_POST["currentPassword"];
+    $newPassword = $_POST["newPassword"];
+    $confirmPassword = $_POST["confirmPassword"];
+
+    // Validate that new password matches confirmation password
+    if ($newPassword != $confirmPassword) {
+        echo "New password and confirm password do not match.";
+    } else {
+        // Retrieve user ID from session
+        if (!isset($_SESSION["id"])) {
+            echo "User ID not found in session.";
+            exit; // Exit script
+        }
+        $adminID = $_SESSION["id"];
+
+        // Validate current password against database
+        $sql = "SELECT * FROM admins WHERE id = '$adminID'";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $hashedPassword = $row["password"];
+
+            // Verify the current password using password_verify
+            if (password_verify($currentPassword, $hashedPassword)) {
+                // Update password in the database
+                $hashedNewPassword = password_hash($newPassword, PASSWORD_DEFAULT); // Hash the new password
+                $updateSql = "UPDATE admins SET password = '$hashedNewPassword' WHERE id = '$adminID'";
+                if ($conn->query($updateSql) === TRUE) {
+                    echo "Password changed successfully!";
+                    include("Location:accountsetting.php");
+                } else {
+                    echo "Error updating password: " . $conn->error;
+                }
+            } else {
+                echo "Current password is incorrect.";
+            }
+        } else {
+            echo "User not found.";
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 

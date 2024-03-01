@@ -196,11 +196,19 @@ if ($result !== false && $result->num_rows > 0) {
             <h6 class="p-3 mb-0 text-center">See all notifications</h6>
           </div>
         </li>
-        <li class="nav-item nav-login  ">
-          <a class="nav-link" href="login.php">
-            <i class="mdi mdi-login"></i>
-          </a>
-        </li>
+        <li class="nav-item nav-login">
+  <?php
+  // Check if the user's email is set in the session
+  if (isset($_SESSION['id'])) {
+    // User is logged in, display Logout option with an icon
+    echo '<a class="nav-link" href="logout.php"><i class="mdi mdi-logout"></i></a>';
+  } else {
+    // User is not logged in, display Login option with an icon
+    echo '<a class="nav-link" href="login.php"><i class="mdi mdi-login"></i></a>';
+  }
+  ?>
+</li>
+
      
 
 
