@@ -54,7 +54,7 @@ foreach ($users as &$user) {
   <title>Daily Expense Tracker System</title>
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdn.materialdesignicons.com/6.5.95/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css">>
 
 
   <style>
@@ -152,9 +152,15 @@ foreach ($users as &$user) {
     th {
       color: white;
     }
+
     .pagination .page-item .page-link {
       color: black;
     }
+    .mdi-icon {
+    font-size: 24px;
+   
+    margin-right: 10px; 
+}
   </style>
 </head>
 
@@ -182,7 +188,7 @@ foreach ($users as &$user) {
               <th>Total Expense</th>
               <th>Total Income</th>
               <th>Action</th>
-             
+
             </tr>
           </thead>
           <tbody>
@@ -223,31 +229,28 @@ foreach ($users as &$user) {
                   <form method="post" action="update_pricing_status.php">
                     <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
                     <input type="hidden" name="pricing_status" id="pricing_status">
-                    <button id="active" type="submit" name="pricing_status" value="active">
-                      <!-- <i class="fas fa-check-circle"></i> -->
-                    </button>
-                    <button id="inactive" type="submit" name="pricing_status" value="inactive">
-                      <!-- <i class="fas fa-times-circle"></i> -->
-                    </button>
-                    <button id="pending" type="submit" name="pricing_status" value="pending">
-                      <!-- <i class="fas fa-question-circle"></i> -->
-                    </button>
-
+                    <i id="active" class="mdi mdi-check-circle mdi-icon" style="cursor: pointer;"
+                      onclick="document.getElementById('pricing_status').value = 'active'; this.closest('form').submit();"></i>
+                    <i id="inactive" class="mdi mdi-close-circle mdi-icon" style="cursor: pointer;"
+                      onclick="document.getElementById('pricing_status').value = 'inactive'; this.closest('form').submit();"></i>
+                    <i id="pending" class="mdi mdi-help-circle mdi-icon" style="cursor: pointer;"
+                      onclick="document.getElementById('pricing_status').value = 'pending'; this.closest('form').submit();"></i>
                   </form>
+
                 </td>
               </tr>
             <?php endforeach; ?>
           </tbody>
         </table>
         <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-            </ul>
-            <!-- Button to go back or perform other actions -->
-            <a href="index.php" class="btn btn-primary mt-3">Go Back</a>
+          <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item"><a class="page-link" href="#">Next</a></li>
+        </ul>
+        <!-- Button to go back or perform other actions -->
+        <a href="index.php" class="btn btn-primary mt-3">Go Back</a>
       </div>
     </div>
   </div>

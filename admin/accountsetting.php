@@ -12,11 +12,9 @@
             padding-top: 70px ;
         }
         h2{
-            color: blueviolet;
+            color: black;
         }
-        tr{
-            color: blue;
-        }
+       
         .box{
             margin-top: -220px !important;
         }

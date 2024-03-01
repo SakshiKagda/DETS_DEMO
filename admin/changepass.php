@@ -1,4 +1,3 @@
-
 <?php
 session_start(); // Start the session
 
@@ -81,10 +80,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- End layout styles -->
     <!-- <link rel="shortcut icon" href="assets/images/favicon.ico" /> -->
     <style>
-        .box{
+        .box {
             margin-top: -220px !important;
         }
-        </style>
+    </style>
 
 </head>
 
@@ -103,34 +102,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="row flex-grow justify-content-center">
                     <div class="col-md-6">
                         <div class="box">
-                        <div class="auth-form-light text-left p-5">
-                            <div class="brand-logo">
-                                <img src="assets/images/logo.png">
-                            </div>
-                            <h4>Want to Change Password?</h4>
-                            <form class="pt-3" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"
-                                method="post">
-                                <div class="form-group">
-                                    <input type="password" class="form-control form-control-lg" id="exampleInputOld1"
-                                        name="currentPassword" placeholder="Old Password" required>
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" class="form-control form-control-lg" id="exampleInputNew1"
-                                        name="newPassword" placeholder="New Password" required>
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" class="form-control form-control-lg"
-                                        id="exampleInputConfirm1" name="confirmPassword" placeholder="Confirm Password"
-                                        required>
-                                </div>
+                            <div class="auth-form-light text-left p-5">
 
-                                <div class="mt-3 text-center">
-                                    <button type="submit"
-                                        class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">SAVE</button>
-                                    <a class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn"
-                                        href="index.php">BACK</a>
-                                </div>
-                                </div>
+                                <h4>Want to Change Password?</h4>
+                                <form class="pt-3" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"
+                                    method="post">
+                                    <div class="form-group">
+                                        <input type="password" class="form-control form-control-lg"
+                                            id="exampleInputOld1" name="currentPassword" placeholder="Old Password"
+                                            required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" class="form-control form-control-lg"
+                                            id="exampleInputNew1" name="newPassword" placeholder="New Password"
+                                            required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" class="form-control form-control-lg"
+                                            id="exampleInputConfirm1" name="confirmPassword"
+                                            placeholder="Confirm Password" required>
+                                    </div>
+
+                                    <div class="mt-3 text-center">
+                                        <button type="submit"
+                                            class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">SAVE</button>
+                                        <a class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn"
+                                            href="index.php">BACK</a>
+                                    </div>
+                            </div>
                         </div>
                         </form>
                     </div>

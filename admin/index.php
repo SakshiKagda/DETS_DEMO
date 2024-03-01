@@ -79,6 +79,12 @@ foreach ($subscriptions as $subscription) {
       width: 20%;
       min-width: 68%;
     }
+    .thead{
+      background-color: #b66dff;
+    }
+    th {
+      color: white;
+    }
   </style>
 </head>
 
@@ -149,7 +155,8 @@ foreach ($subscriptions as $subscription) {
               <div class="card-body">
                 <h4 class="card-title">User Status</h4>
                 <div class="table">
-                  <table class="table">
+                  <table class="table table-striped ">
+                     <thead class="thead">
                     <tr>
                       <th>User Id</th>
                       <th>Subscription ID</th>

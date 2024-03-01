@@ -43,7 +43,7 @@ th.action {
 /* Icon styles */
 .mdi-icon {
     font-size: 24px;
-    color: #b66dff;
+    color: black;
     margin-right: 10px; 
 }
 
