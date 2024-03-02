@@ -81,13 +81,14 @@ if (isset($_REQUEST['submit'])) {
       }
 
 
+
       var fileName = profile_image.value;
       var fileExtension = fileName.split('.').pop().toLowerCase();
 
       // Check if the file extension is allowed
       if (allowedExtensions.indexOf(fileExtension) === -1) {
         alert("Invalid file format. Accepted formats: JPG, JPEG, PNG, GIF.");
-        profile_image.value = ""; // Clear the file input
+        profile_image.value = "";
         return false;
       }
 
@@ -123,7 +124,8 @@ if (isset($_REQUEST['submit'])) {
               <h4>New here?</h4>
               <h6 class="font-weight-light">Signing up is easy. It only takes a few steps</h6>
               <form class="pt-3" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"
-                enctype="multipart/form-data">
+                enctype="multipart/form-data" onsubmit="return validate();">
+
 
 
                 <div class="form-group">
@@ -139,9 +141,6 @@ if (isset($_REQUEST['submit'])) {
                 <div class="form-group">
                   <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email"
                     name="email" required>
-                  <!-- <label for="exampleInputEmail1" class="form-control form-control-lg">Email -->
-
-                  <!-- </label> -->
                 </div>
                 <div class="form-group">
                   <label for="exampleInputGender1" class="form-control form-control-lg">Gender</label>
@@ -180,11 +179,11 @@ if (isset($_REQUEST['submit'])) {
                   </div>
                 </div>
 
-                <div class="mt-3 text-center" name="submit">
-                  <button type="submit" name="submit"
-                    class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn"><a> SIGN
-                      UP</a></button>
+                <div class="mt-3 text-center">
+                  <button type="submit"
+                    class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">SIGN UP</button>
                 </div>
+
                 <div class="text-center mt-4 font-weight-light"> Already have an account? <a href="login.php"
                     class="text-primary">Login</a>
                 </div>
