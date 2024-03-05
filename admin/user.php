@@ -1,9 +1,10 @@
 <?php
-// session_start();
+// Ensure session is started
 if (!isset($_SESSION)) {
   session_start();
 }
-// Establish a connection to your database
+
+// Database connection details
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -17,33 +18,35 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch user details from the user table
+// Fetch user details from the users table
 $sql = "SELECT * FROM users";
 $result = $conn->query($sql);
+
+// Initialize an empty array for users
+$users = array();
 
 // Check if there are any users
 if ($result->num_rows > 0) {
   // Fetch user details and populate the $users array
-  $users = array();
   while ($row = $result->fetch_assoc()) {
-    $users[] = $row;
+    $user = $row;
+    // Fetch total expense for the user
+    $sqlExpense = "SELECT SUM(expenseAmount) AS total_expense FROM expenses WHERE user_id = " . $user['user_id'];
+    $resultExpense = $conn->query($sqlExpense);
+    $user['total_expense'] = $resultExpense->fetch_assoc()['total_expense'];
+    
+    // Fetch total income for the user
+    $sqlIncome = "SELECT SUM(incomeAmount) AS total_income FROM incomes WHERE user_id = " . $user['user_id'];
+    $resultIncome = $conn->query($sqlIncome);
+    $user['total_income'] = $resultIncome->fetch_assoc()['total_income'];
+
+    // Add user details to the $users array
+    $users[] = $user;
   }
-} else {
-  $users = array(); // If no users found, initialize an empty array
 }
 
-// Fetch total expense and total income for each user
-foreach ($users as &$user) {
-  // Fetch total expense for the user
-  $sqlExpense = "SELECT SUM(expenseAmount) AS total_expense FROM expenses WHERE user_id = " . $user['user_id'];
-  $resultExpense = $conn->query($sqlExpense);
-  $user['total_expense'] = $resultExpense->fetch_assoc()['total_expense'];
-
-  // Fetch total income for the user
-  $sqlIncome = "SELECT SUM(incomeAmount) AS total_income FROM incomes WHERE user_id = " . $user['user_id'];
-  $resultIncome = $conn->query($sqlIncome);
-  $user['total_income'] = $resultIncome->fetch_assoc()['total_income'];
-}
+// Close the database connection
+$conn->close();
 ?>
 <!DOCTYPE html>
 <html lang="en">
