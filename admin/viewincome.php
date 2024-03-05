@@ -50,9 +50,9 @@ session_start();
     </header>
 
     <div class="main">
-        <sidebar>
+        <div>
             <?php include("sidebar.php"); ?>
-        </sidebar>
+        </div>
         <div class="container mt-5">
             <h2>View Income</h2>
             <div class="icon">
@@ -63,15 +63,18 @@ session_start();
                         <option value="yearly">Yearly</option>
                         <option value="monthly">Monthly</option>
                     </select>
-                    <input type="submit" value="Apply" onclick="applyFilter()">
+                    <input type="submit" value="Apply" id="applyButton">
                 </div>
             </div>
             <script>
+                // JavaScript code for filtering income rows
+                document.getElementById('applyButton').addEventListener('click', applyFilter);
+
                 function applyFilter() {
                     var filterValue = document.getElementById('filter').value;
                     var incomes = document.querySelectorAll('.income-row');
 
-                    incomes.forEach(function (income) {
+                    incomes.forEach(function(income) {
                         if (filterValue === 'all') {
                             income.style.display = 'table-row';
                         } else if (filterValue === 'yearly') {
@@ -108,7 +111,6 @@ session_start();
                 die("Connection failed: " . $conn->connect_error);
             }
 
-            // SQL query to fetch users who have added income
             // SQL query to fetch users who have added income
             $sql = "SELECT DISTINCT users.user_id AS user_id, users.username AS username, users.email AS email FROM users INNER JOIN incomes ON users.user_id = incomes.user_id";
             $result = $conn->query($sql);
@@ -154,13 +156,13 @@ session_start();
                         // Output data of each income
                         $totalIncome = 0; // Initialize total income for the user
                         while ($incomeRow = $incomeResult->fetch_assoc()) {
-                            echo "<tr>";
+                            echo "<tr class='income-row'>"; // Added class for filtering
                             echo "<td>" . $incomeRow["user_id"] . "</td>";
                             echo "<td>" . $incomeRow["incomeName"] . "</td>";
                             echo "<td>" . $incomeRow["incomeAmount"] . "</td>";
                             echo "<td>" . $incomeRow["incomeCategory"] . "</td>";
                             echo "<td>" . $incomeRow["incomeDescription"] . "</td>";
-                            echo "<td>" . $incomeRow["incomeDate"] . "</td>";
+                            echo "<td class='income-date'>" . $incomeRow["incomeDate"] . "</td>"; // Added class for filtering
                             echo "</tr>";
 
                             // Add the income amount to the total income

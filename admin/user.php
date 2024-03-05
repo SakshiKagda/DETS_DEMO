@@ -55,8 +55,6 @@ foreach ($users as &$user) {
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css">>
-
-
   <style>
     .main {
       display: flex;
@@ -156,11 +154,12 @@ foreach ($users as &$user) {
     .pagination .page-item .page-link {
       color: black;
     }
+
     .mdi-icon {
-    font-size: 24px;
-   
-    margin-right: 10px; 
-}
+      font-size: 24px;
+
+      margin-right: 10px;
+    }
   </style>
 </head>
 
@@ -195,7 +194,7 @@ foreach ($users as &$user) {
             <?php foreach ($users as $user): ?>
               <tr>
                 <td><img src="<?php echo $user['profile_image']; ?>" alt="Profile Image"
-                    style="width: 50px; height: 50px;" ></td>
+                    style="width: 50px; height: 50px;"></td>
                 <td>
                   <?php echo $user['username']; ?>
                 </td>
@@ -226,14 +225,17 @@ foreach ($users as &$user) {
                   <?php echo isset($user['total_income']) ? $user['total_income'] : 0; ?>
                 </td>
                 <td>
-    <form method="post" action="update_pricing_status.php">
-        <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
-        <input type="hidden" name="pricing_status" id="pricing_status_<?php echo $user['user_id']; ?>">
-        <i class="mdi mdi-check-circle mdi-icon" style="cursor: pointer;" onclick="updateStatus('active', <?php echo $user['user_id']; ?>)"></i>
-        <i class="mdi mdi-close-circle mdi-icon" style="cursor: pointer;" onclick="updateStatus('inactive', <?php echo $user['user_id']; ?>)"></i>
-        <i class="mdi mdi-help-circle mdi-icon" style="cursor: pointer;" onclick="updateStatus('pending', <?php echo $user['user_id']; ?>)"></i>
-    </form>
-</td>
+                  <form method="post" action="update_pricing_status.php">
+                    <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
+                    <input type="hidden" name="pricing_status" id="pricing_status_<?php echo $user['user_id']; ?>">
+                    <i class="mdi mdi-check-circle mdi-icon" style="cursor: pointer;"
+                      onclick="updateStatus('active', <?php echo $user['user_id']; ?>)"></i>
+                    <i class="mdi mdi-close-circle mdi-icon" style="cursor: pointer;"
+                      onclick="updateStatus('inactive', <?php echo $user['user_id']; ?>)"></i>
+                    <i class="mdi mdi-help-circle mdi-icon" style="cursor: pointer;"
+                      onclick="updateStatus('pending', <?php echo $user['user_id']; ?>)"></i>
+                  </form>
+                </td>
               </tr>
             <?php endforeach; ?>
           </tbody>
@@ -263,11 +265,11 @@ foreach ($users as &$user) {
   </footer>
   <script>
     function updateStatus(status, userId) {
-        document.getElementById('pricing_status_' + userId).value = status;
-        document.getElementById('pricing_status_' + userId).closest('form').submit();
-        alert('User status updated to ' + status + ' for user ID ' + userId);
+      document.getElementById('pricing_status_' + userId).value = status;
+      document.getElementById('pricing_status_' + userId).closest('form').submit();
+      alert('User status updated to ' + status + ' for user ID ' + userId);
     }
-</script>
+  </script>
 
 </body>
 

@@ -62,48 +62,48 @@ session_start();
         <div class="container mt-5">
             <h2>View Budget</h2>
             <div class="icon">
-                <div class="filter-dropdown">
-                    <label for="filter">Filter by:</label>
-                    <select id="filter" name="filter">
-                        <option value="all">All</option>
-                        <option value="yearly">Yearly</option>
-                        <option value="monthly">Monthly</option>
-                    </select>
-                    <input type="submit" value="Apply" onclick="applyFilter()">
-                </div>
-            </div>
-            <script>
-                function applyFilter() {
-                    var filterValue = document.getElementById('filter').value;
-                    var budgets = document.querySelectorAll('.budget-row');
+    <div class="filter-dropdown">
+        <label for="filter">Filter by:</label>
+        <select id="filter" name="filter">
+            <option value="all">All</option>
+            <option value="yearly">Yearly</option>
+            <option value="monthly">Monthly</option>
+        </select>
+        <!-- Use a button instead of input type submit to prevent form submission -->
+        <button onclick="applyFilter()">Apply</button>
+    </div>
+</div>
 
-                    budgets.forEach(function (budget) {
-                        if (filterValue === 'all') {
-                            budget.style.display = 'table-row';
-                        } else if (filterValue === 'yearly') {
-                            var startDate = new Date(budget.querySelector('.start-date').textContent);
-                            var endDate = new Date(budget.querySelector('.end-date').textContent);
-                            var currentDate = new Date();
+<script>
+    function applyFilter() {
+        var filterValue = document.getElementById('filter').value;
+        var budgets = document.querySelectorAll('.budget-row');
 
-                            if (startDate.getFullYear() <= currentDate.getFullYear() && endDate.getFullYear() >= currentDate.getFullYear()) {
-                                budget.style.display = 'table-row';
-                            } else {
-                                budget.style.display = 'none';
-                            }
-                        } else if (filterValue === 'monthly') {
-                            var startDate = new Date(budget.querySelector('.start-date').textContent);
-                            var endDate = new Date(budget.querySelector('.end-date').textContent);
-                            var currentDate = new Date();
+        budgets.forEach(function (budget) {
+            // Retrieve start date and end date from the row
+            var startDate = new Date(budget.querySelector('.start-date').textContent.trim());
+            var endDate = new Date(budget.querySelector('.end-date').textContent.trim());
+            var currentDate = new Date();
 
-                            if (startDate.getMonth() <= currentDate.getMonth() && endDate.getMonth() >= currentDate.getMonth()) {
-                                budget.style.display = 'table-row';
-                            } else {
-                                budget.style.display = 'none';
-                            }
-                        }
-                    });
+            // Filter based on the selected filter value
+            if (filterValue === 'all') {
+                budget.style.display = 'table-row';
+            } else if (filterValue === 'yearly') {
+                if (startDate.getFullYear() <= currentDate.getFullYear() && endDate.getFullYear() >= currentDate.getFullYear()) {
+                    budget.style.display = 'table-row';
+                } else {
+                    budget.style.display = 'none';
                 }
-            </script>
+            } else if (filterValue === 'monthly') {
+                if (startDate.getMonth() <= currentDate.getMonth() && endDate.getMonth() >= currentDate.getMonth()) {
+                    budget.style.display = 'table-row';
+                } else {
+                    budget.style.display = 'none';
+                }
+            }
+        });
+    }
+</script>
 
             <?php
             // Database connection details
