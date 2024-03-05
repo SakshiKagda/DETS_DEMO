@@ -195,7 +195,7 @@ foreach ($users as &$user) {
             <?php foreach ($users as $user): ?>
               <tr>
                 <td><img src="<?php echo $user['profile_image']; ?>" alt="Profile Image"
-                    style="width: 50px; height: 50px;"></td>
+                    style="width: 50px; height: 50px;" ></td>
                 <td>
                   <?php echo $user['username']; ?>
                 </td>
