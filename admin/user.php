@@ -226,18 +226,14 @@ foreach ($users as &$user) {
                   <?php echo isset($user['total_income']) ? $user['total_income'] : 0; ?>
                 </td>
                 <td>
-                  <form method="post" action="update_pricing_status.php">
-                    <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
-                    <input type="hidden" name="pricing_status" id="pricing_status">
-                    <i id="active" class="mdi mdi-check-circle mdi-icon" style="cursor: pointer;"
-                      onclick="document.getElementById('pricing_status').value = 'active'; this.closest('form').submit();"></i>
-                    <i id="inactive" class="mdi mdi-close-circle mdi-icon" style="cursor: pointer;"
-                      onclick="document.getElementById('pricing_status').value = 'inactive'; this.closest('form').submit();"></i>
-                    <i id="pending" class="mdi mdi-help-circle mdi-icon" style="cursor: pointer;"
-                      onclick="document.getElementById('pricing_status').value = 'pending'; this.closest('form').submit();"></i>
-                  </form>
-
-                </td>
+    <form method="post" action="update_pricing_status.php">
+        <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
+        <input type="hidden" name="pricing_status" id="pricing_status_<?php echo $user['user_id']; ?>">
+        <i class="mdi mdi-check-circle mdi-icon" style="cursor: pointer;" onclick="updateStatus('active', <?php echo $user['user_id']; ?>)"></i>
+        <i class="mdi mdi-close-circle mdi-icon" style="cursor: pointer;" onclick="updateStatus('inactive', <?php echo $user['user_id']; ?>)"></i>
+        <i class="mdi mdi-help-circle mdi-icon" style="cursor: pointer;" onclick="updateStatus('pending', <?php echo $user['user_id']; ?>)"></i>
+    </form>
+</td>
               </tr>
             <?php endforeach; ?>
           </tbody>
@@ -266,25 +262,13 @@ foreach ($users as &$user) {
     <?php include("footer.php"); ?>
   </footer>
   <script>
-    // Get the button elements
-    var activeBadge = document.getElementById('active');
-    var inactiveButtons = document.getElementById('inactive');
-    var pendingButtons = document.getElementById('pending');
+    function updateStatus(status, userId) {
+        document.getElementById('pricing_status_' + userId).value = status;
+        document.getElementById('pricing_status_' + userId).closest('form').submit();
+        alert('User status updated to ' + status + ' for user ID ' + userId);
+    }
+</script>
 
-    // Add event listeners to the buttons
-    document.getElementById('active').addEventListener('click', function () {
-      alert('User status updated to Active and Email Sent Sucessfully');
-    });
-
-
-    document.getElementById('inactive').addEventListener('click', function () {
-      alert('User status updated to Inactive');
-    });
-
-    document.getElementById('pending').addEventListener('click', function () {
-      alert('User status updated to Pending');
-    });
-  </script>
 </body>
 
 </html>
