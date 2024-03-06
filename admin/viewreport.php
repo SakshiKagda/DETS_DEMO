@@ -120,6 +120,7 @@ $result_users = $conn->query($sql_users);
         </sidebar>
         <div class="container mt-5">
             <h2>Combined Expense and Income Report</h2>
+            <div class="table-wrapper" style="height: 1000px; width: 980px; overflow-y:auto" ;>
             <div class="icon">
                 <div class="filter-dropdown">
                     <label for="filter">Filter by:</label>
@@ -246,6 +247,7 @@ $result_users = $conn->query($sql_users);
                 <li class="page-item"><a class="page-link" href="#">Next</a></li>
             </ul>
             <a href="index.php" class="btn btn-primary mt-3">Go Back</a>
+            </div>
         </div>
     </div>
 
