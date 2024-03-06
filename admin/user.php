@@ -34,7 +34,7 @@ if ($result->num_rows > 0) {
     $sqlExpense = "SELECT SUM(expenseAmount) AS total_expense FROM expenses WHERE user_id = " . $user['user_id'];
     $resultExpense = $conn->query($sqlExpense);
     $user['total_expense'] = $resultExpense->fetch_assoc()['total_expense'];
-    
+
     // Fetch total income for the user
     $sqlIncome = "SELECT SUM(incomeAmount) AS total_income FROM incomes WHERE user_id = " . $user['user_id'];
     $resultIncome = $conn->query($sqlIncome);
@@ -45,8 +45,7 @@ if ($result->num_rows > 0) {
   }
 }
 
-// Close the database connection
-$conn->close();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -67,9 +66,6 @@ $conn->close();
     h2 {
       color: black;
     }
-
-
-
 
     .stretch-card .card .card-body {
       width: 68%;

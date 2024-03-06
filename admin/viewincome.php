@@ -60,33 +60,33 @@ session_start();
                     <label for="filter">Filter by:</label>
                     <select id="filter" name="filter">
                         <option value="all">All</option>
-                        <option value="yearly">Yearly</option>
-                        <option value="monthly">Monthly</option>
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
                     </select>
-                    <input type="submit" value="Apply" id="applyButton">
+                    <input type="submit" value="Apply" onclick="applyFilter()">
                 </div>
             </div>
             <script>
-                // JavaScript code for filtering income rows
-                document.getElementById('applyButton').addEventListener('click', applyFilter);
-
                 function applyFilter() {
                     var filterValue = document.getElementById('filter').value;
                     var incomes = document.querySelectorAll('.income-row');
 
-                    incomes.forEach(function(income) {
+                    incomes.forEach(function (income) {
                         if (filterValue === 'all') {
                             income.style.display = 'table-row';
-                        } else if (filterValue === 'yearly') {
+                        } else {
                             var date = new Date(income.querySelector('.income-date').textContent);
-                            if (date.getFullYear() === new Date().getFullYear()) {
-                                income.style.display = 'table-row';
-                            } else {
-                                income.style.display = 'none';
-                            }
-                        } else if (filterValue === 'monthly') {
-                            var date = new Date(income.querySelector('.income-date').textContent);
-                            if (date.getMonth() === new Date().getMonth()) {
+                            if (date.getMonth() + 1 === parseInt(filterValue)) {
                                 income.style.display = 'table-row';
                             } else {
                                 income.style.display = 'none';
