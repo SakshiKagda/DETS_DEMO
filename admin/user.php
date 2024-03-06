@@ -192,8 +192,11 @@ if ($result->num_rows > 0) {
           <tbody>
             <?php foreach ($users as $user): ?>
               <tr>
-                <td><img src="<?php echo $user['profile_image']; ?>" alt="Profile Image"
-                    style="width: 50px; height: 50px;"></td>
+                <td>
+                  <img
+                    src="<?php echo isset($user['profile_image']) && file_exists($user['profile_image']) ? $user['profile_image'] : 'assets/images/faces/face1.jpg'; ?>"
+                    alt="Profile Image" style="width: 50px; height: 50px;">
+                </td>
                 <td>
                   <?php echo $user['username']; ?>
                 </td>
