@@ -81,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- <link rel="shortcut icon" href="assets/images/favicon.ico" /> -->
     <style>
         .box {
-            margin-top: -220px !important;
+            margin-top: -300px !important;
         }
     </style>
 
@@ -104,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="box">
                             <div class="auth-form-light text-left p-5">
 
-                                <h4>Want to Change Password?</h4>
+                                <h3>Want to Change Password?</h3>
                                 <form class="pt-3" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"
                                     method="post">
                                     <div class="form-group">
