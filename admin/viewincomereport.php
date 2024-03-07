@@ -12,57 +12,35 @@
     <!-- jsPDF library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
+        .main {
+            display: flex;
+            padding-top: 70px;
         }
-
-        /* .container {
-            max-width: 800px;
-            margin: 50px auto;
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            position: relative;
-        } */
 
         h2 {
-            color: blueviolet;
-            margin-bottom: 20px;
-        }
-
-        .nav-tabs {
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .pdf-icon {
-            font-size: 1.5em;
-            color: red;
-            position: absolute;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
-            cursor: pointer;
-        }
-        .main{
-            display: flex;
-            padding-top: 70px ;
-        }
-        tr{
             color: black;
         }
+
+        tr {
+            color: black;
+        }
+
         .thead {
-        background-color: #b66dff;
+            background-color: #b66dff;
 
-       }
-       .pagination .page-item .page-link {
-            color: black;
         }
+
+        th {
+            color: white !important;
+        }
+
         .icon {
             float: right;
             margin-right: 10px;
+        }
+
+        .pagination .page-item .page-link {
+            color: black;
         }
     </style>
 </head>
@@ -78,6 +56,7 @@
         <sidebar>
             <?php include("sidebar.php"); ?>
         </sidebar>
+        <div class="content-wrapper">
         <div class="container mt-5">
             <h2>View Income Report</h2>
             <div class="icon">
@@ -221,7 +200,7 @@ $sql = "SELECT DISTINCT users.user_id AS user_id, users.username AS username, us
 <a href="index.php" class="btn btn-primary mt-3">Go Back</a>
         </div>
     </div>
-
+    </div>
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>

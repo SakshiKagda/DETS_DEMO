@@ -40,42 +40,36 @@ $result_users = $conn->query($sql_users);
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
+        .main {
+            display: flex;
+            padding-top: 70px;
         }
-
-        /* 
-        .container {
-            max-width: 800px;
-            margin: 50px auto;
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            position: relative;
-        } */
 
         h2 {
-            color: blueviolet;
-            margin-bottom: 20px;
+            color: black;
         }
 
-        .nav-tabs {
-            margin-bottom: 20px;
-            position: relative;
+        tr {
+            color: black;
         }
 
-        .pdf-icon {
-            font-size: 1.5em;
-            color: red;
-            position: absolute;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
-            cursor: pointer;
+        .thead {
+            background-color: #b66dff;
+
         }
 
+        th {
+            color: white !important;
+        }
+
+        .icon {
+            float: right;
+            margin-right: 10px;
+        }
+
+        .pagination .page-item .page-link {
+            color: black;
+        }
         .expense-row {
             color: red;
             /* Set text color to red for expense rows */
@@ -84,27 +78,6 @@ $result_users = $conn->query($sql_users);
         .income-row {
             color: green;
             /* Set text color to green for income rows */
-        }
-
-        .main {
-            display: flex;
-            padding-top: 70px;
-        }
-
-        /* tr{
-            color: black;
-        } */
-        .thead {
-            background-color: #b66dff;
-
-        }
-
-        .pagination .page-item .page-link {
-            color: black;
-        }
-        .icon {
-            float: right;
-            margin-right: 10px;
         }
     </style>
 </head>
@@ -118,6 +91,7 @@ $result_users = $conn->query($sql_users);
         <sidebar>
             <?php include("sidebar.php"); ?>
         </sidebar>
+        <div class="content-wrapper">
         <div class="container mt-5">
             <h2>Combined Expense and Income Report</h2>
             <div class="table-wrapper" style="height: 1000px; width: 980px; overflow-y:auto" ;>
@@ -249,6 +223,7 @@ $result_users = $conn->query($sql_users);
             <a href="index.php" class="btn btn-primary mt-3">Go Back</a>
             </div>
         </div>
+    </div>
     </div>
 
     <!-- Bootstrap JS and Popper.js -->

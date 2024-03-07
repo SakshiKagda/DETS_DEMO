@@ -171,6 +171,7 @@ if ($result->num_rows > 0) {
     <sidebar>
       <?php include("sidebar.php"); ?>
     </sidebar>
+    <div class="content-wrapper">
     <div class="container mt-5">
       <h2> User Details</h2>
       <div class="table-wrapper" style="height: 1000px; width: 980px; overflow-y:auto" ;>

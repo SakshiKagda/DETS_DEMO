@@ -56,6 +56,7 @@ session_start();
     <sidebar>
         <?php include("sidebar.php"); ?>
     </sidebar>
+    <div class="content-wrapper">
     <div class="container mt-5">
         <h2>View Budget</h2>
 
@@ -182,7 +183,7 @@ session_start();
         <a href="index.php" class="btn btn-primary mt-3">Go Back</a>
     </div>
 </div>
-
+</div>
 
 <!-- Bootstrap JS and Popper.js -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>

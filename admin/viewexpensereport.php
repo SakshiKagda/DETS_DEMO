@@ -12,44 +12,13 @@
     <!-- jsPDF library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
-        }
-
-        /* .container {
-            max-width: 800px;
-            margin: 50px auto;
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            position: relative;
-        } */
-
-        h2 {
-            color: blueviolet;
-            margin-bottom: 20px;
-        }
-/* 
-        .nav-tabs {
-            margin-bottom: 20px;
-            position: relative;
-        } */
-
-        /* .pdf-icon {
-            font-size: 1.5em;
-            color: red;
-            position: absolute;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
-            cursor: pointer;
-        } */
-
         .main {
             display: flex;
             padding-top: 70px;
+        }
+
+        h2 {
+            color: black;
         }
 
         tr {
@@ -61,14 +30,18 @@
 
         }
 
-        .pagination .page-item .page-link {
-            color: black;
+        th {
+            color: white !important;
         }
+
         .icon {
             float: right;
             margin-right: 10px;
         }
 
+        .pagination .page-item .page-link {
+            color: black;
+        }
     </style>
 </head>
 
@@ -85,6 +58,7 @@
             include("sidebar.php");
             ?>
         </sidebar>
+        <div class="content-wrapper">
         <div class="container mt-5">
 
             <h2>View Expenses Reports</h2>
@@ -220,7 +194,7 @@
             <a href="index.php" class="btn btn-primary mt-3">Go Back</a>
         </div>
     </div>
-
+    </div>
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Font Awesome JS -->

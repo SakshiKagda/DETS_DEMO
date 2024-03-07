@@ -107,9 +107,10 @@ $subscriptions = $resultSub->fetch_all(MYSQLI_ASSOC);
     <sidebar>
       <?php include("sidebar.php"); ?>
     </sidebar>
+    <div class="content-wrapper">
     <div class="container mt-5">
       <h2>Subscription Details</h2>
-      <div class="table-wrapper" style="height: 1000px; width: 980px; overflow-y:auto" ;>
+      <div class="table-wrapper" style="height: 1000px; width: 900px; overflow-y:auto" ;>
       <div class="table table-bordered table-hover">
         <table class="table">
           <thead class="thead">

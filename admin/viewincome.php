@@ -53,6 +53,7 @@ session_start();
         <div>
             <?php include("sidebar.php"); ?>
         </div>
+        <div class="content-wrapper">
         <div class="container mt-5">
             <h2>View Income</h2>
             <div class="icon">
@@ -219,7 +220,7 @@ session_start();
             <a href="index.php" class="btn btn-primary mt-3">Go Back</a>
         </div>
     </div>
-
+    </div>
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>

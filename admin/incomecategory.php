@@ -68,6 +68,7 @@ session_start();
     <sidebar>
         <?php include("sidebar.php"); ?>
     </sidebar>
+    <div class="content-wrapper">
     <div class="container mt-5">
         <h2>View category</h2>
         <div class="icon">
@@ -179,6 +180,7 @@ session_start();
         </ul>
         <a href="index.php" class="btn btn-primary mt-3">Go Back</a>
     </div>
+</div>
 </div>
 
 <!-- Bootstrap JS and Popper.js -->
