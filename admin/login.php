@@ -1,11 +1,10 @@
 <?php
-  if(!isset($_SESSION)) 
-  { 
-      session_start(); 
-  } 
+if (!isset($_SESSION)) {
+  session_start();
+}
 
 if (!isset($_SESSION["id"])) {
-    
+
 }
 
 
@@ -23,35 +22,35 @@ $conn = new mysqli($servername, $username, $password, $database);
 
 // Check the connection
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+  die("Connection failed: " . $conn->connect_error);
 }
 
 // Check if the form is submitted
 if (isset($_POST['submit'])) {
-    // Sanitize user input
-    $email = trim($_POST["email"]);
-    $password = trim($_POST["password"]);
+  // Sanitize user input
+  $email = trim($_POST["email"]);
+  $password = trim($_POST["password"]);
 
-    // Retrieve hashed password from the database
-    $sql = "SELECT * FROM admins WHERE email = '$email'";
-    $result = $conn->query($sql);
-    $error = 0;
-    if ($result !== false && $result->num_rows > 0) {
-        $row = $result->fetch_assoc();
+  // Retrieve hashed password from the database
+  $sql = "SELECT * FROM admins WHERE email = '$email'";
+  $result = $conn->query($sql);
+  $error = 0;
+  if ($result !== false && $result->num_rows > 0) {
+    $row = $result->fetch_assoc();
 
-        if (password_verify($password, $row['password'])) {
-            // Store user_id in session
-            $_SESSION['id'] = $row['id'];
-            // Redirect to the dashboard or another page
-            header("Location: index.php");
-            exit();
-        } else {
-          $error=1;
-            //echo "Incorrect email or password";
-        }
+    if (password_verify($password, $row['password'])) {
+      // Store user_id in session
+      $_SESSION['id'] = $row['id'];
+      // Redirect to the dashboard or another page
+      header("Location: index.php");
+      exit();
     } else {
-        echo "Admin not found";
+      $error = 1;
+      //echo "Incorrect email or password";
     }
+  } else {
+    echo "Admin not found";
+  }
 }
 
 
@@ -66,23 +65,23 @@ if (isset($_POST['submit'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Daily Expense Tracker System</title>
   <script>
-        function validateForm() {
-            var email = document.getElementById("exampleInputEmail1").value;
-            var password = document.getElementById("exampleInputPassword1").value;
-            var errorMessage = document.getElementById("error-message");
+    function validateForm() {
+      var email = document.getElementById("exampleInputEmail1").value;
+      var password = document.getElementById("exampleInputPassword1").value;
+      var errorMessage = document.getElementById("error-message");
 
-            // Basic validation
-            if (email === "" || password === "") {
-               alert("Email and password are required.");
-                return false;
-            }
-           
-return true;
-}
-           
-           
-        
-    </script>
+      // Basic validation
+      if (email === "" || password === "") {
+        alert("Email and password are required.");
+        return false;
+      }
+
+      return true;
+    }
+
+
+
+  </script>
   <!-- plugins:css -->
   <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
@@ -95,6 +94,11 @@ return true;
   <link rel="stylesheet" href="assets/css/style.css">
   <!-- End layout styles -->
   <link rel="shortcut icon" href="assets/images/favicon.ico" />
+  <style>
+    label{
+      font-weight: bold;
+    }
+  </style>
 </head>
 
 <body>
@@ -110,24 +114,25 @@ return true;
               </div>
               <h4>Hello! let's get started</h4>
               <h6 class="font-weight-light">Sign in to continue.</h6>
-              <?php 
+              <?php
               if (isset($error) && $error == 1) {
                 echo "<span style='color:#f00000;'>Invalid user name and password</span>";
-              }?>
+              } ?>
               <form class="pt-3" method="post" onsubmit="return validateForm()">
                 <div class="form-group">
-                  <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email" name="email">
+                  <label for="exampleInputEmail1">Email</label>
+                  <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email"
+                    name="email">
                 </div>
                 <div class="form-group">
+                  <label for="exampleInputPassword1">Password</label>
                   <input type="password" class="form-control form-control-lg" id="exampleInputPassword1"
-                    placeholder="Password"  name="password">
+                    placeholder="Password" name="password">
                 </div>
-                <!-- <div class="mt-3 text-center" name="submit">
-                  <button type="submit"  name="submit" class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn" ><a > SIGN </a></button>
-                </div> -->
                 <div class="mt-3 text-center">
-   <button type="submit" name="submit" class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn"><a > SIGN IN</a></button>
-</div>
+                  <button type="submit" name="submit"
+                    class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">SIGN IN</button>
+                </div>
 
                 <div class="my-2 d-flex justify-content-between align-items-center">
 
@@ -136,7 +141,7 @@ return true;
                 <div class="text-center mt-4 font-weight-light"> Don't have an account? <a href="register.php"
                     class="text-primary">Create</a>
                 </div>
-               
+
               </form>
             </div>
           </div>
