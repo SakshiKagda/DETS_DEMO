@@ -100,12 +100,7 @@
 }
 
             </script>
-            <!-- Tab navigation for expenses and income reports -->
-            <!-- <ul class="nav nav-tabs"> -->
-
-                <!-- PDF icon for generating PDF report -->
-                <!-- <i class="fas fa-file-pdf pdf-icon" onclick="generatePDF()"></i> -->
-            <!-- </ul> -->
+           
             <?php
             // Database connection details
             $host = 'localhost';

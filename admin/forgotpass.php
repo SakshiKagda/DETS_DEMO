@@ -72,99 +72,81 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-<!-- Your HTML code remains the same -->
-
-<!-- Rest of your HTML code -->
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forgot Password</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            background: url('assets/images/10061977.jpg') center/cover no-repeat fixed;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Daily Expense Tracker System</title>
+  <script>
+    function validateForm() {
+      var email = document.getElementById("exampleInputEmail1").value;
+      var password = document.getElementById("exampleInputPassword1").value;
+      var errorMessage = document.getElementById("error-message");
 
-        .overlay {
-            background: rgba(255, 255, 255, 0.8);
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-        }
+      // Basic validation
+      if (email === "" || password === "") {
+        alert("Email and password are required.");
+        return false;
+      }
 
-        h2 {
-            text-align: center;
-            color: #333;
-        }
+      return true;
+    }
 
-        form {
-            display: flex;
-            flex-direction: column;
-        }
 
-        label {
-            margin-bottom: 5px;
-            color: #555;
-        }
 
-        input {
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-        }
-
-        button {
-            padding: 10px;
-            background-color: #4caf50;
-            color: #fff;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        .reset-message {
-            color: green;
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        .error-message {
-            color: red;
-            text-align: center;
-            margin-top: 10px;
-        }
-    </style>
+  </script>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <!-- endinject -->
+  <!-- Layout styles -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <!-- End layout styles -->
+  <link rel="shortcut icon" href="assets/images/favicon.ico" />
+  <style>
+    label{
+      font-weight: bold;
+    }
+  </style>
 </head>
 
 <body>
-    <div class="overlay">
-        <h2>Forgot Password</h2>
+
+  <div class="container-scroller">
+    <div class="container-fluid page-body-wrapper full-page-wrapper">
+      <div class="content-wrapper d-flex align-items-center auth">
+        <div class="row flex-grow">
+          <div class="col-lg-4 mx-auto">
+            <div class="auth-form-light text-left p-5">
+              <div class="brand-logo">
+                <img src="assets/images/logo.png">
+              </div>
+              <h3>Forgot Password</h3>
         <?php if (isset($reset_message)): ?>
             <p class="reset-message">
                 <?php echo $reset_message; ?>
             </p>
         <?php else: ?>
             <form action="" method="post" id="forgetPasswordForm">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
+            <div class="form-group">
+                  <label for="exampleInputEmail1">Email</label><br>
+                  <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email"
+                    name="email">
+                </div>
                 <p id="emailError" class="error-message"></p>
-                <button type="button" onclick="validateForm()">Reset Password</button>
+                <div class="mt-3 text-center">
+                  <button type="submit" name="submit" onclick="validateForm()"
+                    class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">Reset Password</button>
+                </div>
+                <!-- <button type="button" onclick="validateForm()">Reset Password</button> -->
             </form>
             <script>
                 function validateForm() {
@@ -183,7 +165,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
             </script>
         <?php endif; ?>
-    </div> <!-- Closing div for the overlay -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- content-wrapper ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+  <!-- plugins:js -->
+  <script src="assets/vendors/js/vendor.bundle.base.js"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page -->
+  <!-- End plugin js for this page -->
+  <!-- inject:js -->
+  <script src="assets/js/off-canvas.js"></script>
+  <script src="assets/js/hoverable-collapse.js"></script>
+  <script src="assets/js/misc.js"></script>
+  <!-- endinject -->
 </body>
 
 </html>

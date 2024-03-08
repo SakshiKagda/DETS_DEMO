@@ -100,12 +100,6 @@
     }
 </script>
 
-            <!-- <ul class="nav nav-tabs">
-
-
-                <i class="fas fa-file-pdf pdf-icon" onclick="generatePDF()"></i>
-            </ul> -->
-
 
        
                 <?php
@@ -145,7 +139,7 @@ $sql = "SELECT DISTINCT users.user_id AS user_id, users.username AS username, us
                     if ($incomeResult->num_rows > 0) {
                         echo "<h3>User: $username ($email)</h3>";
                         // Output table for income
-                        echo "<table class='table table-bordered'>"; 
+                        echo "<table class='table table-bordered table-striped'>"; 
                         echo "<thead class='thead'>";
                         echo "<tr>";
                         echo "<th>User ID</th>";

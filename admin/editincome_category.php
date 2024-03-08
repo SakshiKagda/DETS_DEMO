@@ -21,13 +21,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
 
     // Update the category in the database
-    $query = "UPDATE expenses_categories SET category_name='$name' WHERE category_id=$id";
+    $query = "UPDATE incomes_categories SET category_name='$name' WHERE category_id=$id";
     $result = mysqli_query($conn, $query);
 
     // Check if the category was updated successfully
     if ($result) {
         echo "Category updated successfully.";
-        header("Location:expensecategory.php");
+        header("Location:incomecategory.php");
     } else {
         echo "Error updating category: " . mysqli_error($conn);
     }
@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $id = $_GET['id'];
 
         // Fetch the category details from the database
-        $query = "SELECT * FROM expenses_categories WHERE category_id=$id";
+        $query = "SELECT * FROM incomes_categories WHERE category_id=$id";
         $result = mysqli_query($conn, $query);
 
         // Check if the query was successful
@@ -48,7 +48,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Check if the category exists
             if ($row) {
-                // Display the edit category form
             } else {
                 echo "Category not found.";
             }
@@ -59,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Category ID not specified.";
     }
 }
-                ?>
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -117,7 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="box">
                         <div class="auth-form-light text-left p-5">
               <h3>Edit Category</h3>
-                    <form action="editexpense_category.php" method="post">
+                    <form action="editincome_category.php" method="post">
                         <div class="form-group">
                         <input type="hidden" name="id" value="<?php echo $row['category_id']; ?>">
                         </div>

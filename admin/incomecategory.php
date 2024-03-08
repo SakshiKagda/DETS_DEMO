@@ -153,7 +153,7 @@ session_start();
                 echo "<tr class='category-row' data-category-id='" . $row["category_id"] . "'>";
                 echo "<td>" . $row["category_id"] . "</td>";
                 echo "<td>" . $row["category_name"] . "</td>";
-                echo "<td class='action' style='text-align: center; vertical-align: middle;'><a href='editexpense_category.php?id=" . $row["category_id"] . "'><i class='mdi mdi-tooltip-edit mdi-icon'></i></a> <a href='deleteexpense_category.php?id=" . $row["category_id"] . "'><i class='mdi mdi-delete mdi-icon'></i></a></td>";
+                echo "<td class='action' style='text-align: center; vertical-align: middle;'><a href='editincome_category.php?id=" . $row["category_id"] . "'><i class='mdi mdi-tooltip-edit mdi-icon'></i></a> <a href='deleteexpense_category.php?id=" . $row["category_id"] . "'><i class='mdi mdi-delete mdi-icon'></i></a></td>";
                 echo "</tr>";
 
                 echo "</tbody>";
