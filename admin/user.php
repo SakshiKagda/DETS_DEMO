@@ -250,7 +250,6 @@ if ($result->num_rows > 0) {
           <li class="page-item"><a class="page-link" href="#">3</a></li>
           <li class="page-item"><a class="page-link" href="#">Next</a></li>
         </ul>
-        <!-- Button to go back or perform other actions -->
         <a href="index.php" class="btn btn-primary mt-3">Go Back</a>
       </div>
     </div>
