@@ -38,6 +38,7 @@ if(isset($_POST['user_id']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($stmt->execute()) {
         // User deleted successfully
         echo "User deleted successfully";
+        header('Location: user.php');
     } else {
         // Error occurred while deleting user
         echo "Error deleting user: " . $stmt->error;
