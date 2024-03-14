@@ -15,9 +15,7 @@ if ($conn->connect_error) {
 
 // Check if the admin is logged in
 if (!isset($_SESSION['id'])) {
-  // Redirect to the login page or display an error message
-  // header("Location: login.php");
-  // exit(); // Stop further execution
+  
 }
 
 // Retrieve the admin's current details from the database
