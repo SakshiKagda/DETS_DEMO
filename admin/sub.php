@@ -1,7 +1,7 @@
 <?php
 session_start(); // Start the session
 
-// Include the database connection
+
 $servername = "localhost";
 $db_username = "root";
 $db_password = "";
@@ -13,7 +13,7 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-// Check if the admin is logged in
+
 if (!isset($_SESSION['id'])) {
   
 }
