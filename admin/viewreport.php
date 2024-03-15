@@ -66,7 +66,7 @@ $result_users = $conn->query($sql_users);
 
         .income-row {
             color: green;
-            /* Set text color to green for income rows */
+            
         }
     </style>
 </head>
