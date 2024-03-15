@@ -116,8 +116,6 @@ session_start();
 
                 // Check if any users exist
                 if ($result->num_rows > 0) {
-                    // Output data of each user
-                    // Output data of each user
                     while ($row = $result->fetch_assoc()) {
                         $userId = $row["user_id"];
                         $username = $row["username"];

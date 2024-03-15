@@ -86,17 +86,17 @@ session_start();
                 <select id="filter" name="filter">
                     <option value="all">All</option>
                     <?php
-                    // Fetch categories from the database
-                    $category_query = "SELECT * FROM incomes_categories";
-                    $category_result = $conn->query($category_query);
-                    if ($category_result->num_rows > 0) {
-                        while ($category_row = $category_result->fetch_assoc()) {
-                            $category_id = $category_row['category_id'];
-                            $category_name = $category_row['category_name'];
-                            echo "<option value='$category_id'>$category_name</option>";
-                        }
-                    }
-                    ?>
+                            include 'connect.php';
+                            $category_query = "SELECT * FROM incomes_categories";
+                            $category_result = $conn->query($category_query);
+                            if ($category_result->num_rows > 0) {
+                                while ($category_row = $category_result->fetch_assoc()) {
+                                    $category_id = $category_row['category_id'];
+                                    $category_name = $category_row['category_name'];
+                                    echo "<option value='$category_id'>$category_name</option>";
+                                }
+                            }
+                            ?>
                 </select>
                 <button onclick="applyFilter()">Apply</button>
             </div>
@@ -120,44 +120,54 @@ session_start();
 
 
         <?php
-include 'connect.php';
-        $sql = "SELECT DISTINCT users.user_id AS user_id, users.username AS username, users.email AS email, ic.category_id, ic.category_name
-        FROM users
-        INNER JOIN incomes_categories ic ON users.user_id = ic.user_id";
+      $sql = "SELECT DISTINCT users.user_id AS user_id, users.username AS username, users.email AS email
+      FROM users
+      INNER JOIN incomes_categories ec ON users.user_id = ec.user_id";
+
         $result = $conn->query($sql);
 
-        // Check if any users who added categories exist
-        if ($result->num_rows > 0) {
-            // Output data of each user who added a category
-            while ($row = $result->fetch_assoc()) {
-                $username = $row["username"];
-                $email = $row["email"];
-                echo "<h4>User: $username ($email)</h4>";
+      
+                // Check if any users who added categories exist
+                if ($result->num_rows > 0) {
+                    // Output data of each user who added a category
+                    while ($row = $result->fetch_assoc()) {
+                        $userId = $row["user_id"];
+                        $username = $row["username"];
+                        $email = $row["email"];
+                        echo "<h4>User: $username ($email)</h4>";
 
-                // Output table for categories
-                echo "<table class='table table-bordered table-hover'>"; 
-                echo "<thead class='thead'>";
-                echo "<tr>";
-                echo "<th>Category ID</th>";
-                echo "<th>Name</th>";
-                echo "<th>Action</th>";
-                echo "</tr>";
-                echo "</thead>";
-                echo "<tbody>";
+                        // Fetch categories for this user
+                        $category_sql = "SELECT * FROM incomes_categories WHERE user_id = $userId";
+                        $category_result = $conn->query($category_sql);
 
-                // Output data of each category for this user
-                echo "<tr class='category-row' data-category-id='" . $row["category_id"] . "'>";
-                echo "<td>" . $row["category_id"] . "</td>";
-                echo "<td>" . $row["category_name"] . "</td>";
-                echo "<td class='action' style='text-align: center; vertical-align: middle;'><a href='editincome_category.php?id=" . $row["category_id"] . "'><i class='mdi mdi-tooltip-edit mdi-icon'></i></a> <a href='deleteexpense_category.php?id=" . $row["category_id"] . "'><i class='mdi mdi-delete mdi-icon'></i></a></td>";
-                echo "</tr>";
+                        if ($category_result->num_rows > 0) {
+                            echo "<table class='table table-bordered table-hover'>"; 
+                            echo "<thead class='thead'>";
+                            echo "<tr>";
+                            echo "<th>Category ID</th>";
+                            echo "<th>Name</th>";
+                            echo "<th>Action</th>";
+                            echo "</tr>";
+                            echo "</thead>";
+                            echo "<tbody>";
 
-                echo "</tbody>";
-                echo "</table>";
-            }
-        } else {
-            echo "No users who have added categories found.";
-        }
+                            while ($categoryRow = $category_result->fetch_assoc()) {
+                                echo "<tr class='category-row' data-category-id='" . $categoryRow["category_id"] . "'>";
+                                echo "<td>" . $categoryRow["category_id"] . "</td>";
+                                echo "<td>" . $categoryRow["category_name"] . "</td>";
+                                echo "<td class='action' style='text-align: center; vertical-align: middle;'><a href='editexpense_category.php?id=" . $categoryRow["category_id"] . "'><i class='mdi mdi-tooltip-edit mdi-icon'></i></a> <a href='deleteexpense_category.php?id=" . $categoryRow["category_id"] . "'><i class='mdi mdi-delete mdi-icon'></i></a></td>";
+                                echo "</tr>";
+                            }
+
+                            echo "</tbody>";
+                            echo "</table>";
+                        } else {
+                            echo "No categories found for this user.";
+                        }
+                    }
+                } else {
+                    echo "No users who have added categories found.";
+                }
 
         $results_per_page = 10; // Set the desired number of results per page
         if (!isset($_GET['page'])) {
