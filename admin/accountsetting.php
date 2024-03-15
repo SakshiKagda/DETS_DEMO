@@ -18,6 +18,13 @@
         .box{
             margin-top: -220px !important;
         }
+        .content-wrapper{
+      background-color: #E1EEF2 !important;
+    }
+    .btn-primary{
+      background-color:#047edf !important;
+      border-color: #047edf !important;
+    }
     </style>
 </head>
 <body> 

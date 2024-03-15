@@ -70,6 +70,9 @@ if (isset($_POST['submit'])) {
    label{
     font-weight: bold;
    }
+   .content-wrapper{
+      background-color: #E1EEF2 !important;
+    }
     </style>
 
     <script>

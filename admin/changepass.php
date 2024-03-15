@@ -70,6 +70,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .box {
             margin-top: -300px !important;
         }
+        .content-wrapper{
+      background-color: #E1EEF2 !important;
+    }
+    .btn-block{
+      background-color:#047edf !important;
+      border-color: #047edf !important;
+      
+    }
+    .font-weight-medium{
+        color: white !important;
+    } 
     </style>
 
 </head>
@@ -112,8 +123,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                                     <div class="mt-3 text-center">
                                         <button type="submit"
-                                            class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">SAVE</button>
-                                        <a class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn"
+                                            class="btn btn-block  btn-lg font-weight-medium auth-form-btn">SAVE</button>
+                                        <a class="btn btn-block  btn-lg font-weight-medium auth-form-btn"
                                             href="index.php">BACK</a>
                                     </div>
                             </div>

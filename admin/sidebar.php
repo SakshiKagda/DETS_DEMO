@@ -49,6 +49,13 @@ if ($result !== false && $result->num_rows > 0) {
   <link rel="stylesheet" href="assets/css/style.css">
   <!-- End layout styles -->
   <link rel="shortcut icon" href="assets/images/favicon.ico" />
+  <style>.sidebar .nav .nav-item.active  .nav-link .menu-title{
+    color:#2847de !important;
+  }
+  .sidebar .nav .nav-item.active > .nav-link i {
+    color: #2847de !important;
+}
+</style>
 
 </head>
 

@@ -69,12 +69,22 @@ foreach ($subscriptions as $subscription) {
     }
 
     .thead {
-      background-color: #b66dff;
+      background-color:#047edf;
     }
 
     th {
       color: white;
     }
+    .btn-primary{
+      background-color:#047edf !important;
+      border-color: #047edf !important;
+    }
+    .content-wrapper{
+      background-color: #E1EEF2 !important;
+    }
+    .page-title .page-title-icon {
+    background-color: #2847de !important;
+}
   </style>
 </head>
 
@@ -98,8 +108,8 @@ foreach ($subscriptions as $subscription) {
       <div class="content-wrapper">
         <div class="page-header">
           <h3 class="page-title">
-            <span class="page-title-icon bg-gradient-primary text-white me-2">
-              <i class="mdi mdi-home"></i>
+            <span class="page-title-icon  text-white me-2">
+              <i class="mdi mdi-home mdi-icon"></i>
             </span> Dashboard
           </h3>
         </div>

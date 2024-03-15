@@ -52,14 +52,18 @@ if ($result !== false && $result->num_rows > 0) {
       margin: 10px !important;
       padding: 10px !important;
     }
+    .navbar .navbar-brand-wrapper .navbar-brand img{
+      /* width: 100% !important; */
+      height: 50px !important;
+    }
   </style>
 </head>
 
 <body>
   <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-      <a class="navbar-brand brand-logo" href="index.php"><img src="assets/images/logo.png" alt="logo" /></a>
-      <a class="navbar-brand brand-logo-mini" href="index.php"><img src="assets/images/logo-min.png" alt="logo" /></a>
+      <a class="navbar-brand brand-logo" href="index.php"><img src="assets/images/Screenshot 2024-03-15 155818.png" alt="logo" /></a>
+      <a class="navbar-brand brand-logo-mini" href="index.php"><img src="assets/images/Screenshot 2024-03-15 170404.png" alt="logo" /></a>
     </div>
     <div class="navbar-menu-wrapper d-flex align-items-stretch">
       <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">

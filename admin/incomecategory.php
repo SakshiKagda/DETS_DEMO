@@ -33,9 +33,8 @@ session_start();
         }
 
         .thead {
-            background-color: #b66dff;
-        }
-
+      background-color:#047edf;
+    }
         th.action {
             vertical-align: middle;
             text-align: center;
@@ -57,6 +56,21 @@ session_start();
             float: right;
             margin-right: 10px;
         }
+        .content-wrapper{
+      background-color: #E1EEF2 !important;
+    }
+    .sidebar .nav.sub-menu .nav-item .nav-link.active {
+            color: #2847de !important;
+
+     background: transparent;
+}
+.btn-primary{
+      background-color:#047edf !important;
+      border-color: #047edf !important;
+    }
+    .page-title .page-title-icon {
+    background-color: #2847de !important;
+}
     </style>
 </head>
 <body>
@@ -73,7 +87,7 @@ session_start();
     <div class="page-header">
                     <h1 class="page-title">
                         <a href="index.php" style="text-decoration: none; color: inherit;"> <!-- Add this anchor tag -->
-                            <span class="page-title-icon bg-gradient-primary text-white me-2">
+                            <span class="page-title-icon  text-white me-2">
                                 <i class="mdi mdi-home"></i>
                             </span>
                         </a>

@@ -78,6 +78,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     label{
       font-weight: bold;
     }
+    .content-wrapper{
+      background-color: #E1EEF2 !important;
+    }
   </style>
 </head>
 
