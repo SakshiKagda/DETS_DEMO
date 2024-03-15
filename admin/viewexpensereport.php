@@ -60,8 +60,16 @@
         </sidebar>
         <div class="content-wrapper">
         <div class="container mt-5">
-
-            <h2>View Expenses Reports</h2>
+        <div class="page-header">
+                    <h1 class="page-title">
+                        <a href="index.php" style="text-decoration: none; color: inherit;"> <!-- Add this anchor tag -->
+                            <span class="page-title-icon bg-gradient-primary text-white me-2">
+                                <i class="mdi mdi-home"></i>
+                            </span>
+                        </a>
+                        View Expenses Report
+                    </h1>
+                </div>
             <div class="icon">
                 <div class="filter-dropdown">
                     <label for="filter">Filter by:</label>
@@ -123,7 +131,7 @@
                 
                     // Check if any expenses exist for the current user
                     if ($expenseResult->num_rows > 0) {
-                        echo "<h3>User: $username ($email)</h3>";
+                        echo "<h4>User: $username ($email)</h4>";
                         echo "<table class='table table-bordered table-striped'>";
                         echo "<thead class='thead'>";
                         echo "<tr>";

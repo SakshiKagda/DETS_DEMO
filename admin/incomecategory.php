@@ -70,7 +70,16 @@ session_start();
     </sidebar>
     <div class="content-wrapper">
     <div class="container mt-5">
-        <h2>View category</h2>
+    <div class="page-header">
+                    <h1 class="page-title">
+                        <a href="index.php" style="text-decoration: none; color: inherit;"> <!-- Add this anchor tag -->
+                            <span class="page-title-icon bg-gradient-primary text-white me-2">
+                                <i class="mdi mdi-home"></i>
+                            </span>
+                        </a>
+                        View Income Category
+                    </h1>
+                </div>
         <div class="icon">
             <div class="filter-dropdown">
                 <label for="filter">Filter by:</label>
@@ -123,7 +132,7 @@ include 'connect.php';
             while ($row = $result->fetch_assoc()) {
                 $username = $row["username"];
                 $email = $row["email"];
-                echo "<h3>User: $username ($email)</h3>";
+                echo "<h4>User: $username ($email)</h4>";
 
                 // Output table for categories
                 echo "<table class='table table-bordered table-hover'>"; 

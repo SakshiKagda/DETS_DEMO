@@ -82,8 +82,16 @@ $result_users = $conn->query($sql_users);
         </sidebar>
         <div class="content-wrapper">
             <div class="container mt-5">
-                <h2>Combined Expense and Income Report</h2>
-                <!-- <div class="table-wrapper" style="height: 1000px; width: 980px; overflow-y:auto" ;> -->
+            <div class="page-header">
+                    <h1 class="page-title">
+                        <a href="index.php" style="text-decoration: none; color: inherit;"> <!-- Add this anchor tag -->
+                            <span class="page-title-icon bg-gradient-primary text-white me-2">
+                                <i class="mdi mdi-home"></i>
+                            </span>
+                        </a>
+                        Combine Report 
+                    </h1>
+                </div>
                     <div class="icon">
                         <div class="filter-dropdown">
                             <label for="filter">Filter by:</label>
@@ -145,7 +153,7 @@ $result_users = $conn->query($sql_users);
                         $result_income = $conn->query($sql_income);
 
                         // Display user details
-                        echo "<h3>User: $user_username ($user_email)</h3>";
+                        echo "<h4>User: $user_username ($user_email)</h4>";
 
                         // Table to display combined report
                         echo "<table class='table table-bordered '> 

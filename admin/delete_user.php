@@ -3,40 +3,23 @@
 session_start();
 
 // Check if user_id is provided and if the request method is POST
-if(isset($_POST['user_id']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Obtain user_id from the form submission
-    $user_id = $_POST['user_id'];
-
+if(isset($_POST['user_ids']) && is_array($_POST['user_ids'])) {
+    // Assuming you have your database connection established
     include 'connect.php';
 
-    // Prepare a delete statement
-    $sql = "DELETE FROM users WHERE user_id = ?";
+    // Prepare a SQL statement to delete multiple users
+    $userIds = implode(',', $_POST['user_ids']);
+    $sql = "DELETE FROM users WHERE user_id IN ($userIds)";
 
-    // Prepare and bind parameters
-    $stmt = $conn->prepare($sql);
-    if (!$stmt) {
-        // Handle preparation error
-        die("Error preparing statement: " . $conn->error);
-    }
-
-    // Bind parameters
-    $stmt->bind_param("i", $user_id);
-
-    // Execute the statement
-    if ($stmt->execute()) {
-        // User deleted successfully
-        echo "User deleted successfully";
-        header('Location: user.php');
+    // Execute the SQL statement
+    if ($conn->query($sql) === TRUE) {
+        echo "Selected users deleted successfully";
+        header("Location: user.php");
+       
     } else {
-        // Error occurred while deleting user
-        echo "Error deleting user: " . $stmt->error;
+        echo "Error deleting users: " . $conn->error;
     }
-
-    // Close statement and connection
-    $stmt->close();
-    $conn->close();
 } else {
-    // Handle case where user_id is not provided or request method is not POST
-    echo "Invalid request";
+    echo "No user IDs provided";
 }
 ?>

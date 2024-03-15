@@ -58,7 +58,16 @@
         </sidebar>
         <div class="content-wrapper">
         <div class="container mt-5">
-            <h2>View Income Report</h2>
+        <div class="page-header">
+                    <h1 class="page-title">
+                        <a href="index.php" style="text-decoration: none; color: inherit;"> <!-- Add this anchor tag -->
+                            <span class="page-title-icon bg-gradient-primary text-white me-2">
+                                <i class="mdi mdi-home"></i>
+                            </span>
+                        </a>
+                        View Income Report
+                    </h1>
+                </div>
             <div class="icon">
                 <div class="filter-dropdown">
                     <label for="filter">Filter by:</label>
@@ -104,10 +113,6 @@
        
                 <?php
            include 'connect.php';
-
-            
-            // SQL query to fetch users who have added income
-           // SQL query to fetch users who have added income
 $sql = "SELECT DISTINCT users.user_id AS user_id, users.username AS username, users.email AS email FROM users INNER JOIN incomes ON users.user_id = incomes.user_id";
 
             $result = $conn->query($sql);
@@ -126,7 +131,7 @@ $sql = "SELECT DISTINCT users.user_id AS user_id, users.username AS username, us
                     
                     // Check if any income exist for the current user
                     if ($incomeResult->num_rows > 0) {
-                        echo "<h3>User: $username ($email)</h3>";
+                        echo "<h4>User: $username ($email)</h4>";
                         // Output table for income
                         echo "<table class='table table-bordered table-striped'>"; 
                         echo "<thead class='thead'>";

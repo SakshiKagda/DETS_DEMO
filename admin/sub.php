@@ -57,16 +57,6 @@ $subscriptions = $resultSub->fetch_all(MYSQLI_ASSOC);
       background-color: #b66dff;
 
     }
-
-    /* .container {
-      max-width: 800px;
-      margin: 50px auto;
-      background-color: #ffffff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      position: relative;
-    } */
     .active {
       background-color: green;
 
@@ -97,8 +87,17 @@ $subscriptions = $resultSub->fetch_all(MYSQLI_ASSOC);
       <?php include("sidebar.php"); ?>
     </sidebar>
     <div class="content-wrapper">
-      <div class="container mt-5">
-        <h2>Subscription Details</h2>
+    <div class="page-header">
+  <h3 class="page-title">
+    <a href="index.php" style="text-decoration: none; color: inherit;"> <!-- Add this anchor tag -->
+      <span class="page-title-icon bg-gradient-primary text-white me-2">
+        <i class="mdi mdi-home"></i>
+      </span>
+    </a> 
+    Subscription Details
+  </h3>
+</div>
+<div class="row">
         <div class="table-wrapper" style="height: 1000px; width: 900px; overflow-y:auto" ;>
         <table class=" table table-bordered table-hover">
            
