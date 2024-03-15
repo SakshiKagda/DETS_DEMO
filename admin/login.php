@@ -6,24 +6,7 @@ if (!isset($_SESSION)) {
 if (!isset($_SESSION["id"])) {
 
 }
-
-
-
-
-
-// Define your database connection details
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "expense_db";
-
-// Create a connection to the database
-$conn = new mysqli($servername, $username, $password, $database);
-
-// Check the connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
+include 'connect.php';
 
 // Check if the form is submitted
 if (isset($_POST['submit'])) {

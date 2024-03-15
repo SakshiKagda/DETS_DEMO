@@ -1,20 +1,7 @@
 <?php
 session_start();
 
-// Database connection details
-$host = 'localhost';
-$username = 'root';
-$password = '';
-$database = 'expense_db';
-
-// Create connection
-$conn = new mysqli($host, $username, $password, $database);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
+include 'connect.php';
 // Get the admin's ID from the session
 $adminId = $_SESSION['id'];
 

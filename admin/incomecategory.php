@@ -111,20 +111,7 @@ session_start();
 
 
         <?php
-        // Database connection details
-        $host = 'localhost';
-        $username = 'root';
-        $password = '';
-        $database = 'expense_db';
-
-        // Create connection
-        $conn = new mysqli($host, $username, $password, $database);
-
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-
+include 'connect.php';
         $sql = "SELECT DISTINCT users.user_id AS user_id, users.username AS username, users.email AS email, ic.category_id, ic.category_name
         FROM users
         INNER JOIN incomes_categories ic ON users.user_id = ic.user_id";

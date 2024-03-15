@@ -80,19 +80,7 @@ session_start();
                     <select id="filter" name="filter">
                         <option value="all">All</option>
                         <?php
-                        // Database connection details
-                        $host = 'localhost';
-                        $username = 'root';
-                        $password = '';
-                        $database = 'expense_db';
-
-                        // Create connection
-                        $conn = new mysqli($host, $username, $password, $database);
-
-                        // Check connection
-                        if ($conn->connect_error) {
-                            die("Connection failed: " . $conn->connect_error);
-                        }
+                      include 'connect.php';
 
                         // Fetch categories from the database
                         $category_query = "SELECT * FROM expenses_categories";

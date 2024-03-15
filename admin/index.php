@@ -3,19 +3,7 @@
 if (!isset($_SESSION)) {
   session_start();
 }
-// Establish a connection to your database
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "expense_db";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $database);
-
-// Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
+include 'connect.php';
 
 $sql = "SELECT 
             COUNT(*) AS total_users,

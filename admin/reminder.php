@@ -31,19 +31,7 @@ try {
     //Recipients
     $mail->setFrom('kagdasakshi09@gmail.com', ' Sakshi');
 
-    // Fetch expiry date from the database
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "expense_db";
-
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
+    include 'connect.php';
     // Get current date
     $current_date = date("2025-02-24");
 

@@ -83,19 +83,7 @@ session_start();
                 </div>
 
                 <?php
-                // Database connection details
-                $host = 'localhost';
-                $username = 'root';
-                $password = '';
-                $database = 'expense_db';
-
-                // Create connection
-                $conn = new mysqli($host, $username, $password, $database);
-
-                // Check connection
-                if ($conn->connect_error) {
-                    die("Connection failed: " . $conn->connect_error);
-                }
+               include 'connect.php';
 
                 // SQL query to fetch users who have set budgets
                 $sql = "SELECT DISTINCT users.user_id AS user_id, users.username AS username, users.email AS email FROM users INNER JOIN budgets ON users.user_id = budgets.user_id";

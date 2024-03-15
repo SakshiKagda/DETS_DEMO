@@ -4,16 +4,7 @@ use PHPMailer\PHPMailer\Exception;
 
 require 'C:\xampp\htdocs\DETS(main)\vendor\autoload.php';
 
-$servername = "localhost";
-$db_username = "root";
-$db_password = "";
-$dbname = "expense_db";
-
-$conn = new mysqli($servername, $db_username, $db_password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include 'connect.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $token = $_GET["token"];

@@ -1,17 +1,7 @@
 <?php
 session_start(); // Start the session
 
-
-$servername = "localhost";
-$db_username = "root";
-$db_password = "";
-$dbname = "expense_db";
-
-$conn = new mysqli($servername, $db_username, $db_password, $dbname);
-
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
+include 'connect.php';
 
 
 if (!isset($_SESSION['id'])) {

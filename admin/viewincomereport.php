@@ -103,19 +103,8 @@
 
        
                 <?php
-            // Database connection details
-            $host = 'localhost';
-            $username = 'root';
-            $password = '';
-            $database = 'expense_db';
-            
-            // Create connection
-            $conn = new mysqli($host, $username, $password, $database);
-            
-            // Check connection
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
+           include 'connect.php';
+
             
             // SQL query to fetch users who have added income
            // SQL query to fetch users who have added income

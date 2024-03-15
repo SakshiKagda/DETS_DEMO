@@ -8,19 +8,7 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
-// Database connection details
-$host = 'localhost';
-$username = 'root';
-$password = '';
-$database = 'expense_db';
-
-// Create connection
-$conn = new mysqli($host, $username, $password, $database);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include 'connect.php';
 
 // Retrieve all users who have added both expenses and income
 $sql_users = "SELECT DISTINCT u.user_id, u.username, u.email FROM users u
@@ -95,7 +83,7 @@ $result_users = $conn->query($sql_users);
         <div class="content-wrapper">
             <div class="container mt-5">
                 <h2>Combined Expense and Income Report</h2>
-                <div class="table-wrapper" style="height: 1000px; width: 980px; overflow-y:auto" ;>
+                <!-- <div class="table-wrapper" style="height: 1000px; width: 980px; overflow-y:auto" ;> -->
                     <div class="icon">
                         <div class="filter-dropdown">
                             <label for="filter">Filter by:</label>

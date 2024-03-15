@@ -11,21 +11,7 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
-
-
-// Connect to the database (replace these variables with your actual database credentials)
-$host = 'localhost';
-$username = 'root';
-$password = '';
-$database = 'expense_db';
-
-$conn = new mysqli($host, $username, $password, $database);
-
-// Check the connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
+include 'connect.php';
 // Retrieve user details from the database
 $admin_id = $_SESSION['id'];
 $sql = "SELECT * FROM admins WHERE id = $admin_id"; // Modify the query based on your database schema

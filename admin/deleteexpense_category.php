@@ -1,17 +1,6 @@
 <?php
 session_start();
-$host = 'localhost';
-$username = 'root';
-$password = '';
-$database = 'expense_db';
-
-// Create connection
-$conn = new mysqli($host, $username, $password, $database);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include 'connect.php';
 // Check if the category ID is set in the URL
 if (isset($_GET['id'])) {
     // Get the category ID from the URL

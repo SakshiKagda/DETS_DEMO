@@ -7,19 +7,7 @@ if(isset($_POST['user_id']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
     // Obtain user_id from the form submission
     $user_id = $_POST['user_id'];
 
-    // Database connection details
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $database = "expense_db";
-
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $database);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+    include 'connect.php';
 
     // Prepare a delete statement
     $sql = "DELETE FROM users WHERE user_id = ?";

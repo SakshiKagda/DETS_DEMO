@@ -98,19 +98,8 @@ session_start();
             </script>
 
             <?php
-            // Database connection details
-            $host = 'localhost';
-            $username = 'root';
-            $password = '';
-            $database = 'expense_db';
+           include 'connect.php';
 
-            // Create connection
-            $conn = new mysqli($host, $username, $password, $database);
-
-            // Check connection
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
 
             // SQL query to fetch users who have added income
             $sql = "SELECT DISTINCT users.user_id AS user_id, users.username AS username, users.email AS email FROM users INNER JOIN incomes ON users.user_id = incomes.user_id";

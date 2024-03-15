@@ -1,18 +1,6 @@
 <?php
 session_start();
-$host = 'localhost';
-$username = 'root';
-$password = '';
-$database = 'expense_db';
-
-// Create connection
-$conn = new mysqli($host, $username, $password, $database);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
+include 'connect.php';
 
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

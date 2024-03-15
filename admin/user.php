@@ -4,19 +4,8 @@ if (!isset($_SESSION)) {
   session_start();
 }
 
-// Database connection details
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "expense_db";
+include 'connect.php';
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $database);
-
-// Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
 
 // Fetch user details from the users table
 $sql = "SELECT * FROM users";
