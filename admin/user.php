@@ -161,22 +161,22 @@ if ($result->num_rows > 0) {
       <?php include("sidebar.php"); ?>
     </sidebar>
     <div class="content-wrapper">
-    <div class="page-header">
-  <h3 class="page-title">
-    <a href="index.php" style="text-decoration: none; color: inherit;"> <!-- Add this anchor tag -->
-      <span class="page-title-icon bg-gradient-primary text-white me-2">
-        <i class="mdi mdi-home"></i>
-      </span>
-    </a> 
-    User Details
-  </h3>
-</div>
-<div class="row">
+      <div class="page-header">
+        <h3 class="page-title">
+          <a href="index.php" style="text-decoration: none; color: inherit;"> <!-- Add this anchor tag -->
+            <span class="page-title-icon bg-gradient-primary text-white me-2">
+              <i class="mdi mdi-home"></i>
+            </span>
+          </a>
+          User Details
+        </h3>
+      </div>
+      <div class="row">
         <div class="table-wrapper" style="height: 1000px; width: 980px; overflow-y:auto" ;>
           <table class=" table table-bordered table-hover">
             <thead class="thead">
               <tr>
-              <th>Select</th>
+                <th>Select</th>
                 <th>Profile Image</th>
                 <th>Username</th>
                 <th>Email</th>
@@ -186,15 +186,14 @@ if ($result->num_rows > 0) {
                 <th>Total Expense</th>
                 <th>Total Income</th>
                 <th>Action</th>
-
               </tr>
             </thead>
             <tbody>
               <?php foreach ($users as $user): ?>
                 <tr>
-                <td>
-  <input type="checkbox" name="selected_users[]" value="<?php echo $user['user_id']; ?>">
-</td>
+                  <td>
+                    <input type="checkbox" name="selected_users[]" value="<?php echo $user['user_id']; ?>">
+                  </td>
                   <td>
                     <img
                       src="<?php echo isset($user['profile_image']) && file_exists($user['profile_image']) ? $user['profile_image'] : 'assets/images/faces/face1.jpg'; ?>"
@@ -212,14 +211,14 @@ if ($result->num_rows > 0) {
                   <td>
                     <?php echo $user['mobile_number']; ?>
                   </td>
-                  <td>
+                  <td style="width: 80px;">
                     <?php
                     if ($user['pricing_status'] == 0) {
-                      echo "Inactive";
+                      echo '<span class="badge badge-danger badge-sm">Inactive</span>';
                     } else if ($user['pricing_status'] == 1) {
-                      echo "Active";
+                      echo '<span class="badge badge-success">Active</span>';
                     } else if ($user['pricing_status'] == 2) {
-                      echo "Pending";
+                      echo '<span class="badge badge-warning">Pending</span>';
                     }
                     ?>
                   </td>
@@ -281,55 +280,55 @@ if ($result->num_rows > 0) {
 
     function deleteUser(userId) {
       if (confirm('Are you sure you want to delete this user?')) {
-            // Create a form element
-            var form = document.createElement('form');
-            form.method = 'post';
-            form.action = 'delete_user.php';
+        // Create a form element
+        var form = document.createElement('form');
+        form.method = 'post';
+        form.action = 'delete_user.php';
 
-            // Create an input field to hold the user ID
-            var input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'user_id';
-            input.value = userId;
+        // Create an input field to hold the user ID
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'user_id';
+        input.value = userId;
 
-            // Append the input field to the form
-            form.appendChild(input);
+        // Append the input field to the form
+        form.appendChild(input);
 
-            // Append the form to the document body and submit it
-            document.body.appendChild(form);
-            form.submit();
-        }
+        // Append the form to the document body and submit it
+        document.body.appendChild(form);
+        form.submit();
+      }
     }
     function deleteSelectedUsers() {
-  if (confirm('Are you sure you want to delete selected users?')) {
-    // Get all selected user IDs
-    var selectedUsers = document.querySelectorAll('input[name="selected_users[]"]:checked');
-    var userIds = [];
+      if (confirm('Are you sure you want to delete selected users?')) {
+        // Get all selected user IDs
+        var selectedUsers = document.querySelectorAll('input[name="selected_users[]"]:checked');
+        var userIds = [];
 
-    // Extract user IDs from selected checkboxes
-    selectedUsers.forEach(function(checkbox) {
-      userIds.push(checkbox.value);
-    });
+        // Extract user IDs from selected checkboxes
+        selectedUsers.forEach(function (checkbox) {
+          userIds.push(checkbox.value);
+        });
 
-    // Create a form element
-    var form = document.createElement('form');
-    form.method = 'post';
-    form.action = 'delete_user.php';
+        // Create a form element
+        var form = document.createElement('form');
+        form.method = 'post';
+        form.action = 'delete_user.php';
 
-    // Create an input field to hold the user IDs
-    userIds.forEach(function(userId) {
-      var input = document.createElement('input');
-      input.type = 'hidden';
-      input.name = 'user_ids[]';
-      input.value = userId;
-      form.appendChild(input);
-    });
+        // Create an input field to hold the user IDs
+        userIds.forEach(function (userId) {
+          var input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = 'user_ids[]';
+          input.value = userId;
+          form.appendChild(input);
+        });
 
-    // Append the form to the document body and submit it
-    document.body.appendChild(form);
-    form.submit();
-  }
-}
+        // Append the form to the document body and submit it
+        document.body.appendChild(form);
+        form.submit();
+      }
+    }
 
 
   </script>
