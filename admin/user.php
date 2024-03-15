@@ -120,14 +120,15 @@ if ($result->num_rows > 0) {
     }
 
     .badge {
-      border: none;
+   
       width: 70px;
-      height: 39px;
+      height: 30px;
 
     }
 
     tr {
       color: black;
+     
     }
 
     .thead {
@@ -137,6 +138,8 @@ if ($result->num_rows > 0) {
 
     th {
       color: white;
+      padding: 10px !important;
+     
     }
 
     .pagination .page-item .page-link {
@@ -214,7 +217,7 @@ if ($result->num_rows > 0) {
                   <td style="width: 80px;">
                     <?php
                     if ($user['pricing_status'] == 0) {
-                      echo '<span class="badge badge-danger badge-sm">Inactive</span>';
+                      echo '<span class="badge badge-danger badge-sm ">Inactive</span>';
                     } else if ($user['pricing_status'] == 1) {
                       echo '<span class="badge badge-success">Active</span>';
                     } else if ($user['pricing_status'] == 2) {
