@@ -26,8 +26,8 @@ session_start();
         }
 
         .thead {
-      background-color:#047edf;
-    }
+            background-color: #047edf;
+        }
 
         th {
             color: white;
@@ -46,21 +46,25 @@ session_start();
             color: red;
             font-weight: bold;
         }
-        .content-wrapper{
-      background-color: #E1EEF2 !important;
-    }
-    .sidebar .nav.sub-menu .nav-item .nav-link.active {
+
+        .content-wrapper {
+            background-color: #E1EEF2 !important;
+        }
+
+        .sidebar .nav.sub-menu .nav-item .nav-link.active {
             color: #2847de !important;
 
-     background: transparent;
-}
-.btn-primary{
-      background-color:#047edf !important;
-      border-color: #047edf !important;
-    }
-    .page-title .page-title-icon {
-    background-color: #2847de !important;
-}
+            background: transparent;
+        }
+
+        .btn-primary {
+            background-color: #047edf !important;
+            border-color: #047edf !important;
+        }
+
+        .page-title .page-title-icon {
+            background-color: #2847de !important;
+        }
     </style>
 </head>
 
@@ -75,7 +79,7 @@ session_start();
         </sidebar>
         <div class="content-wrapper">
             <div class="container mt-5">
-            <div class="page-header">
+                <div class="page-header">
                     <h1 class="page-title">
                         <a href="index.php" style="text-decoration: none; color: inherit;"> <!-- Add this anchor tag -->
                             <span class="page-title-icon text-white me-2">
@@ -102,15 +106,37 @@ session_start();
                             }
                             ?>
                         </select>
-                        <input type="submit" value="Apply" onclick="applyFilter()">
+
+                        <label for="month-filter">Filter by Month:</label>
+                        <select id="month-filter" name="month-filter">
+                            <option value="all">All</option>
+                            <option value="01">January</option>
+                            <option value="02">February</option>
+                            <option value="03">March</option>
+                            <option value="04">April</option>
+                            <option value="05">May</option>
+                            <option value="06">June</option>
+                            <option value="07">July</option>
+                            <option value="08">August</option>
+                            <option value="09">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+
+                        </select>
+                        <input type="submit" value="Apply" onclick="applyMonthFilter()">
                     </div>
                 </div>
 
                 <?php
-               include 'connect.php';
+                include 'connect.php';
 
-                // SQL query to fetch users who have set budgets
-                $sql = "SELECT DISTINCT users.user_id AS user_id, users.username AS username, users.email AS email FROM users INNER JOIN budgets ON users.user_id = budgets.user_id";
+                $monthFilter = isset($_GET['month-filter']) ? $_GET['month-filter'] : 'all';
+                $monthCondition = ($monthFilter != 'all') ? "AND MONTH(budgets.start_date) = '$monthFilter' AND MONTH(budgets.end_date) = '$monthFilter'" : '';
+
+                $sql = "SELECT DISTINCT users.user_id AS user_id, users.username AS username, users.email AS email 
+                       FROM users INNER JOIN budgets ON users.user_id = budgets.user_id 
+                       WHERE 1 $monthCondition";
                 $result = $conn->query($sql);
 
                 // Check if any users exist
@@ -135,7 +161,7 @@ session_start();
                             echo "<th>User ID</th>";
                             echo "<th>Category</th>";
                             echo "<th>Planned Amount</th>";
-                            echo "<th>Actual Amount</th>";
+                            echo "<th>Expense Amount</th>";
                             echo "<th>Start Date</th>";
                             echo "<th>End Date</th>";
                             echo "</tr>";
@@ -149,13 +175,17 @@ session_start();
                                 echo "<td class='budget-category'>" . $budgetRow["category"] . "</td>"; // Add class for category column
                                 echo "<td>" . $budgetRow["planned_amount"] . "</td>";
 
-
                                 // SQL query to fetch total expense for the current category
                                 $totalExpenseSql = "SELECT SUM(expenseAmount) AS totalExpense, expenseCategory FROM expenses WHERE user_id = $userId AND expenseCategory = '" . $budgetRow["category"] . "'";
                                 $totalExpenseResult = $conn->query($totalExpenseSql);
                                 $totalExpenseRow = $totalExpenseResult->fetch_assoc();
                                 $totalExpense = $totalExpenseRow["totalExpense"];
                                 $categoryName = $totalExpenseRow["expenseCategory"];
+
+                                // Check if total expense is empty
+                                if (empty($totalExpense)) {
+                                    $totalExpense = 0;
+                                }
 
                                 if ($totalExpense > $budgetRow["planned_amount"]) {
                                     // If exceeded, add class for styling
@@ -166,10 +196,13 @@ session_start();
                                     echo "<td>" . $totalExpense . "</td>";
                                 }
 
-                                echo "<td>" . $budgetRow["start_date"] . "</td>";
-                                echo "<td>" . $budgetRow["end_date"] . "</td>";
+                                // Display start date and end date
+                                echo "<td class='budget-start-date'>" . $budgetRow["start_date"] . "</td>";
+                                echo "<td class='budget-end-date'>" . $budgetRow["end_date"] . "</td>";
+
                                 echo "</tr>";
                             }
+
 
                             echo "</tbody>";
                             echo "</table>";
@@ -212,13 +245,17 @@ session_start();
     </footer>
 
     <script>
-        function applyFilter() {
-            var filterValue = document.getElementById('filter').value;
+        function applyMonthFilter() {
+            var monthFilterValue = document.getElementById('month-filter').value;
             var budgets = document.querySelectorAll('.budget-row');
 
             budgets.forEach(function (budget) {
-                var category = budget.querySelector('.budget-category').textContent.trim();
-                if (filterValue === 'all' || category === filterValue) {
+                var startDate = budget.querySelector('.budget-start-date').textContent.trim();
+                var endDate = budget.querySelector('.budget-end-date').textContent.trim();
+                var startMonth = startDate.split('-')[1];
+                var endMonth = endDate.split('-')[1];
+
+                if (monthFilterValue === 'all' || (startMonth === monthFilterValue && endMonth === monthFilterValue)) {
                     budget.style.display = 'table-row';
                 } else {
                     budget.style.display = 'none';

@@ -1,14 +1,24 @@
 <?php
-// Ensure session is started
+
 if (!isset($_SESSION)) {
   session_start();
 }
 
 include 'connect.php';
 
+// Fetch user details from the users table with filtering
+$filterCondition = "";
+if(isset($_GET['username']) && !empty($_GET['username'])) {
+  $filterCondition .= " AND username LIKE '%" . $_GET['username'] . "%'";
+}
+if(isset($_GET['email']) && !empty($_GET['email'])) {
+  $filterCondition .= " AND email LIKE '%" . $_GET['email'] . "%'";
+}
+if(isset($_GET['gender']) && !empty($_GET['gender'])) {
+  $filterCondition .= " AND gender = '" . $_GET['gender'] . "'";
+}
 
-// Fetch user details from the users table
-$sql = "SELECT * FROM users";
+$sql = "SELECT * FROM users WHERE 1=1" . $filterCondition;
 $result = $conn->query($sql);
 
 // Initialize an empty array for users
@@ -32,10 +42,14 @@ if ($result->num_rows > 0) {
     // Add user details to the $users array
     $users[] = $user;
   }
+} else {
+    // Display error message if no users are found
+    echo "Username not found in the list.";
 }
 
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -183,6 +197,33 @@ if ($result->num_rows > 0) {
           User Details
         </h3>
       </div>
+      <div class="row mb-3">
+  <div class="col">
+    <form id="filterForm" method="GET" action="">
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label for="usernameFilter">Filter by Username:</label>
+          <input type="text" class="form-control" id="usernameFilter" name="username" placeholder="Enter username">
+        </div>
+        <div class="form-group col-md-4">
+          <label for="emailFilter">Filter by Email:</label>
+          <input type="text" class="form-control" id="emailFilter" name="email" placeholder="Enter email">
+        </div>
+        <div class="form-group col-md-4">
+          <label for="genderFilter">Filter by Gender:</label>
+          <select class="form-control" id="genderFilter" name="gender">
+            <option value="">Select gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Filter</button>
+      <a href="user.php" class="btn btn-secondary">Reset</a>
+    </form>
+  </div>
+</div>
+
       <div class="row">
         <div class="table-wrapper" style="height: 1000px; width: 980px; overflow-y:auto" ;>
           <table class=" table table-bordered table-hover">
@@ -235,11 +276,18 @@ if ($result->num_rows > 0) {
                     ?>
                   </td>
                   <td>
-                    <?php echo isset($user['total_expense']) ? $user['total_expense'] : 0; ?>
+                    <?php
+                    $totalExpense=isset($user['total_expense']) ? $user['total_expense'] : 0;
+                    echo($totalExpense == 0) ? '<span style="color:red;">' . $totalExpense . '</span>' : $totalExpense;
+                    ?>
+
                   </td>
                   <td>
-                    <?php echo isset($user['total_income']) ? $user['total_income'] : 0; ?>
-                  </td>
+  <?php
+  $totalIncome = isset($user['total_income']) ? $user['total_income'] : 0;
+  echo ($totalIncome == 0) ? '<span style="color: red;">' . $totalIncome . '</span>' : $totalIncome;
+  ?>
+</td>
                   <td>
                     <form method="post" action="update_pricing_status.php">
                       <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">

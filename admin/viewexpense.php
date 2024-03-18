@@ -120,6 +120,7 @@ session_start();
                         });
                     }
                 </script>
+                
                 <?php
                 include 'connect.php';
 
