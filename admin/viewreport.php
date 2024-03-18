@@ -82,6 +82,15 @@ $result_users = $conn->query($sql_users);
     .page-title .page-title-icon {
     background-color: #2847de !important;
 }
+.pdf {
+            float: right;
+            margin-right: 10px;
+        }
+
+        .mdi-icon {
+            font-size: 33px;
+            color: black;
+        }
     </style>
 </head>
 
@@ -148,7 +157,11 @@ $result_users = $conn->query($sql_users);
                             });
                         }
                     </script>
-
+  <div class="pdf">
+                    <a href="downloadreport.php" target="_blank" title="Download Expense Report">
+                        <span class="mdi mdi-file-pdf-outline mdi-icon"></span>
+                    </a>
+                </div>
 
 
                     <?php
