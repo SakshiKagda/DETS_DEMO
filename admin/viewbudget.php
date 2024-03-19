@@ -109,8 +109,8 @@ session_start();
 
                 <div class="icon">
                     <div class="filter-dropdown">
-                        <label for="filter">Filter by Category:</label>
-                        <select id="filter" name="filter">
+                        <label for="category-filter">Filter by Category:</label>
+                        <select id="category-filter" name="category-filter">
                             <option value="all">All</option>
                             <?php
                             // Fetch distinct categories from the budgets table
@@ -144,28 +144,34 @@ session_start();
                         <button type="button" class="btn-sm btn-primary" onclick="applyMonthFilter()">Apply</button>
 
 
+
                     </div>
                 </div>
                 <script>
-        function applyMonthFilter() {
-            var monthFilterValue = document.getElementById('month-filter').value;
-            var budgets = document.querySelectorAll('.budget-row');
+                   function applyMonthFilter() {
+    var monthFilterValue = document.getElementById('month-filter').value;
+    var categoryFilterValue = document.getElementById('category-filter').value;
+    var budgets = document.querySelectorAll('.budget-row');
 
-            budgets.forEach(function (budget) {
-                var startDate = budget.querySelector('.budget-start-date').textContent.trim();
-                var endDate = budget.querySelector('.budget-end-date').textContent.trim();
-                var startMonth = startDate.split('-')[1];
-                var endMonth = endDate.split('-')[1];
+    budgets.forEach(function(budget) {
+        var startDate = budget.querySelector('.budget-start-date').textContent.trim();
+        var endDate = budget.querySelector('.budget-end-date').textContent.trim();
+        var startMonth = startDate.split('-')[1];
+        var endMonth = endDate.split('-')[1];
+        var category = budget.querySelector('.budget-category').textContent.trim();
 
-                if (monthFilterValue === 'all' || (startMonth === monthFilterValue && endMonth === monthFilterValue)) {
-                    budget.style.display = ''; // Show the row
-                } else {
-                    budget.style.display = 'none'; // Hide the row
-                }
-            });
+        var monthMatch = monthFilterValue === 'all' || (startMonth === monthFilterValue && endMonth === monthFilterValue);
+        var categoryMatch = categoryFilterValue === 'all' || category === categoryFilterValue;
+
+        if (monthMatch && categoryMatch) {
+            budget.style.display = ''; // Show the row
+        } else {
+            budget.style.display = 'none'; // Hide the row
         }
+    });
+}
 
-    </script>
+                </script>
 
                 <?php
                 include 'connect.php';
