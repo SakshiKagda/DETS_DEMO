@@ -61,6 +61,22 @@ foreach ($subscriptions as $subscription) {
 
 <head>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Daily Expense Tracker System</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <!-- endinject -->
+  <!-- Layout styles -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <!-- End layout styles -->
+  <link rel="shortcut icon" href="assets/images/favicon.ico" />
 
   <style>
     .stretch-card .card {
@@ -134,7 +150,7 @@ foreach ($subscriptions as $subscription) {
           echo "<div class='card bg-gradient-info card-img-holder text-white'>";
           echo "<div class='card-body'>";
           echo "<img src='assets/images/dashboard/circle.svg' class='card-img-absolute' alt='circle-image'>";
-          echo "<h4 class='font-weight-normal mb-3'>Total Subscribe users <i class='mdi mdi-account-check mdi-24px float-right'></i></h4>";
+          echo "<h4 class='font-weight-normal mb-3'>Total Subscribe Users <i class='mdi mdi-account-check mdi-24px float-right'></i></h4>";
           echo "<h2 class='mb-5'>" . $subscribed_users . "</h2>";
           echo "<h6 class='card-text'>Decreased by 10%</h6>";
           echo "</div>";

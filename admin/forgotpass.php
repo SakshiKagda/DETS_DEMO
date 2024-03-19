@@ -109,6 +109,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     .content-wrapper{
       background-color: #E1EEF2 !important;
     }
+    .btn-block{
+      background-color:#047edf !important;
+      border-color: #047edf !important;
+      color: white !important;
+    }
   </style>
 </head>
 
@@ -121,7 +126,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <div class="col-lg-4 mx-auto">
             <div class="auth-form-light text-left p-5">
               <div class="brand-logo">
-                <img src="assets/images/logo.png">
+                <img src="assets/images/Screenshot 2024-03-15 155818.png">
               </div>
               <h3>Forgot Password</h3>
         <?php if (isset($reset_message)): ?>
@@ -138,7 +143,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <p id="emailError" class="error-message"></p>
                 <div class="mt-3 text-center">
                   <button type="submit" name="submit" onclick="validateForm()"
-                    class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">Reset Password</button>
+                    class="btn btn-block btn-lg font-weight-medium auth-form-btn">Reset Password</button>
                 </div>
                 <!-- <button type="button" onclick="validateForm()">Reset Password</button> -->
             </form>

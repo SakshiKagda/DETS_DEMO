@@ -6,6 +6,18 @@
     <title>Daily Expense Tracker System</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <!-- plugins:css -->
+  <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <!-- endinject -->
+  <!-- Layout styles -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <!-- End layout styles -->
+  <link rel="shortcut icon" href="assets/images/favicon.ico" />
     <style>
         .main{
             display: flex;
@@ -25,6 +37,11 @@
       background-color:#047edf !important;
       border-color: #047edf !important;
     }
+    .sidebar .nav.sub-menu .nav-item .nav-link.active {
+            color: #2847de !important;
+
+            background: transparent;
+        }
     </style>
 </head>
 <body> 

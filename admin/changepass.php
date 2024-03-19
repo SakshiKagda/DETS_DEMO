@@ -81,6 +81,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     .font-weight-medium{
         color: white !important;
     } 
+    .sidebar .nav.sub-menu .nav-item .nav-link.active {
+            color: #2847de !important;
+
+            background: transparent;
+        }
     </style>
 
 </head>

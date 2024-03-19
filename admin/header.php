@@ -1,14 +1,13 @@
 <?php
-  if(!isset($_SESSION)) 
-  { 
-      session_start(); 
-  } 
+if (!isset ($_SESSION)) {
+  session_start();
+}
 
 // Check if the user is logged in
-if (!isset($_SESSION['id'])) {
-    // Redirect to the login page if not logged in
-    header("Location: login.php");
-    exit();
+if (!isset ($_SESSION['id'])) {
+  // Redirect to the login page if not logged in
+  header("Location: login.php");
+  exit();
 }
 
 include 'connect.php';
@@ -19,10 +18,10 @@ $sql = "SELECT * FROM admins WHERE id = $admin_id"; // Modify the query based on
 $result = $conn->query($sql);
 
 if ($result !== false && $result->num_rows > 0) {
-    $adminDetails = $result->fetch_assoc();
+  $adminDetails = $result->fetch_assoc();
 } else {
-    // Handle the case where user details are not found
-    $adminDetails = array(); // Empty array if user not found
+  // Handle the case where user details are not found
+  $adminDetails = array(); // Empty array if user not found
 }
 
 
@@ -48,11 +47,12 @@ if ($result !== false && $result->num_rows > 0) {
   <!-- End layout styles -->
   <link rel="shortcut icon" href="assets/images/favicon.ico" />
   <style>
-    .p-3{
+    .p-3 {
       margin: 10px !important;
       padding: 10px !important;
     }
-    .navbar .navbar-brand-wrapper .navbar-brand img{
+
+    .navbar .navbar-brand-wrapper .navbar-brand img {
       /* width: 100% !important; */
       height: 50px !important;
     }
@@ -62,8 +62,10 @@ if ($result !== false && $result->num_rows > 0) {
 <body>
   <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-      <a class="navbar-brand brand-logo" href="index.php"><img src="assets/images/Screenshot 2024-03-15 155818.png" alt="logo" /></a>
-      <a class="navbar-brand brand-logo-mini" href="index.php"><img src="assets/images/Screenshot 2024-03-15 170404.png" alt="logo" /></a>
+      <a class="navbar-brand brand-logo" href="index.php"><img src="assets/images/Screenshot 2024-03-15 155818.png"
+          alt="logo" /></a>
+      <a class="navbar-brand brand-logo-mini" href="index.php"><img src="assets/images/Screenshot 2024-03-15 170404.png"
+          alt="logo" /></a>
     </div>
     <div class="navbar-menu-wrapper d-flex align-items-stretch">
       <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -75,18 +77,20 @@ if ($result !== false && $result->num_rows > 0) {
           <a class="nav-link dropdown-toggle" id="profileDropdown" href="" data-bs-toggle="dropdown"
             aria-expanded="false">
             <div class="nav-profile-img">
-            <?php
-                    // Check if the 'profile_image' column exists and is not empty
-                    if (isset($adminDetails['profile_image']) && !empty($adminDetails['profile_image'])) {
-                        echo '<img src="uploads/' . $adminDetails['profile_image'] . '" alt="profile">';
-                    } else {
-                        // Display a default image if the 'profile_image' column is empty or not found
-                        echo '<img src="assets\images\faces\face1.jpg" alt="default-profile">';
-                    }
-                    ?>
+              <?php
+              // Check if the 'profile_image' column exists and is not empty
+              if (isset ($adminDetails['profile_image']) && !empty ($adminDetails['profile_image'])) {
+                echo '<img src="uploads/' . $adminDetails['profile_image'] . '" alt="profile">';
+              } else {
+                // Display a default image if the 'profile_image' column is empty or not found
+                echo '<img src="assets\images\faces\face1.jpg" alt="default-profile">';
+              }
+              ?>
             </div>
             <div class="nav-profile-text">
-            <span class="font-weight-bold mb-2 "><?php echo isset($adminDetails['username']) ? $adminDetails['username'] : ''; ?></span>
+              <span class="font-weight-bold mb-2 ">
+                <?php echo isset ($adminDetails['username']) ? $adminDetails['username'] : ''; ?>
+              </span>
             </div>
           </a>
           <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
@@ -187,22 +191,18 @@ if ($result !== false && $result->num_rows > 0) {
           </div>
         </li>
         <li class="nav-item nav-login">
-  <?php
-  // Check if the user's email is set in the session
-  if (isset($_SESSION['id'])) {
-    // User is logged in, display Logout option with an icon
-    echo '<a class="nav-link" href="logout.php"><i class="mdi mdi-logout"></i></a>';
-  } else {
-    // User is not logged in, display Login option with an icon
-    echo '<a class="nav-link" href="login.php"><i class="mdi mdi-login"></i></a>';
-  }
-  ?>
-</li>
-
-     
-
-
-      </ul>
+          <?php
+          // Check if the user's email is set in the session
+          if (isset ($_SESSION['id'])) {
+            // User is logged in, display Logout option with an icon
+            echo '<a class="nav-link" href="logout.php"><i class="mdi mdi-logout"></i></a>';
+          } else {
+            // User is not logged in, display Login option with an icon
+            echo '<a class="nav-link" href="login.php"><i class="mdi mdi-login"></i></a>';
+          }
+          ?>
+        </li>
+    </ul>
       <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
         data-toggle="offcanvas">
         <span class="mdi mdi-menu"></span>

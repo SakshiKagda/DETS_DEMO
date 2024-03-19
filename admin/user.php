@@ -60,6 +60,18 @@ if ($result->num_rows > 0) {
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css">
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <!-- endinject -->
+  <!-- Layout styles -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <!-- End layout styles -->
+  <link rel="shortcut icon" href="assets/images/favicon.ico" />
   <style>
     .main {
       display: flex;
@@ -315,7 +327,7 @@ if ($result->num_rows > 0) {
             <li class="page-item"><a class="page-link" href="#">Next</a></li>
           </ul>
           <a href="index.php" class="btn btn-primary mt-3">Go Back</a>
-          <button type="button" class="btn btn-danger mt-3" onclick="deleteSelectedUsers()">Delete Selected</button>
+          <button type="button" class="btn btn-secondary mt-3" onclick="deleteSelectedUsers()">Delete Selected</button>
 
         </div>
       </div>
