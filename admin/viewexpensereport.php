@@ -70,6 +70,10 @@
             font-size: 33px;
             color: black;
         }
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+        }
     </style>
 </head>
 
@@ -117,7 +121,8 @@
                             <option value="11">November</option>
                             <option value="12">December</option>
                         </select>
-                        <input type="submit" value="Apply" onclick="applyFilter()">
+                        <button type="submit" class="btn-sm btn-primary" value="Apply"
+                            onclick="applyFilter()">Apply</button><br><br>
 
                     </div>
 

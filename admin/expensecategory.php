@@ -36,8 +36,8 @@ session_start();
         }
 
         .thead {
-      background-color:#047edf;
-    }
+            background-color:#047edf;
+        }
 
         th.action {
             vertical-align: middle;
@@ -61,20 +61,23 @@ session_start();
             margin-right: 10px;
         }
         .content-wrapper{
-      background-color: #E1EEF2 !important;
-    }
-    .sidebar .nav.sub-menu .nav-item .nav-link.active {
+            background-color: #E1EEF2 !important;
+        }
+        .sidebar .nav.sub-menu .nav-item .nav-link.active {
             color: #2847de !important;
-
-     background: transparent;
-}
-.btn-primary{
-      background-color:#047edf !important;
-      border-color: #047edf !important;
-    }
-    .page-title .page-title-icon {
-    background-color: #2847de !important;
-}
+            background: transparent;
+        }
+        .btn-primary{
+            background-color:#047edf !important;
+            border-color: #047edf !important;
+        }
+        .page-title .page-title-icon {
+            background-color: #2847de !important;
+        }
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+        }
     </style>
 </head>
 <body>
@@ -118,7 +121,8 @@ session_start();
                             }
                             ?>
                         </select>
-                        <button onclick="applyFilter()">Apply</button>
+                         <button type="submit" class="btn-sm btn-primary" value="Apply"
+                            onclick="applyFilter()">Apply</button><br><br>
                     </div>
                 </div>
 
@@ -173,7 +177,13 @@ session_start();
                                 echo "<tr class='category-row' data-category-id='" . $categoryRow["category_id"] . "'>";
                                 echo "<td>" . $categoryRow["category_id"] . "</td>";
                                 echo "<td>" . $categoryRow["category_name"] . "</td>";
-                                echo "<td class='action' style='text-align: center; vertical-align: middle;'><a href='editexpense_category.php?id=" . $categoryRow["category_id"] . "'><i class='mdi mdi-tooltip-edit mdi-icon'></i></a> <a href='deleteexpense_category.php?id=" . $categoryRow["category_id"] . "'><i class='mdi mdi-delete mdi-icon'></i></a></td>";
+                                echo "<td class='action'>";
+                                echo "<a href='editexpense_category.php?id=" . $categoryRow["category_id"] . "'>";
+                                echo "<i class='mdi mdi-tooltip-edit mdi-icon'></i></a>";
+                                echo "&nbsp;&nbsp;&nbsp;"; // Add space between the icons
+                                echo "<a href='deleteexpense_category.php?id=" . $categoryRow["category_id"] . "'>";
+                                echo "<i class='mdi mdi-delete mdi-icon'></i></a>";
+                                echo "</td>";
                                 echo "</tr>";
                             }
 

@@ -218,7 +218,7 @@ if ($result->num_rows > 0) {
           </select>
         </div>
       </div>
-      <button type="submit" class="btn btn-primary">Filter</button>
+      <button type="submit" class="btn btn-primary">Apply</button>
       <a href="user.php" class="btn btn-secondary">Reset</a>
     </form>
   </div>

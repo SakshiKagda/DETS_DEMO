@@ -2,7 +2,7 @@
 
 include 'connect.php';
 
-if (isset($_POST['submit'])) {
+if (isset ($_POST['submit'])) {
 
     $username = $_POST["username"];
     $email = $_POST["email"];
@@ -13,7 +13,7 @@ if (isset($_POST['submit'])) {
 
     // Validate passwords match
     if ($password !== $confirmPassword) {
-        die("Passwords do not match");
+        die ("Passwords do not match");
     }
 
     // Hash the password
@@ -26,7 +26,7 @@ if (isset($_POST['submit'])) {
     $target_dir = "uploads/";
     $target_file = $target_dir . basename($_FILES["profile_image"]["name"]);
     if (!move_uploaded_file($_FILES["profile_image"]["tmp_name"], $target_file)) {
-        die("Error uploading file.");
+        die ("Error uploading file.");
     }
 
     // Insert admin data into the database using prepared statements
@@ -67,12 +67,22 @@ if (isset($_POST['submit'])) {
     <!-- End layout styles -->
     <link rel="shortcut icon" href="assets/images/favicon.ico" />
     <style>
-   label{
-    font-weight: bold;
-   }
-   .content-wrapper{
-      background-color: #E1EEF2 !important;
-    }
+        label {
+            font-weight: bold;
+        }
+
+        .content-wrapper {
+            background-color: #E1EEF2 !important;
+        }
+
+        .btn-block {
+            background-color: #047edf !important;
+            border-color: #047edf !important;
+            color: white !important;
+            display: flex !important;
+            justify-content: center !important;
+            text-align: center !important;
+        }
     </style>
 
     <script>
@@ -145,7 +155,7 @@ if (isset($_POST['submit'])) {
                     <div class="col-lg-4 mx-auto">
                         <div class="auth-form-light text-left p-5">
                             <div class="brand-logo">
-                                <img src="assets/images/logo.png">
+                                <img src="assets/images/Screenshot 2024-03-15 155818.png">
                             </div>
                             <h4>New here?</h4>
                             <h6 class="font-weight-light">Signing up is easy. It only takes a few steps</h6>
@@ -213,8 +223,9 @@ if (isset($_POST['submit'])) {
                                 </div>
 
                                 <button type="submit" name="submit"
-                                    class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">SIGN
+                                    class="btn btn-block btn-lg font-weight-medium auth-form-btn">SIGN
                                     UP</button>
+
 
                                 <div class="text-center mt-4 font-weight-light"> Already have an account? <a
                                         href="login.php" class="text-primary">Login</a></div>

@@ -65,6 +65,10 @@ session_start();
         .page-title .page-title-icon {
             background-color: #2847de !important;
         }
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+        }
     </style>
 </head>
 
@@ -124,7 +128,9 @@ session_start();
                             <option value="12">December</option>
 
                         </select>
-                        <input type="submit" value="Apply" onclick="applyMonthFilter()">
+                        <button type="submit" class="btn-sm btn-primary" value="Apply"
+                            onclick="applyFilter()">Apply</button><br><br>
+
                     </div>
                 </div>
 

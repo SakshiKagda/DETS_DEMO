@@ -25,8 +25,9 @@ session_start();
         }
 
         .thead {
-      background-color:#047edf;
-    }
+            background-color: #047edf;
+        }
+
         th {
             color: white;
         }
@@ -39,40 +40,47 @@ session_start();
         .pagination .page-item .page-link {
             color: black;
         }
-        .content-wrapper{  
-      background-color: #E1EEF2 !important;
+
+        .content-wrapper {
+            background-color: #E1EEF2 !important;
         }
+
         .sidebar .nav.sub-menu .nav-item .nav-link.active {
             color: #2847de !important;
 
-     background: transparent;
-}
-.btn-primary{
-      background-color:#047edf !important;
-      border-color: #047edf !important;
-    }
-    .page-title .page-title-icon {
-    background-color: #2847de !important;
-}
-  
-    
+            background: transparent;
+        }
+
+        .btn-primary {
+            background-color: #047edf !important;
+            border-color: #047edf !important;
+        }
+
+        .page-title .page-title-icon {
+            background-color: #2847de !important;
+        }
+
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+        }
     </style>
 </head>
 
 <body>
     <header>
-        <?php include("header.php"); ?>
+        <?php include ("header.php"); ?>
     </header>
 
     <div class="main">
         <sidebar>
-            <?php include("sidebar.php"); ?>
+            <?php include ("sidebar.php"); ?>
         </sidebar>
         <div class="content-wrapper">
             <div class="container mt-5">
                 <div class="page-header">
                     <h1 class="page-title">
-                        <a href="index.php" style="text-decoration: none; color: inherit;"> 
+                        <a href="index.php" style="text-decoration: none; color: inherit;">
                             <span class="page-title-icon text-white me-2">
                                 <i class="mdi mdi-home"></i>
                             </span>
@@ -98,7 +106,9 @@ session_start();
                             <option value="11">November</option>
                             <option value="12">December</option>
                         </select>
-                        <input type="submit" value="Apply" onclick="applyFilter()">
+                        <button type="submit" class="btn-sm btn-primary" value="Apply"
+                            onclick="applyFilter()">Apply</button><br><br>
+
                     </div>
                 </div>
                 <script>
@@ -120,7 +130,7 @@ session_start();
                         });
                     }
                 </script>
-                
+
                 <?php
                 include 'connect.php';
 
@@ -220,14 +230,14 @@ session_start();
                 }
                 // Pagination variables
                 $results_per_page = 10; // Set the desired number of results per page
-                if (!isset($_GET['page'])) {
+                if (!isset ($_GET['page'])) {
                     $page = 1;
                 } else {
                     $page = $_GET['page'];
                 }
                 $offset = ($page - 1) * $results_per_page;
                 if (!$result) {
-                    die("Error: " . $conn->error);
+                    die ("Error: " . $conn->error);
                 }
 
 
@@ -250,7 +260,7 @@ session_start();
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
     <footer>
-        <?php include("footer.php"); ?>
+        <?php include ("footer.php"); ?>
     </footer>
 </body>
 
