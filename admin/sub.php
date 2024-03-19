@@ -4,8 +4,8 @@ session_start(); // Start the session
 include 'connect.php';
 
 
-if (!isset($_SESSION['id'])) {
-  
+if (!isset ($_SESSION['id'])) {
+
 }
 
 // Retrieve the admin's current details from the database
@@ -66,8 +66,9 @@ $subscriptions = $resultSub->fetch_all(MYSQLI_ASSOC);
     }
 
     .thead {
-      background-color:#047edf;
+      background-color: #047edf;
     }
+
     .active {
       background-color: green;
 
@@ -85,103 +86,158 @@ $subscriptions = $resultSub->fetch_all(MYSQLI_ASSOC);
     .pagination .page-item .page-link {
       color: black;
     }
-    .content-wrapper{
+
+    .content-wrapper {
       background-color: #E1EEF2 !important;
     }
-    .btn-primary{
-      background-color:#047edf !important;
+
+    .btn-primary {
+      background-color: #047edf !important;
       border-color: #047edf !important;
     }
+
     .page-title .page-title-icon {
-    background-color: #2847de !important;
-}
+      background-color: #2847de !important;
+    }
   </style>
 </head>
 
 <body>
   <header>
-    <?php include("header.php"); ?>
+    <?php include ("header.php"); ?>
   </header>
 
   <div class="main">
     <sidebar>
-      <?php include("sidebar.php"); ?>
+      <?php include ("sidebar.php"); ?>
     </sidebar>
     <div class="content-wrapper">
-    <div class="page-header">
-  <h3 class="page-title">
-    <a href="index.php" style="text-decoration: none; color: inherit;"> <!-- Add this anchor tag -->
-      <span class="page-title-icon  text-white me-2">
-        <i class="mdi mdi-home"></i>
-      </span>
-    </a> 
-    Subscription Details
-  </h3>
-</div>
-<div class="row">
+      <div class="page-header">
+        <h3 class="page-title">
+          <a href="index.php" style="text-decoration: none; color: inherit;"> <!-- Add this anchor tag -->
+            <span class="page-title-icon  text-white me-2">
+              <i class="mdi mdi-home"></i>
+            </span>
+          </a>
+          Subscription Details
+        </h3>
+      </div>
+      <div class="row">
         <div class="table-wrapper" style="height: 1000px; width: 900px; overflow-y:auto" ;>
-        <table class=" table table-bordered table-hover">
-           
-              <thead class="thead">
-                <tr>
-                  <th>Subscription ID</th>
-                  <th>User ID</th>
-                  <th>Subscription Plan</th>
-                  <th>Start Date</th>
-                  <th>End Date</th>
-                  <th>Billing Frequency</th>
-                  <th>Amount</th>
-                  <th>Payment Method</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php foreach ($subscriptions as $subscription): ?>
-                  <tr>
-                    <td>
-                      <?php echo $subscription['subscription_id']; ?>
-                    </td>
-                    <td>
-                      <?php echo $subscription['user_id']; ?>
-                    </td>
-                    <td>
-                      <?php echo $subscription['subscription_plan']; ?>
-                    </td>
-                    <td>
-                      <?php echo $subscription['start_date']; ?>
-                    </td>
-                    <td>
-                      <?php echo $subscription['end_date']; ?>
-                    </td>
-                    <td>
-                      <?php echo $subscription['billing_frequency']; ?>
-                    </td>
-                    <td>
-                      <?php echo $subscription['amount']; ?>
-                    </td>
-                    <td>
-                      <?php echo $subscription['payment_method']; ?>
-                    </td>
-                    <td>
-                      <?php echo $subscription['status']; ?>
-                    </td>
+          <table class=" table table-bordered table-hover">
 
-                  </tr>
-                <?php endforeach; ?>
-              </tbody>
-            </table>
-            <ul class="pagination">
-              <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item"><a class="page-link" href="#">Next</a></li>
-            </ul>
-            <a href="index.php" class="btn btn-primary mt-3">Go Back</a>
-          </div>
+            <thead class="thead">
+              <tr>
+                <th>Select</Select></th>
+                <th>Profile Image</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Subscription ID</th>
+                <th>User ID</th>
+                <th>Subscription Plan</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Billing Frequency</th>
+                <th>Amount</th>
+                <th>Payment Method</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($subscriptions as $subscription): ?>
+                
+                <?php
+                // Retrieve user details associated with the subscription
+                $userId = $subscription['user_id'];
+                $selectUserQuery = "SELECT profile_image, username, email FROM users WHERE user_id = ?";
+                $stmtUser = $conn->prepare($selectUserQuery);
+                $stmtUser->bind_param("i", $userId);
+                $stmtUser->execute();
+                $resultUser = $stmtUser->get_result();
+                $user = $resultUser->fetch_assoc();
+                ?>
+                <tr>
+                <td>
+                      <input type="checkbox" name="selected_users[]" value="<?php echo $userId; ?>"> <!-- Checkbox for user deletion -->
+                    </td>
+                  <td>
+                    <img
+                      src="<?php echo isset ($user['profile_image']) && file_exists($user['profile_image']) ? $user['profile_image'] : 'assets/images/faces/face1.jpg'; ?>"
+                      alt="Profile Image" style="width: 50px; height: 50px;">
+                  </td>
+                  <td>
+
+                    <?php echo $user['username']; ?>
+                  </td>
+
+                  <td>
+
+                    <?php echo $user['email']; ?>
+                  </td>
+                  <td>
+                    <?php echo $subscription['subscription_id']; ?>
+                  </td>
+                  <td>
+                    <?php echo $subscription['user_id']; ?>
+                  </td>
+                  <td>
+                    <?php echo $subscription['subscription_plan']; ?>
+                  </td>
+                  <td>
+                    <?php echo $subscription['start_date']; ?>
+                  </td>
+                  <td>
+                    <?php echo $subscription['end_date']; ?>
+                  </td>
+                  <td>
+                    <?php echo $subscription['billing_frequency']; ?>
+                  </td>
+                  <td>
+                    <?php echo $subscription['amount']; ?>
+                  </td>
+                  <td>
+                    <?php echo $subscription['payment_method']; ?>
+                  </td>
+                  <td>
+  <?php
+
+  $status = $subscription['status'];
+  $badgeClass = '';
+  switch ($status) {
+    case 'Active':
+      $badgeClass = 'badge-success';
+      break;
+    case 'Inactive':
+      $badgeClass = 'badge-danger';
+      break;
+    case 'Pending':
+      $badgeClass = 'badge-warning';
+      break;
+    default:
+      $badgeClass = 'badge-secondary';
+      break;
+  }
+  ?>
+  <span class="badge <?php echo $badgeClass; ?>"><?php echo $status; ?></span>
+</td>
+
+                </tr>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
+          <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+          </ul>
+          <a href="index.php" class="btn btn-primary mt-3">Go Back</a>
+          <button type="button" class="btn btn-secondary mt-3" onclick="deleteSelectedUsers()">Delete Selected</button>
         </div>
       </div>
     </div>
+  </div>
   </div>
 
   <!-- Bootstrap JS and Popper.js -->
@@ -190,8 +246,40 @@ $subscriptions = $resultSub->fetch_all(MYSQLI_ASSOC);
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
   <footer>
-    <?php include("footer.php"); ?>
+    <?php include ("footer.php"); ?>
   </footer>
+  <script>
+    function deleteSelectedUsers() {
+      if (confirm('Are you sure you want to delete selected users?')) {
+        // Get all selected user IDs
+        var selectedUsers = document.querySelectorAll('input[name="selected_users[]"]:checked');
+        var userIds = [];
+
+        // Extract user IDs from selected checkboxes
+        selectedUsers.forEach(function (checkbox) {
+          userIds.push(checkbox.value);
+        });
+
+        // Create a form element
+        var form = document.createElement('form');
+        form.method = 'post';
+        form.action = 'delete_sub.php';
+
+        // Create an input field to hold the user IDs
+        userIds.forEach(function (userId) {
+          var input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = 'user_ids[]';
+          input.value = userId;
+          form.appendChild(input);
+        });
+
+        // Append the form to the document body and submit it
+        document.body.appendChild(form);
+        form.submit();
+      }
+    }
+  </script>
 </body>
 
 </html>

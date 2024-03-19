@@ -102,7 +102,7 @@ foreach ($subscriptions as $subscription) {
     background-color: #2847de !important;
 }
 .bg-color {
-    background: linear-gradient(to right, #ff6ec4, #ffb6c1) !important; /* Pink gradient */
+    background: linear-gradient(to right, #ff6ec4, #ffb6c1) !important; 
 }
 
   </style>
