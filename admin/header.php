@@ -21,7 +21,7 @@ if ($result !== false && $result->num_rows > 0) {
   $adminDetails = $result->fetch_assoc();
 } else {
   // Handle the case where user details are not found
-  $adminDetails = array(); // Empty array if user not found
+  $adminDetails = array(); 
 }
 
 
