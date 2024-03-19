@@ -85,6 +85,10 @@ foreach ($subscriptions as $subscription) {
     .page-title .page-title-icon {
     background-color: #2847de !important;
 }
+.bg-color {
+    background: linear-gradient(to right, #ff6ec4, #ffb6c1) !important; /* Pink gradient */
+}
+
   </style>
 </head>
 
@@ -116,7 +120,7 @@ foreach ($subscriptions as $subscription) {
         <div class="row">
           <?php
           echo "<div class='col-md-4 stretch-card grid-margin'>";
-          echo "<div class='card bg-gradient-danger card-img-holder text-white'>";
+          echo "<div class='card bg-color card-img-holder text-white'>";
           echo "<div class='card-body'>";
           echo "<img src='assets/images/dashboard/circle.svg' class='card-img-absolute' alt='circle-image'>";
           echo "<h4 class='font-weight-normal mb-3'>Total Users <i class='mdi mdi-account-circle mdi-24px float-right'></i></h4>";
