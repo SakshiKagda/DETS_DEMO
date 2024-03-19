@@ -12,17 +12,17 @@ session_start();
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <!-- plugins:css -->
-  <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
-  <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
-  <!-- endinject -->
-  <!-- Plugin css for this page -->
-  <!-- End plugin css for this page -->
-  <!-- inject:css -->
-  <!-- endinject -->
-  <!-- Layout styles -->
-  <link rel="stylesheet" href="assets/css/style.css">
-  <!-- End layout styles -->
-  <link rel="shortcut icon" href="assets/images/favicon.ico" />
+    <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico" />
     <style>
         .main {
             display: flex;
@@ -77,6 +77,7 @@ session_start();
         .page-title .page-title-icon {
             background-color: #2847de !important;
         }
+
         .btn-sm {
             padding: 0.25rem 0.5rem;
             font-size: 0.875rem;
@@ -86,12 +87,12 @@ session_start();
 
 <body>
     <header>
-        <?php include("header.php"); ?>
+        <?php include ("header.php"); ?>
     </header>
 
     <div class="main">
         <sidebar>
-            <?php include("sidebar.php"); ?>
+            <?php include ("sidebar.php"); ?>
         </sidebar>
         <div class="content-wrapper">
             <div class="container mt-5">
@@ -140,16 +141,36 @@ session_start();
                             <option value="12">December</option>
 
                         </select>
-                        <button type="submit" class="btn-sm btn-primary" value="Apply"
-                            onclick="applyFilter()">Apply</button><br><br>
+                        <button type="button" class="btn-sm btn-primary" onclick="applyMonthFilter()">Apply</button>
+
 
                     </div>
                 </div>
+                <script>
+        function applyMonthFilter() {
+            var monthFilterValue = document.getElementById('month-filter').value;
+            var budgets = document.querySelectorAll('.budget-row');
+
+            budgets.forEach(function (budget) {
+                var startDate = budget.querySelector('.budget-start-date').textContent.trim();
+                var endDate = budget.querySelector('.budget-end-date').textContent.trim();
+                var startMonth = startDate.split('-')[1];
+                var endMonth = endDate.split('-')[1];
+
+                if (monthFilterValue === 'all' || (startMonth === monthFilterValue && endMonth === monthFilterValue)) {
+                    budget.style.display = ''; // Show the row
+                } else {
+                    budget.style.display = 'none'; // Hide the row
+                }
+            });
+        }
+
+    </script>
 
                 <?php
                 include 'connect.php';
 
-                $monthFilter = isset($_GET['month-filter']) ? $_GET['month-filter'] : 'all';
+                $monthFilter = isset ($_GET['month-filter']) ? $_GET['month-filter'] : 'all';
                 $monthCondition = ($monthFilter != 'all') ? "AND MONTH(budgets.start_date) = '$monthFilter' AND MONTH(budgets.end_date) = '$monthFilter'" : '';
 
                 $sql = "SELECT DISTINCT users.user_id AS user_id, users.username AS username, users.email AS email 
@@ -201,7 +222,7 @@ session_start();
                                 $categoryName = $totalExpenseRow["expenseCategory"];
 
                                 // Check if total expense is empty
-                                if (empty($totalExpense)) {
+                                if (empty ($totalExpense)) {
                                     $totalExpense = 0;
                                 }
 
@@ -233,7 +254,7 @@ session_start();
                     echo "<p>No users found.</p>";
                 }
                 $results_per_page = 10; // Set the desired number of results per page
-                if (!isset($_GET['page'])) {
+                if (!isset ($_GET['page'])) {
                     $page = 1;
                 } else {
                     $page = $_GET['page'];
@@ -259,28 +280,8 @@ session_start();
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
     <footer>
-        <?php include("footer.php"); ?>
+        <?php include ("footer.php"); ?>
     </footer>
-
-    <script>
-        function applyMonthFilter() {
-            var monthFilterValue = document.getElementById('month-filter').value;
-            var budgets = document.querySelectorAll('.budget-row');
-
-            budgets.forEach(function (budget) {
-                var startDate = budget.querySelector('.budget-start-date').textContent.trim();
-                var endDate = budget.querySelector('.budget-end-date').textContent.trim();
-                var startMonth = startDate.split('-')[1];
-                var endMonth = endDate.split('-')[1];
-
-                if (monthFilterValue === 'all' || (startMonth === monthFilterValue && endMonth === monthFilterValue)) {
-                    budget.style.display = 'table-row';
-                } else {
-                    budget.style.display = 'none';
-                }
-            });
-        }
-    </script>
 
 </body>
 
