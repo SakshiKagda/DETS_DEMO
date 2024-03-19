@@ -139,7 +139,7 @@ if ($result->num_rows > 0) {
       opacity: 0.8;
     }
 
-    /* Optional: Add a hover effect to the buttons */
+    
     .badge:hover {
       background-color: #007bff;
       color: white;

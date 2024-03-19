@@ -3,9 +3,11 @@ session_start(); // Start the session
 
 include 'connect.php';
 
+$usernameFilter = isset($_GET['username']) ? $_GET['username'] : '';
+$emailFilter = isset($_GET['email']) ? $_GET['email'] : '';
 
-if (!isset ($_SESSION['id'])) {
-
+if (!isset($_SESSION['id'])) {
+    // Redirect or handle unauthorized access
 }
 
 // Retrieve the admin's current details from the database
@@ -17,13 +19,32 @@ $stmt->execute();
 $result = $stmt->get_result();
 $admin = $result->fetch_assoc();
 
-// Retrieve subscription details from the database
-$selectSubQuery = "SELECT * FROM subscription";
+// Construct SQL query with filters
+$selectSubQuery = "SELECT * FROM subscription WHERE 1=1";
+if (!empty($usernameFilter)) {
+    $selectSubQuery .= " AND user_id IN (SELECT user_id FROM users WHERE username LIKE ?)";
+}
+if (!empty($emailFilter)) {
+    $selectSubQuery .= " AND user_id IN (SELECT user_id FROM users WHERE email LIKE ?)";
+}
+
+// Prepare the statement
 $stmtSub = $conn->prepare($selectSubQuery);
+
+// Bind parameters if filters are provided
+if (!empty($usernameFilter)) {
+    $usernameFilter = '%' . $usernameFilter . '%';
+    $stmtSub->bind_param("s", $usernameFilter);
+}
+if (!empty($emailFilter)) {
+    $emailFilter = '%' . $emailFilter . '%';
+    $stmtSub->bind_param("s", $emailFilter);
+}
+
+// Execute the statement
 $stmtSub->execute();
 $resultSub = $stmtSub->get_result();
 $subscriptions = $resultSub->fetch_all(MYSQLI_ASSOC);
-
 ?>
 
 <!DOCTYPE html>
@@ -122,6 +143,24 @@ $subscriptions = $resultSub->fetch_all(MYSQLI_ASSOC);
           Subscription Details
         </h3>
       </div>
+      <div class="row mb-3">
+  <div class="col">
+    <form id="filterForm" method="GET" action="">
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label for="usernameFilter">Filter by Username:</label>
+          <input type="text" class="form-control" id="usernameFilter" name="username" placeholder="Enter username">
+        </div>
+        <div class="form-group col-md-4">
+          <label for="emailFilter">Filter by Email:</label>
+          <input type="text" class="form-control" id="emailFilter" name="email" placeholder="Enter email">
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Apply</button>
+      <a href="sub.php" class="btn btn-secondary">Reset</a>
+    </form>
+  </div>
+</div>
       <div class="row">
         <div class="table-wrapper" style="height: 1000px; width: 900px; overflow-y:auto" ;>
           <table class=" table table-bordered table-hover">
