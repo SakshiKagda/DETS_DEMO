@@ -170,75 +170,64 @@ foreach ($subscriptions as $subscription) {
           ?>
         </div>
         <div class="row">
-          <div class="col grid-margin stretch-card">
-            <div class="card">
-              <div class="card-body">
-                <h4 class="card-title">User Status</h4>
-                <div class="table">
-                  <table class="table table-striped ">
+        <div class="col grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">User Status</h4>
+            <div class="table-responsive">
+            <table class=" table table-bordered table-hover">
                     <thead class="thead">
-                      <tr>
-                        <th>User Id</th>
-                        <th>Subscription ID</th>
-                        <th> Username </th>
-                        <th> Start Date</th>
-                        <th> End Date </th>
-                        <th>Total Expense</th>
-                        <th>Total Income</th>
-                        <th>Renew</th>
-                      </tr>
+                        <tr>
+                            <th>User Id</th>
+                            <th>Subscription ID</th>
+                            <th>Username</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Total Expense</th>
+                            <th>Total Income</th>
+                            <th>Renew</th>
+                        </tr>
                     </thead>
-                    <?php foreach ($subscriptions as $subscription): ?>
-                      <tr>
-                        <td>
-                          <?php echo $subscription['user_id']; ?>
-                        </td>
-                        <td>
-                          <?php echo $subscription['subscription_id']; ?>
-                        </td>
-                        <td>
-                          <?php echo $subscription['username']; ?>
-                        </td>
-                        <td>
-                          <?php echo $subscription['start_date']; ?>
-                        </td>
-                        <td>
-                          <?php echo $subscription['end_date']; ?>
-                        </td>
-                        <td>
-                          <?php
-                          // Fetch total expense for the user
-                          $sqlExpense = "SELECT SUM(expenseAmount) AS total_expense FROM expenses WHERE user_id = " . $subscription['user_id'];
-                          $resultExpense = $conn->query($sqlExpense);
-                          $totalExpense = $resultExpense->fetch_assoc()['total_expense'];
-                          echo $totalExpense !== null ? $totalExpense : 0;
-                          ;
-                          ?>
-                        </td>
-                        <td>
-                          <?php
-                          // Fetch total income for the user
-                          $sqlIncome = "SELECT SUM(incomeAmount) AS total_income FROM incomes WHERE user_id = " . $subscription['user_id'];
-                          $resultIncome = $conn->query($sqlIncome);
-                          $totalIncome = $resultIncome->fetch_assoc()['total_income'];
-                          echo $totalIncome !== null ? $totalIncome : 0;
-                          ;
-                          ?>
-                        </td>
-                        <td>
-                          <form action="reminder.php" method="get">
-                            <input type="hidden" name="subscription_id"
-                              value="<?php echo $subscription['subscription_id']; ?>">
-                            <button type="submit" class="btn btn-primary">Renew</button>
-                          </form>
-                        </td>
-                      </tr>
-                    <?php endforeach; ?>
-                  </table>
-                </div>
-              </div>
+                    <tbody>
+                        <?php foreach ($subscriptions as $subscription): ?>
+                            <tr>
+                                <td><?php echo $subscription['user_id']; ?></td>
+                                <td><?php echo $subscription['subscription_id']; ?></td>
+                                <td><?php echo $subscription['username']; ?></td>
+                                <td><?php echo $subscription['start_date']; ?></td>
+                                <td><?php echo $subscription['end_date']; ?></td>
+                                <td>
+                                    <?php
+                                    // Fetch total expense for the user
+                                    $sqlExpense = "SELECT SUM(expenseAmount) AS total_expense FROM expenses WHERE user_id = " . $subscription['user_id'];
+                                    $resultExpense = $conn->query($sqlExpense);
+                                    $totalExpense = $resultExpense->fetch_assoc()['total_expense'];
+                                    echo $totalExpense !== null ? $totalExpense : 0;
+                                    ?>
+                                </td>
+                                <td>
+                                    <?php
+                                    // Fetch total income for the user
+                                    $sqlIncome = "SELECT SUM(incomeAmount) AS total_income FROM incomes WHERE user_id = " . $subscription['user_id'];
+                                    $resultIncome = $conn->query($sqlIncome);
+                                    $totalIncome = $resultIncome->fetch_assoc()['total_income'];
+                                    echo $totalIncome !== null ? $totalIncome : 0;
+                                    ?>
+                                </td>
+                                <td>
+                                    <form action="reminder.php" method="get">
+                                        <input type="hidden" name="subscription_id" value="<?php echo $subscription['subscription_id']; ?>">
+                                        <button type="submit" class="btn btn-primary btn-sm">Renew</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
             </div>
-          </div>
+        </div>
+    </div>
+</div>
           <div class="row">
             <div class="col-md-7 grid-margin stretch-card">
               <div class="card">

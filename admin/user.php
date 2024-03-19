@@ -1,6 +1,6 @@
 <?php
 
-if (!isset($_SESSION)) {
+if (!isset ($_SESSION)) {
   session_start();
 }
 
@@ -8,13 +8,13 @@ include 'connect.php';
 
 // Fetch user details from the users table with filtering
 $filterCondition = "";
-if(isset($_GET['username']) && !empty($_GET['username'])) {
+if (isset ($_GET['username']) && !empty ($_GET['username'])) {
   $filterCondition .= " AND username LIKE '%" . $_GET['username'] . "%'";
 }
-if(isset($_GET['email']) && !empty($_GET['email'])) {
+if (isset ($_GET['email']) && !empty ($_GET['email'])) {
   $filterCondition .= " AND email LIKE '%" . $_GET['email'] . "%'";
 }
-if(isset($_GET['gender']) && !empty($_GET['gender'])) {
+if (isset ($_GET['gender']) && !empty ($_GET['gender'])) {
   $filterCondition .= " AND gender = '" . $_GET['gender'] . "'";
 }
 
@@ -42,9 +42,6 @@ if ($result->num_rows > 0) {
     // Add user details to the $users array
     $users[] = $user;
   }
-} else {
-    // Display error message if no users are found
-    echo "Username not found in the list.";
 }
 
 
@@ -139,14 +136,14 @@ if ($result->num_rows > 0) {
       opacity: 0.8;
     }
 
-    
+
     .badge:hover {
       background-color: #007bff;
       color: white;
     }
 
     .badge {
-   
+
       width: 70px;
       height: 30px;
 
@@ -154,17 +151,17 @@ if ($result->num_rows > 0) {
 
     tr {
       color: black;
-     
+
     }
 
     .thead {
-      background-color:#047edf;
+      background-color: #047edf;
     }
 
     th {
       color: white;
       padding: 10px !important;
-     
+
     }
 
     .pagination .page-item .page-link {
@@ -176,27 +173,33 @@ if ($result->num_rows > 0) {
 
       margin-right: 10px;
     }
-    .content-wrapper{
+
+    .content-wrapper {
       background-color: #E1EEF2 !important;
     }
-    .btn-primary{
-      background-color:#047edf !important;
+
+    .btn-primary {
+      background-color: #047edf !important;
       border-color: #047edf !important;
     }
+
     .page-title .page-title-icon {
-    background-color: #2847de !important;
-}
+      background-color: #2847de !important;
+    }
+    .text-center{
+      color: red !important;
+    }
   </style>
 </head>
 
 <body>
   <header>
-    <?php include("header.php"); ?>
+    <?php include ("header.php"); ?>
   </header>
 
   <div class="main">
     <sidebar>
-      <?php include("sidebar.php"); ?>
+      <?php include ("sidebar.php"); ?>
     </sidebar>
     <div class="content-wrapper">
       <div class="page-header">
@@ -210,31 +213,35 @@ if ($result->num_rows > 0) {
         </h3>
       </div>
       <div class="row mb-3">
-  <div class="col">
-    <form id="filterForm" method="GET" action="">
-      <div class="form-row">
-        <div class="form-group col-md-4">
-          <label for="usernameFilter">Filter by Username:</label>
-          <input type="text" class="form-control" id="usernameFilter" name="username" placeholder="Enter username">
-        </div>
-        <div class="form-group col-md-4">
-          <label for="emailFilter">Filter by Email:</label>
-          <input type="text" class="form-control" id="emailFilter" name="email" placeholder="Enter email">
-        </div>
-        <div class="form-group col-md-4">
-          <label for="genderFilter">Filter by Gender:</label>
-          <select class="form-control" id="genderFilter" name="gender">
-            <option value="">Select gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-          </select>
+        <div class="col">
+
+          <form id="filterForm" method="GET" action="">
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label for="usernameFilter">Filter by Username:</label>
+                <input type="text" class="form-control" id="usernameFilter" name="username"
+                  placeholder="Enter username">
+              </div>
+              <div class="form-group col-md-4">
+                <label for="emailFilter">Filter by Email:</label>
+                <input type="text" class="form-control" id="emailFilter" name="email" placeholder="Enter email">
+              </div>
+              <div class="form-group col-md-4">
+                <label for="genderFilter">Filter by Gender:</label>
+                <select class="form-control" id="genderFilter" name="gender">
+                  <option value="">Select gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Apply</button>
+            <a href="user.php" class="btn btn-secondary">Reset</a>
+
+          </form>
+
         </div>
       </div>
-      <button type="submit" class="btn btn-primary">Apply</button>
-      <a href="user.php" class="btn btn-secondary">Reset</a>
-    </form>
-  </div>
-</div>
 
       <div class="row">
         <div class="table-wrapper" style="height: 1000px; width: 980px; overflow-y:auto" ;>
@@ -254,70 +261,69 @@ if ($result->num_rows > 0) {
               </tr>
             </thead>
             <tbody>
-              <?php foreach ($users as $user): ?>
-                <tr>
-                  <td>
-                    <input type="checkbox" name="selected_users[]" value="<?php echo $user['user_id']; ?>">
-                  </td>
-                  <td>
-                    <img
-                      src="<?php echo isset($user['profile_image']) && file_exists($user['profile_image']) ? $user['profile_image'] : 'assets/images/faces/face1.jpg'; ?>"
-                      alt="Profile Image" style="width: 50px; height: 50px;">
-                  </td>
-                  <td>
-                    <?php echo $user['username']; ?>
-                  </td>
-                  <td>
-                    <?php echo $user['email']; ?>
-                  </td>
-                  <td>
-                    <?php echo $user['gender']; ?>
-                  </td>
-                  <td>
-                    <?php echo $user['mobile_number']; ?>
-                  </td>
-                  <td style="width: 80px;">
-                    <?php
-                    if ($user['pricing_status'] == 0) {
-                      echo '<span class="badge badge-danger badge-sm ">Inactive</span>';
-                    } else if ($user['pricing_status'] == 1) {
-                      echo '<span class="badge badge-success">Active</span>';
-                    } else if ($user['pricing_status'] == 2) {
-                      echo '<span class="badge badge-warning">Pending</span>';
-                    }
-                    ?>
-                  </td>
-                  <td>
-                    <?php
-                    $totalExpense=isset($user['total_expense']) ? $user['total_expense'] : 0;
-                    echo($totalExpense == 0) ? '<span style="color:red;">' . $totalExpense . '</span>' : $totalExpense;
-                    ?>
+  <?php if (empty($users)): ?>
+    <tr>
+      <td colspan="10" class="text-center">Username not found in the list.</td>
+    </tr>
+  <?php else: ?>
+    <?php foreach ($users as $user): ?>
+      <tr>
+        <td>
+          <input type="checkbox" name="selected_users[]" value="<?php echo $user['user_id']; ?>">
+        </td>
+        <td>
+          <img src="<?php echo isset($user['profile_image']) && file_exists($user['profile_image']) ? $user['profile_image'] : 'assets/images/faces/face1.jpg'; ?>" alt="Profile Image" style="width: 50px; height: 50px;">
+        </td>
+        <td>
+          <?php echo $user['username']; ?>
+        </td>
+        <td>
+          <?php echo $user['email']; ?>
+        </td>
+        <td>
+          <?php echo $user['gender']; ?>
+        </td>
+        <td>
+          <?php echo $user['mobile_number']; ?>
+        </td>
+        <td style="width: 80px;">
+          <?php
+          if ($user['pricing_status'] == 0) {
+            echo '<span class="badge badge-danger badge-sm ">Inactive</span>';
+          } else if ($user['pricing_status'] == 1) {
+            echo '<span class="badge badge-success">Active</span>';
+          } else if ($user['pricing_status'] == 2) {
+            echo '<span class="badge badge-warning">Pending</span>';
+          }
+          ?>
+        </td>
+        <td>
+          <?php
+          $totalExpense=isset($user['total_expense']) ? $user['total_expense'] : 0;
+          echo($totalExpense == 0) ? '<span style="color:red;">' . $totalExpense . '</span>' : $totalExpense;
+          ?>
+        </td>
+        <td>
+          <?php
+          $totalIncome = isset($user['total_income']) ? $user['total_income'] : 0;
+          echo ($totalIncome == 0) ? '<span style="color: red;">' . $totalIncome . '</span>' : $totalIncome;
+          ?>
+        </td>
+        <td>
+          <form method="post" action="update_pricing_status.php">
+            <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
+            <input type="hidden" name="pricing_status" id="pricing_status_<?php echo $user['user_id']; ?>">
+            <i class="mdi mdi-check-circle mdi-icon" style="cursor: pointer;" onclick="updateStatus('active', <?php echo $user['user_id']; ?>)"></i>
+            <i class="mdi mdi-close-circle mdi-icon" style="cursor: pointer;" onclick="updateStatus('inactive', <?php echo $user['user_id']; ?>)"></i>
+            <i class="mdi mdi-help-circle mdi-icon" style="cursor: pointer;" onclick="updateStatus('pending', <?php echo $user['user_id']; ?>)"></i>
+            <i class="mdi mdi-delete mdi-icon" style="cursor: pointer;" onclick="deleteUser(<?php echo $user['user_id']; ?>)"></i>
+          </form>
+        </td>
+      </tr>
+    <?php endforeach; ?>
+  <?php endif; ?>
+</tbody>
 
-                  </td>
-                  <td>
-  <?php
-  $totalIncome = isset($user['total_income']) ? $user['total_income'] : 0;
-  echo ($totalIncome == 0) ? '<span style="color: red;">' . $totalIncome . '</span>' : $totalIncome;
-  ?>
-</td>
-                  <td>
-                    <form method="post" action="update_pricing_status.php">
-                      <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
-                      <input type="hidden" name="pricing_status" id="pricing_status_<?php echo $user['user_id']; ?>">
-                      <i class="mdi mdi-check-circle mdi-icon" style="cursor: pointer;"
-                        onclick="updateStatus('active', <?php echo $user['user_id']; ?>)"></i>
-                      <i class="mdi mdi-close-circle mdi-icon" style="cursor: pointer;"
-                        onclick="updateStatus('inactive', <?php echo $user['user_id']; ?>)"></i>
-                      <i class="mdi mdi-help-circle mdi-icon" style="cursor: pointer;"
-                        onclick="updateStatus('pending', <?php echo $user['user_id']; ?>)"></i>
-                      <i class="mdi mdi-delete mdi-icon" style="cursor: pointer;"
-                        onclick="deleteUser(<?php echo $user['user_id']; ?>)"></i>
-
-                    </form>
-                  </td>
-                </tr>
-              <?php endforeach; ?>
-            </tbody>
           </table>
           <ul class="pagination">
             <li class="page-item"><a class="page-link" href="#">Previous</a></li>
@@ -341,7 +347,7 @@ if ($result->num_rows > 0) {
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
   <footer>
-    <?php include("footer.php"); ?>
+    <?php include ("footer.php"); ?>
   </footer>
   <script>
     function updateStatus(status, userId) {

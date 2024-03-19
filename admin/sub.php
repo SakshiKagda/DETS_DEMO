@@ -3,11 +3,11 @@ session_start(); // Start the session
 
 include 'connect.php';
 
-$usernameFilter = isset($_GET['username']) ? $_GET['username'] : '';
-$emailFilter = isset($_GET['email']) ? $_GET['email'] : '';
+$usernameFilter = isset ($_GET['username']) ? $_GET['username'] : '';
+$emailFilter = isset ($_GET['email']) ? $_GET['email'] : '';
 
-if (!isset($_SESSION['id'])) {
-    // Redirect or handle unauthorized access
+if (!isset ($_SESSION['id'])) {
+  // Redirect or handle unauthorized access
 }
 
 // Retrieve the admin's current details from the database
@@ -21,24 +21,24 @@ $admin = $result->fetch_assoc();
 
 // Construct SQL query with filters
 $selectSubQuery = "SELECT * FROM subscription WHERE 1=1";
-if (!empty($usernameFilter)) {
-    $selectSubQuery .= " AND user_id IN (SELECT user_id FROM users WHERE username LIKE ?)";
+if (!empty ($usernameFilter)) {
+  $selectSubQuery .= " AND user_id IN (SELECT user_id FROM users WHERE username LIKE ?)";
 }
-if (!empty($emailFilter)) {
-    $selectSubQuery .= " AND user_id IN (SELECT user_id FROM users WHERE email LIKE ?)";
+if (!empty ($emailFilter)) {
+  $selectSubQuery .= " AND user_id IN (SELECT user_id FROM users WHERE email LIKE ?)";
 }
 
 // Prepare the statement
 $stmtSub = $conn->prepare($selectSubQuery);
 
 // Bind parameters if filters are provided
-if (!empty($usernameFilter)) {
-    $usernameFilter = '%' . $usernameFilter . '%';
-    $stmtSub->bind_param("s", $usernameFilter);
+if (!empty ($usernameFilter)) {
+  $usernameFilter = '%' . $usernameFilter . '%';
+  $stmtSub->bind_param("s", $usernameFilter);
 }
-if (!empty($emailFilter)) {
-    $emailFilter = '%' . $emailFilter . '%';
-    $stmtSub->bind_param("s", $emailFilter);
+if (!empty ($emailFilter)) {
+  $emailFilter = '%' . $emailFilter . '%';
+  $stmtSub->bind_param("s", $emailFilter);
 }
 
 // Execute the statement
@@ -120,6 +120,11 @@ $subscriptions = $resultSub->fetch_all(MYSQLI_ASSOC);
     .page-title .page-title-icon {
       background-color: #2847de !important;
     }
+
+    .text-center {
+      text-align: center !important;
+      color: red !important;
+    }
   </style>
 </head>
 
@@ -144,23 +149,24 @@ $subscriptions = $resultSub->fetch_all(MYSQLI_ASSOC);
         </h3>
       </div>
       <div class="row mb-3">
-  <div class="col">
-    <form id="filterForm" method="GET" action="">
-      <div class="form-row">
-        <div class="form-group col-md-4">
-          <label for="usernameFilter">Filter by Username:</label>
-          <input type="text" class="form-control" id="usernameFilter" name="username" placeholder="Enter username">
-        </div>
-        <div class="form-group col-md-4">
-          <label for="emailFilter">Filter by Email:</label>
-          <input type="text" class="form-control" id="emailFilter" name="email" placeholder="Enter email">
+        <div class="col">
+          <form id="filterForm" method="GET" action="">
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label for="usernameFilter">Filter by Username:</label>
+                <input type="text" class="form-control" id="usernameFilter" name="username"
+                  placeholder="Enter username">
+              </div>
+              <div class="form-group col-md-4">
+                <label for="emailFilter">Filter by Email:</label>
+                <input type="text" class="form-control" id="emailFilter" name="email" placeholder="Enter email">
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Apply</button>
+            <a href="sub.php" class="btn btn-secondary">Reset</a>
+          </form>
         </div>
       </div>
-      <button type="submit" class="btn btn-primary">Apply</button>
-      <a href="sub.php" class="btn btn-secondary">Reset</a>
-    </form>
-  </div>
-</div>
       <div class="row">
         <div class="table-wrapper" style="height: 1000px; width: 900px; overflow-y:auto" ;>
           <table class=" table table-bordered table-hover">
@@ -183,86 +189,90 @@ $subscriptions = $resultSub->fetch_all(MYSQLI_ASSOC);
               </tr>
             </thead>
             <tbody>
-              <?php foreach ($subscriptions as $subscription): ?>
-                
-                <?php
-                // Retrieve user details associated with the subscription
-                $userId = $subscription['user_id'];
-                $selectUserQuery = "SELECT profile_image, username, email FROM users WHERE user_id = ?";
-                $stmtUser = $conn->prepare($selectUserQuery);
-                $stmtUser->bind_param("i", $userId);
-                $stmtUser->execute();
-                $resultUser = $stmtUser->get_result();
-                $user = $resultUser->fetch_assoc();
-                ?>
+              <?php if (empty ($subscriptions)): ?>
                 <tr>
-                <td>
-                      <input type="checkbox" name="selected_users[]" value="<?php echo $userId; ?>"> <!-- Checkbox for user deletion -->
-                    </td>
-                  <td>
-                    <img
-                      src="<?php echo isset ($user['profile_image']) && file_exists($user['profile_image']) ? $user['profile_image'] : 'assets/images/faces/face1.jpg'; ?>"
-                      alt="Profile Image" style="width: 50px; height: 50px;">
-                  </td>
-                  <td>
-
-                    <?php echo $user['username']; ?>
-                  </td>
-
-                  <td>
-
-                    <?php echo $user['email']; ?>
-                  </td>
-                  <td>
-                    <?php echo $subscription['subscription_id']; ?>
-                  </td>
-                  <td>
-                    <?php echo $subscription['user_id']; ?>
-                  </td>
-                  <td>
-                    <?php echo $subscription['subscription_plan']; ?>
-                  </td>
-                  <td>
-                    <?php echo $subscription['start_date']; ?>
-                  </td>
-                  <td>
-                    <?php echo $subscription['end_date']; ?>
-                  </td>
-                  <td>
-                    <?php echo $subscription['billing_frequency']; ?>
-                  </td>
-                  <td>
-                    <?php echo $subscription['amount']; ?>
-                  </td>
-                  <td>
-                    <?php echo $subscription['payment_method']; ?>
-                  </td>
-                  <td>
-  <?php
-
-  $status = $subscription['status'];
-  $badgeClass = '';
-  switch ($status) {
-    case 'Active':
-      $badgeClass = 'badge-success';
-      break;
-    case 'Inactive':
-      $badgeClass = 'badge-danger';
-      break;
-    case 'Pending':
-      $badgeClass = 'badge-warning';
-      break;
-    default:
-      $badgeClass = 'badge-secondary';
-      break;
-  }
-  ?>
-  <span class="badge <?php echo $badgeClass; ?>"><?php echo $status; ?></span>
-</td>
-
+                  <td colspan="13" class="text-center">No subscriptions found.</td>
                 </tr>
-              <?php endforeach; ?>
+              <?php else: ?>
+                <?php foreach ($subscriptions as $subscription): ?>
+                  <?php
+                  // Retrieve user details associated with the subscription
+                  $userId = $subscription['user_id'];
+                  $selectUserQuery = "SELECT profile_image, username, email FROM users WHERE user_id = ?";
+                  $stmtUser = $conn->prepare($selectUserQuery);
+                  $stmtUser->bind_param("i", $userId);
+                  $stmtUser->execute();
+                  $resultUser = $stmtUser->get_result();
+                  $user = $resultUser->fetch_assoc();
+                  ?>
+                  <tr>
+                    <td>
+                      <input type="checkbox" name="selected_users[]" value="<?php echo $userId; ?>">
+                      <!-- Checkbox for user deletion -->
+                    </td>
+                    <td>
+                      <img
+                        src="<?php echo isset ($user['profile_image']) && file_exists($user['profile_image']) ? $user['profile_image'] : 'assets/images/faces/face1.jpg'; ?>"
+                        alt="Profile Image" style="width: 50px; height: 50px;">
+                    </td>
+                    <td>
+                      <?php echo $user['username']; ?>
+                    </td>
+                    <td>
+                      <?php echo $user['email']; ?>
+                    </td>
+                    <td>
+                      <?php echo $subscription['subscription_id']; ?>
+                    </td>
+                    <td>
+                      <?php echo $subscription['user_id']; ?>
+                    </td>
+                    <td>
+                      <?php echo $subscription['subscription_plan']; ?>
+                    </td>
+                    <td>
+                      <?php echo $subscription['start_date']; ?>
+                    </td>
+                    <td>
+                      <?php echo $subscription['end_date']; ?>
+                    </td>
+                    <td>
+                      <?php echo $subscription['billing_frequency']; ?>
+                    </td>
+                    <td>
+                      <?php echo $subscription['amount']; ?>
+                    </td>
+                    <td>
+                      <?php echo $subscription['payment_method']; ?>
+                    </td>
+                    <td>
+                      <?php
+                      $status = $subscription['status'];
+                      $badgeClass = '';
+                      switch ($status) {
+                        case 'Active':
+                          $badgeClass = 'badge-success';
+                          break;
+                        case 'Inactive':
+                          $badgeClass = 'badge-danger';
+                          break;
+                        case 'Pending':
+                          $badgeClass = 'badge-warning';
+                          break;
+                        default:
+                          $badgeClass = 'badge-secondary';
+                          break;
+                      }
+                      ?>
+                      <span class="badge <?php echo $badgeClass; ?>">
+                        <?php echo $status; ?>
+                      </span>
+                    </td>
+                  </tr>
+                <?php endforeach; ?>
+              <?php endif; ?>
             </tbody>
+
           </table>
           <ul class="pagination">
             <li class="page-item"><a class="page-link" href="#">Previous</a></li>

@@ -143,103 +143,103 @@ session_start();
                     }
                 </script>
 
-                <?php
-                include 'connect.php';
+<?php
+include 'connect.php';
 
-                // SQL query to fetch users who have added expenses
-                $sql = "SELECT DISTINCT users.user_id AS user_id, users.username AS username, users.email AS email FROM users INNER JOIN expenses ON users.user_id = expenses.user_id";
+// SQL query to fetch users who have added expenses
+$sql = "SELECT DISTINCT users.user_id AS user_id, users.username AS username, users.email AS email FROM users INNER JOIN expenses ON users.user_id = expenses.user_id";
 
-                // echo $sql;
-                $result = $conn->query($sql);
+// echo $sql;
+$result = $conn->query($sql);
 
-                // Check if any users exist
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        $userId = $row["user_id"];
-                        $username = $row["username"];
-                        $email = $row["email"];
+// Check if any users exist
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $userId = $row["user_id"];
+        $username = $row["username"];
+        $email = $row["email"];
 
-                        // SQL query to fetch expenses for the current user
-                        $expenseSql = "SELECT * FROM expenses WHERE user_id = $userId";
-                        $expenseResult = $conn->query($expenseSql);
+        // SQL query to fetch expenses for the current user
+        $expenseSql = "SELECT * FROM expenses WHERE user_id = $userId";
+        $expenseResult = $conn->query($expenseSql);
 
-                        // SQL query to fetch income for the current user
-                        $incomeSql = "SELECT * FROM incomes WHERE user_id = $userId";
-                        $incomeResult = $conn->query($incomeSql);
+        // SQL query to fetch income for the current user
+        $incomeSql = "SELECT * FROM incomes WHERE user_id = $userId";
+        $incomeResult = $conn->query($incomeSql);
 
-                        // Check if any expenses exist for the current user
-                        if ($expenseResult->num_rows > 0) {
-                            echo "<h4>User: $username ($email)</h4>";
-                            // Output table for expenses
-                            echo "<table class='table table-bordered table-hover'>";
-                            echo "<thead class='thead'>";
-                            echo "<tr>";
-                            echo "<th>User ID</th>";
-                            echo "<th>Expense Name</th>";
-                            echo "<th>Amount</th>";
-                            echo "<th>Category</th>";
-                            echo "<th>Description</th>";
-                            echo "<th>Date</th>";
-                            echo "</tr>";
-                            echo "</thead>";
-                            echo "<tbody>";
+        // Check if any expenses exist for the current user
+        if ($expenseResult->num_rows > 0) {
+            echo "<h4>User: $username ($email)</h4>";
+            // Output table for expenses
+            echo "<table class='table table-bordered table-hover'>";
+            echo "<thead class='thead'>";
+            echo "<tr>";
+            echo "<th>User ID</th>";
+            echo "<th>Expense Name</th>";
+            echo "<th>Amount</th>";
+            echo "<th>Category</th>";
+            echo "<th>Description</th>";
+            echo "<th>Date</th>";
+            echo "</tr>";
+            echo "</thead>";
+            echo "<tbody>";
 
-                            // Output data of each expense
-                            $totalExpense = 0; // Initialize total expense for the user
-                            while ($expenseRow = $expenseResult->fetch_assoc()) {
-                                echo "<tr class='expense-row'>";
-                                echo "<td>" . $expenseRow["user_id"] . "</td>";
-                                echo "<td>" . $expenseRow["expenseName"] . "</td>";
-                                echo "<td>" . $expenseRow["expenseAmount"] . "</td>";
-                                echo "<td>" . $expenseRow["expenseCategory"] . "</td>";
-                                echo "<td>" . $expenseRow["expenseDescription"] . "</td>";
-                                echo "<td class='expense-date'>" . $expenseRow["expenseDate"] . "</td>";
-                                echo "</tr>";
+            // Output data of each expense
+            $totalExpense = 0; // Initialize total expense for the user
+            while ($expenseRow = $expenseResult->fetch_assoc()) {
+                echo "<tr class='expense-row'>";
+                echo "<td>" . $expenseRow["user_id"] . "</td>";
+                echo "<td>" . $expenseRow["expenseName"] . "</td>";
+                echo "<td>" . $expenseRow["expenseAmount"] . "</td>";
+                echo "<td>" . $expenseRow["expenseCategory"] . "</td>";
+                echo "<td>" . $expenseRow["expenseDescription"] . "</td>";
+                echo "<td class='expense-date'>" . $expenseRow["expenseDate"] . "</td>";
+                echo "</tr>";
 
-                                // Add the expense amount to the total expense
-                                $totalExpense += $expenseRow["expenseAmount"];
-                            }
+                // Add the expense amount to the total expense
+                $totalExpense += $expenseRow["expenseAmount"];
+            }
 
-                            // Output data of each income
-                            $totalIncome = 0; // Initialize total income for the user
-                            while ($incomeRow = $incomeResult->fetch_assoc()) {
-                                // Add the income amount to the total income
-                                $totalIncome += $incomeRow["incomeAmount"];
-                            }
+            // Output data of each income
+            $totalIncome = 0; // Initialize total income for the user
+            while ($incomeRow = $incomeResult->fetch_assoc()) {
+                // Add the income amount to the total income
+                $totalIncome += $incomeRow["incomeAmount"];
+            }
 
-                            // Display the total expense for the user
-                            echo "<tr>";
-                            echo "<td colspan='2'>Total Expense</td>";
-                            echo "<td>$totalExpense</td>";
-                            echo "<td colspan='3'></td>"; // colspan='3' to span the remaining columns
-                            echo "</tr>";
+            // Display the total expense for the user
+            echo "<tr>";
+            echo "<td colspan='2'>Total Expense</td>";
+            echo "<td>$totalExpense</td>";
+            echo "<td colspan='3'></td>"; // colspan='3' to span the remaining columns
+            echo "</tr>";
 
-                            // Display the total income for the user
-                            echo "<tr>";
-                            echo "<td colspan='2'>Total Income</td>";
-                            echo "<td>$totalIncome</td>";
-                            echo "<td colspan='3'></td>"; // colspan='3' to span the remaining columns
-                            echo "</tr>";
+            // Display the total income for the user
+            echo "<tr>";
+            echo "<td colspan='2'>Total Income</td>";
+            echo "<td>$totalIncome</td>";
+            echo "<td colspan='3'></td>"; // colspan='3' to span the remaining columns
+            echo "</tr>";
 
-                            // Check if total expense is greater than total income
-                            if ($totalExpense > $totalIncome) {
-                                echo "<tr>";
-                                echo "<td colspan='6' style='color: red;'>Warning: Total Expense is greater than Total Income!</td>";
-                                echo "</tr>";
-                                echo "<script>alert('Warning: Total Expense is greater than Total Income for user: $username!');</script>";
-                            }
+            // Check if total expense is greater than total income
+            if ($totalExpense > $totalIncome) {
+                echo "<tr>";
+            } else {
+                echo "<tr style='background-color: #ffcccc;'>";
+                echo "<td colspan='6' style='color: red;'>No expenses found for user: $username ($email)</td>";
+                echo "</tr>";
+            }
+            echo "</tbody>";
+            echo "</table>";
+        } else {
+            // echo "<p>No expenses found for user: $username ($email)</p>";
+        }
+        echo "<br><br><br>";
+    }
 
-                            echo "</tbody>";
-                            echo "</table>";
-                        } else {
-                            echo "<p>No expenses found for user: $username ($email)</p>";
-                        }
-                        echo "<br><br><br>";
-                    }
-
-                } else {
-                    echo "<p>No users found.</p>";
-                }
+} else {
+    echo "<p>No users found.</p>";
+}
                 // Pagination variables
                 $results_per_page = 10; // Set the desired number of results per page
                 if (!isset ($_GET['page'])) {
