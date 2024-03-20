@@ -82,6 +82,9 @@ session_start();
             padding: 0.25rem 0.5rem;
             font-size: 0.875rem;
         }
+        #error-message-container{
+            color: red !important;
+        }
     </style>
 </head>
 
@@ -96,6 +99,9 @@ session_start();
         </sidebar>
         <div class="content-wrapper">
             <div class="container mt-5">
+            <div id="error-message-container">
+
+</div>
                 <div class="page-header">
                     <h1 class="page-title">
                         <a href="index.php" style="text-decoration: none; color: inherit;"> <!-- Add this anchor tag -->
@@ -148,28 +154,39 @@ session_start();
                     </div>
                 </div>
                 <script>
-                   function applyMonthFilter() {
-    var monthFilterValue = document.getElementById('month-filter').value;
-    var categoryFilterValue = document.getElementById('category-filter').value;
-    var budgets = document.querySelectorAll('.budget-row');
+                    function applyMonthFilter() {
+                        var monthFilterValue = document.getElementById('month-filter').value;
+                        var categoryFilterValue = document.getElementById('category-filter').value;
+                        var budgets = document.querySelectorAll('.budget-row');
+                        var filteredBudgetsCount = 0; // Initialize count of filtered budgets
 
-    budgets.forEach(function(budget) {
-        var startDate = budget.querySelector('.budget-start-date').textContent.trim();
-        var endDate = budget.querySelector('.budget-end-date').textContent.trim();
-        var startMonth = startDate.split('-')[1];
-        var endMonth = endDate.split('-')[1];
-        var category = budget.querySelector('.budget-category').textContent.trim();
+                        budgets.forEach(function (budget) {
+                            var startDate = budget.querySelector('.budget-start-date').textContent.trim();
+                            var endDate = budget.querySelector('.budget-end-date').textContent.trim();
+                            var startMonth = startDate.split('-')[1];
+                            var endMonth = endDate.split('-')[1];
+                            var category = budget.querySelector('.budget-category').textContent.trim();
 
-        var monthMatch = monthFilterValue === 'all' || (startMonth === monthFilterValue && endMonth === monthFilterValue);
-        var categoryMatch = categoryFilterValue === 'all' || category === categoryFilterValue;
+                            var monthMatch = monthFilterValue === 'all' || (startMonth === monthFilterValue && endMonth === monthFilterValue);
+                            var categoryMatch = categoryFilterValue === 'all' || category === categoryFilterValue;
 
-        if (monthMatch && categoryMatch) {
-            budget.style.display = ''; // Show the row
-        } else {
-            budget.style.display = 'none'; // Hide the row
-        }
-    });
-}
+                            if (monthMatch && categoryMatch) {
+                                budget.style.display = ''; // Show the row
+                                filteredBudgetsCount++; // Increment count for each budget displayed
+                            } else {
+                                budget.style.display = 'none'; // Hide the row
+                            }
+                        });
+
+                        // If no budgets are found after filtering, display an error message
+                        var errorContainer = document.getElementById('error-message-container');
+                        if (filteredBudgetsCount === 0) {
+                            errorContainer.innerHTML = '<p class="error-message">No budgets found for the selected filter.</p>';
+                        } else {
+                            // Clear any existing error message
+                            errorContainer.innerHTML = '';
+                        }
+                    }
 
                 </script>
 

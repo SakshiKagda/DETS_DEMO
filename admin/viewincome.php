@@ -11,17 +11,17 @@ session_start();
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <!-- plugins:css -->
-  <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
-  <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
-  <!-- endinject -->
-  <!-- Plugin css for this page -->
-  <!-- End plugin css for this page -->
-  <!-- inject:css -->
-  <!-- endinject -->
-  <!-- Layout styles -->
-  <link rel="stylesheet" href="assets/css/style.css">
-  <!-- End layout styles -->
-  <link rel="shortcut icon" href="assets/images/favicon.ico" />
+    <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico" />
     <style>
         .main {
             display: flex;
@@ -76,6 +76,9 @@ session_start();
             padding: 0.25rem 0.5rem;
             font-size: 0.875rem;
         }
+        #error-message-container{
+            color: red !important;
+        }
     </style>
 </head>
 
@@ -90,6 +93,9 @@ session_start();
         </div>
         <div class="content-wrapper">
             <div class="container mt-5">
+                <div id="error-message-container">
+
+                </div>
                 <div class="page-header">
                     <h1 class="page-title">
                         <a href="index.php" style="text-decoration: none; color: inherit;"> <!-- Add this anchor tag -->
@@ -127,20 +133,30 @@ session_start();
                     function applyFilter() {
                         var filterValue = document.getElementById('filter').value;
                         var incomes = document.querySelectorAll('.income-row');
+                        var filteredIncomesCount = 0; // Initialize count of filtered expenses
 
                         incomes.forEach(function (income) {
-                            if (filterValue === 'all') {
+                            var date = new Date(income.querySelector('.income-date').textContent);
+                            var incomeMonth = date.getMonth() + 1; // Adjusting month to match filter values
+
+                            if (filterValue === 'all' || incomeMonth === parseInt(filterValue)) {
                                 income.style.display = 'table-row';
+                                filteredIncomesCount++; // Increment count for each expense displayed
                             } else {
-                                var date = new Date(income.querySelector('.income-date').textContent);
-                                if (date.getMonth() + 1 === parseInt(filterValue)) {
-                                    income.style.display = 'table-row';
-                                } else {
-                                    income.style.display = 'none';
-                                }
+                                income.style.display = 'none';
                             }
                         });
+
+                        // If no incomes are found after filtering, display an error message
+                        var errorContainer = document.getElementById('error-message-container');
+                        if (filteredIncomesCount === 0 && filterValue !== 'all') {
+                            errorContainer.innerHTML = '<p class="error-message">No income found for the selected filter.</p>';
+                        } else {
+                            // Clear any existing error message
+                            errorContainer.innerHTML = '';
+                        }
                     }
+
                 </script>
 
                 <?php

@@ -86,6 +86,9 @@
             padding: 0.25rem 0.5rem;
             font-size: 0.875rem;
         }
+        #error-message-container{
+            color: red !important;
+        }
     </style>
 </head>
 
@@ -104,6 +107,9 @@
         </sidebar>
         <div class="content-wrapper">
             <div class="container mt-5">
+            <div id="error-message-container">
+
+</div>
                 <div class="page-header">
                     <h1 class="page-title">
                         <a href="index.php" style="text-decoration: none; color: inherit;"> <!-- Add this anchor tag -->
@@ -141,22 +147,32 @@
                 </div>
 
                 <script>
-                    function applyFilter() {
-                        var filterValue = document.getElementById('filter').value;
-                        var expenses = document.querySelectorAll('.expense-row');
+function applyFilter() {
+    var filterValue = document.getElementById('filter').value;
+    var expenses = document.querySelectorAll('.expense-row');
+    var filteredExpensesCount = 0; // Initialize count of filtered expenses
 
-                        expenses.forEach(function (expense) {
-                            var date = new Date(expense.querySelector('.expense-date').textContent);
-                            // Simplified the condition to check if the filter value is 'all'
-                            if (filterValue === 'all' || date.getMonth() + 1 === parseInt(filterValue)) {
-                                expense.style.display = 'table-row';
-                            } else {
-                                expense.style.display = 'none';
-                            }
-                        });
-                    }
+    expenses.forEach(function (expense) {
+        var date = new Date(expense.querySelector('.expense-date').textContent);
+        // Simplified the condition to check if the filter value is 'all'
+        if (filterValue === 'all' || date.getMonth() + 1 === parseInt(filterValue)) {
+            expense.style.display = 'table-row';
+            filteredExpensesCount++; // Increment count for each expense displayed
+        } else {
+            expense.style.display = 'none';
+        }
+    });
 
-                </script>
+    // If no expenses are found after filtering, display an error message
+    var errorContainer = document.getElementById('error-message-container');
+    if (filteredExpensesCount === 0) {
+        errorContainer.innerHTML = '<p class="error-message">No expenses found for the selected filter.</p>';
+    } else {
+        // Clear any existing error message
+        errorContainer.innerHTML = '';
+    }
+}
+</script>
                 <div class="pdf">
                     <a href="downloadexpensereport.php" target="_blank" title="Download Expense Report">
                         <span class="mdi mdi-file-pdf-outline mdi-icon"></span>

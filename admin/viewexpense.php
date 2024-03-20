@@ -76,6 +76,9 @@ session_start();
             padding: 0.25rem 0.5rem;
             font-size: 0.875rem;
         }
+        #error-message-container{
+            color: red !important;
+        }
     </style>
 </head>
 
@@ -90,6 +93,9 @@ session_start();
         </sidebar>
         <div class="content-wrapper">
             <div class="container mt-5">
+            <div id="error-message-container">
+
+</div>
                 <div class="page-header">
                     <h1 class="page-title">
                         <a href="index.php" style="text-decoration: none; color: inherit;">
@@ -123,25 +129,35 @@ session_start();
 
                     </div>
                 </div>
-                <script>
-                    function applyFilter() {
-                        var filterValue = document.getElementById('filter').value;
-                        var expenses = document.querySelectorAll('.expense-row');
+               <script>
+  function applyFilter() {
+    var filterValue = document.getElementById('filter').value;
+    var expenses = document.querySelectorAll('.expense-row');
+    var filteredExpensesCount = 0; // Initialize count of filtered expenses
 
-                        expenses.forEach(function (expense) {
-                            if (filterValue === 'all') {
-                                expense.style.display = 'table-row';
-                            } else {
-                                var date = new Date(expense.querySelector('.expense-date').textContent);
-                                if (date.getMonth() + 1 === parseInt(filterValue)) {
-                                    expense.style.display = 'table-row';
-                                } else {
-                                    expense.style.display = 'none';
-                                }
-                            }
-                        });
-                    }
-                </script>
+    expenses.forEach(function (expense) {
+        var date = new Date(expense.querySelector('.expense-date').textContent);
+        var expenseMonth = date.getMonth() + 1; // Adjusting month to match filter values
+
+        if (filterValue === 'all' || expenseMonth === parseInt(filterValue)) {
+            expense.style.display = 'table-row';
+            filteredExpensesCount++; // Increment count for each expense displayed
+        } else {
+            expense.style.display = 'none';
+        }
+    });
+
+    // If no expenses are found after filtering, display an error message
+    var errorContainer = document.getElementById('error-message-container');
+    if (filteredExpensesCount === 0 && filterValue !== 'all') {
+        errorContainer.innerHTML = '<p class="error-message">No expenses found for the selected filter.</p>';
+    } else {
+        // Clear any existing error message
+        errorContainer.innerHTML = '';
+    }
+}
+
+</script>
 
 <?php
 include 'connect.php';
@@ -221,27 +237,26 @@ if ($result->num_rows > 0) {
             echo "<td colspan='3'></td>"; // colspan='3' to span the remaining columns
             echo "</tr>";
 
-            // Check if total expense is greater than total income
-                        if ($totalExpense > $totalIncome) {
-                            echo "<tr>";
-                            echo "<td colspan='6' style='color: red;'>Warning: Total Expense is greater than Total Income!</td>";
-                            echo "</tr>";
-                            echo "<script>alert('Warning: Total Expense is greater than Total Income for user: $username!');</script>";
-                        }
+           // Check if total expense is greater than total income
+           if ($totalExpense > $totalIncome) {
+            echo "<tr>";
+            echo "<td colspan='6' style='color: red;'>Warning: Total Expense is greater than Total Income!</td>";
+            echo "</tr>";
+            echo "<script>alert('Warning: Total Expense is greater than Total Income for user: $username!');</script>";
+        }
+            echo "</tbody>";
+            echo "</table>";
+        } else {
+            echo "<div class='container mt-5'>";
+            echo "<p class='error-message'>No expenses found for user: $username ($email)</p>";
+            echo "</div>";
+        }
+        echo "<br><br><br>";
+    }
 
-                        echo "</tbody>";
-                        echo "</table>";
-                    } else {
-                        echo "<tr>";
-                        echo "<td colspan='6'>No expenses found for user: $username ($email)</td>";
-                        echo "</tr>";
-                    }
-                    echo "<br><br><br>";
-                }
-
-            } else {
-                echo "<p>No users found.</p>";
-            }
+} else {
+    echo "<p>No users found.</p>";
+}
                 // Pagination variables
                 $results_per_page = 10; // Set the desired number of results per page
                 if (!isset ($_GET['page'])) {
