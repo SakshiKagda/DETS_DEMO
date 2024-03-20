@@ -46,8 +46,8 @@ $pdf->Cell(30, 10, 'Expense ID', 1, 0, 'C');
 $pdf->Cell(30, 10, 'User ID', 1, 0, 'C');
 $pdf->Cell(60, 10, 'Expense Name', 1, 0, 'C');
 $pdf->Cell(40, 10, 'Amount', 1, 0, 'C');
-$pdf->Cell(40, 10, 'Category', 1, 0, 'C');
-$pdf->Cell(40, 10, 'Description', 1, 0, 'C');
+$pdf->Cell(30, 10, 'Category', 1, 0, 'C');
+$pdf->Cell(50, 10, 'Description', 1, 0, 'C');
 $pdf->Cell(40, 10, 'Date', 1, 1, 'C');
 
 // Add expense records to the PDF
@@ -58,8 +58,8 @@ if ($result->num_rows > 0) {
         $pdf->Cell(30, 10, $row["user_id"], 1, 0, 'C');
         $pdf->Cell(60, 10, $row["expenseName"], 1, 0, 'C');
         $pdf->Cell(40, 10, $row["expenseAmount"], 1, 0, 'C');
-        $pdf->Cell(40, 10, $row["expenseCategory"], 1, 0, 'C');
-        $pdf->Cell(40, 10, $row["expenseDescription"], 1, 0, 'C');
+        $pdf->Cell(30, 10, $row["expenseCategory"], 1, 0, 'C');
+        $pdf->Cell(50, 10, $row["expenseDescription"], 1, 0, 'C');
         $pdf->Cell(40, 10, $row["expenseDate"], 1, 1, 'C');
     }
 }
