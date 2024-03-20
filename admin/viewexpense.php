@@ -222,24 +222,26 @@ if ($result->num_rows > 0) {
             echo "</tr>";
 
             // Check if total expense is greater than total income
-            if ($totalExpense > $totalIncome) {
-                echo "<tr>";
-            } else {
-                echo "<tr style='background-color: #ffcccc;'>";
-                echo "<td colspan='6' style='color: red;'>No expenses found for user: $username ($email)</td>";
-                echo "</tr>";
-            }
-            echo "</tbody>";
-            echo "</table>";
-        } else {
-            // echo "<p>No expenses found for user: $username ($email)</p>";
-        }
-        echo "<br><br><br>";
-    }
+                        if ($totalExpense > $totalIncome) {
+                            echo "<tr>";
+                            echo "<td colspan='6' style='color: red;'>Warning: Total Expense is greater than Total Income!</td>";
+                            echo "</tr>";
+                            echo "<script>alert('Warning: Total Expense is greater than Total Income for user: $username!');</script>";
+                        }
 
-} else {
-    echo "<p>No users found.</p>";
-}
+                        echo "</tbody>";
+                        echo "</table>";
+                    } else {
+                        echo "<tr>";
+                        echo "<td colspan='6'>No expenses found for user: $username ($email)</td>";
+                        echo "</tr>";
+                    }
+                    echo "<br><br><br>";
+                }
+
+            } else {
+                echo "<p>No users found.</p>";
+            }
                 // Pagination variables
                 $results_per_page = 10; // Set the desired number of results per page
                 if (!isset ($_GET['page'])) {
