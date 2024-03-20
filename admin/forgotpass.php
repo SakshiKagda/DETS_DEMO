@@ -5,6 +5,8 @@ use PHPMailer\PHPMailer\Exception;
 require 'C:\xampp\htdocs\DETS(main)\vendor\autoload.php';
 include 'connect.php';
 
+$reset_message = "";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["email"];
 
@@ -49,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 $mail->send();
 
-                echo "An email with instructions to reset your password has been sent to your email address.";
+                $reset_message = "An email with instructions to reset your password has been sent to your email address.";
             } catch (Exception $e) {
                 echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
             }
@@ -59,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $insertTokenQuery->close();
     } else {
-        echo "Email not found in our records. Please try again.";
+        $reset_message = "Email not found in our records. Please try again.";
     }
 }
 ?>
@@ -87,8 +89,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       return true;
     }
 
-
-
   </script>
   <!-- plugins:css -->
   <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
@@ -103,14 +103,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <!-- End layout styles -->
   <link rel="shortcut icon" href="assets/images/favicon.ico" />
   <style>
-    label{
+    label {
       font-weight: bold;
     }
-    .content-wrapper{
+
+    .content-wrapper {
       background-color: #E1EEF2 !important;
     }
-    .btn-block{
-      background-color:#047edf !important;
+
+    .btn-block {
+      background-color: #047edf !important;
       border-color: #047edf !important;
       color: white !important;
     }
@@ -126,44 +128,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <div class="col-lg-4 mx-auto">
             <div class="auth-form-light text-left p-5">
               <div class="brand-logo">
-                <img src="assets/images/Screenshot 2024-03-15 155818.png">
+                <img src="assets/images/image.png">
               </div>
               <h3>Forgot Password</h3>
-        <?php if (isset($reset_message)): ?>
-            <p class="reset-message">
+              <?php if ($reset_message !== ""): ?>
+              <p class="reset-message">
                 <?php echo $reset_message; ?>
-            </p>
-        <?php else: ?>
-            <form action="" method="post" id="forgetPasswordForm">
-            <div class="form-group">
+              </p>
+              <?php else: ?>
+              <form action="" method="post" id="forgetPasswordForm" onsubmit="return validateForm()">
+                <div class="form-group">
                   <label for="exampleInputEmail1">Email</label><br>
-                  <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email"
-                    name="email">
+                  <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email" name="email">
                 </div>
                 <p id="emailError" class="error-message"></p>
                 <div class="mt-3 text-center">
-                  <button type="submit" name="submit" onclick="validateForm()"
-                    class="btn btn-block btn-lg font-weight-medium auth-form-btn">Reset Password</button>
+                  <button type="submit" name="submit" class="btn btn-block btn-lg font-weight-medium auth-form-btn">Reset Password</button>
                 </div>
-                <!-- <button type="button" onclick="validateForm()">Reset Password</button> -->
-            </form>
-            <script>
-                function validateForm() {
-                    var emailInput = document.getElementById('email');
-                    var emailError = document.getElementById('emailError');
-                    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                    // Reset previous errors
-                    emailError.textContent = '';
-                    // Validate email
-                    if (!emailPattern.test(emailInput.value)) {
-                        emailError.textContent = 'Enter a valid email address.';
-                        return;
-                    }
-                    // If all validations pass, submit the form
-                    document.getElementById('forgetPasswordForm').submit();
-                }
-            </script>
-        <?php endif; ?>
+              </form>
+              <?php endif; ?>
             </div>
           </div>
         </div>

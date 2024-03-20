@@ -3,7 +3,6 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 require 'C:\xampp\htdocs\DETS(main)\vendor\autoload.php';
-
 include 'connect.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -38,7 +37,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $updatePasswordQuery->bind_param("ss", $hashedPassword, $email);
 
             if ($updatePasswordQuery->execute()) {
-                echo "Password reset successfully.";
+                // Password reset successfully, redirect to login.php
+                header("Location: login.php");
+                exit();
             } else {
                 echo "Error updating password: " . $conn->error;
             }
@@ -98,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <div class="col-lg-4 mx-auto">
             <div class="auth-form-light text-left p-5">
               <div class="brand-logo">
-                <img src="assets/images/Screenshot 2024-03-15 155818.png">
+                <img src="assets/images/image.png">
               </div>
               <h3>Reset Password</h3>
         <form action="" method="post" id="resetPasswordForm">
