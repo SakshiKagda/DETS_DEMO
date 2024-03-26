@@ -85,6 +85,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         label{
             font-size: large !important;
         }
+        .content-wrapper {
+            background-color: #E1EEF2 !important;
+        }
+
+        .sidebar .nav.sub-menu .nav-item .nav-link.active {
+            color: #2847de !important;
+
+            background: transparent;
+        }
+
+        .btn-primary {
+            background-color: #047edf !important;
+            border-color: #047edf !important;
+        }
     </style>
 </head>
 
@@ -116,7 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                        
                         <div class="mt-3 text-center">
                   <button type="submit" name="submit" 
-                    class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">Update Category</button>
+                    class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">Update Category</button>
                 </div>
                     </form>
           

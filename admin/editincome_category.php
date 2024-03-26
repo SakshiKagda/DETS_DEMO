@@ -84,6 +84,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         label{
             font-size: large !important;
         }
+        .content-wrapper {
+            background-color: #E1EEF2 !important;
+        }
+
+        .sidebar .nav.sub-menu .nav-item .nav-link.active {
+            color: #2847de !important;
+
+            background: transparent;
+        }
+
+        .btn-primary {
+            background-color: #047edf !important;
+            border-color: #047edf !important;
+        }
     </style>
 </head>
 

@@ -190,92 +190,125 @@ session_start();
 
                 </script>
 
-                <?php
-                include 'connect.php';
+<?php
+include 'connect.php';
 
-                $monthFilter = isset ($_GET['month-filter']) ? $_GET['month-filter'] : 'all';
-                $monthCondition = ($monthFilter != 'all') ? "AND MONTH(budgets.start_date) = '$monthFilter' AND MONTH(budgets.end_date) = '$monthFilter'" : '';
+// Initialize filter variables
+$categoryFilter = isset($_GET['category-filter']) ? $_GET['category-filter'] : 'all';
+$monthFilter = isset($_GET['month-filter']) ? $_GET['month-filter'] : 'all';
 
-                $sql = "SELECT DISTINCT users.user_id AS user_id, users.username AS username, users.email AS email 
-                       FROM users INNER JOIN budgets ON users.user_id = budgets.user_id 
-                       WHERE 1 $monthCondition";
-                $result = $conn->query($sql);
+// Construct WHERE clause based on filter conditions
+$whereClause = "1"; // Default WHERE clause
+if ($categoryFilter != 'all') {
+    $whereClause .= " AND budgets.category = ?";
+}
+if ($monthFilter != 'all') {
+    $whereClause .= " AND MONTH(budgets.start_date) = ? AND MONTH(budgets.end_date) = ?";
+}
 
-                // Check if any users exist
-                if ($result->num_rows > 0) {
-                    // Output data of each user
-                    while ($row = $result->fetch_assoc()) {
-                        $userId = $row["user_id"];
-                        $username = $row["username"];
-                        $email = $row["email"];
+// Prepare the SQL statement
+$sql = "SELECT DISTINCT users.user_id AS user_id, users.username AS username, users.email AS email 
+        FROM users INNER JOIN budgets ON users.user_id = budgets.user_id 
+        WHERE $whereClause";
 
-                        // SQL query to fetch budget for the current user
-                        $budgetSql = "SELECT * FROM budgets WHERE user_id = $userId";
-                        $budgetResult = $conn->query($budgetSql);
+$stmt = $conn->prepare($sql);
 
-                        // Check if any budget exist for the current user
-                        if ($budgetResult->num_rows > 0) {
-                            echo "<h4>User: $username ($email)</h4>";
-                            // Output table for budget
-                            echo "<table class='table table-bordered table-hover'>";
-                            echo "<thead class='thead'>";
-                            echo "<tr>";
-                            echo "<th>User ID</th>";
-                            echo "<th>Category</th>";
-                            echo "<th>Planned Amount</th>";
-                            echo "<th>Expense Amount</th>";
-                            echo "<th>Start Date</th>";
-                            echo "<th>End Date</th>";
-                            echo "</tr>";
-                            echo "</thead>";
-                            echo "<tbody>";
+// Bind parameters for category and month if applicable
+if ($categoryFilter != 'all' && $monthFilter != 'all') {
+    $stmt->bind_param("ssi", $categoryFilter, $monthFilter, $monthFilter);
+} elseif ($categoryFilter != 'all') {
+    $stmt->bind_param("s", $categoryFilter);
+} elseif ($monthFilter != 'all') {
+    $stmt->bind_param("ii", $monthFilter, $monthFilter);
+}
 
-                            // Output data of each budget
-                            while ($budgetRow = $budgetResult->fetch_assoc()) {
-                                echo "<tr class='budget-row'>"; // Add class for targeting rows in JavaScript
-                                echo "<td>" . $budgetRow["user_id"] . "</td>";
-                                echo "<td class='budget-category'>" . $budgetRow["category"] . "</td>"; // Add class for category column
-                                echo "<td>" . $budgetRow["planned_amount"] . "</td>";
+// Execute the query
+$stmt->execute();
+$result = $stmt->get_result();
 
-                                // SQL query to fetch total expense for the current category
-                                $totalExpenseSql = "SELECT SUM(expenseAmount) AS totalExpense, expenseCategory FROM expenses WHERE user_id = $userId AND expenseCategory = '" . $budgetRow["category"] . "'";
-                                $totalExpenseResult = $conn->query($totalExpenseSql);
-                                $totalExpenseRow = $totalExpenseResult->fetch_assoc();
-                                $totalExpense = $totalExpenseRow["totalExpense"];
-                                $categoryName = $totalExpenseRow["expenseCategory"];
+// Check if any users exist
+if ($result->num_rows > 0) {
+    // Output data of each user
+    while ($row = $result->fetch_assoc()) {
+        $userId = $row["user_id"];
+        $username = $row["username"];
+        $email = $row["email"];
 
-                                // Check if total expense is empty
-                                if (empty ($totalExpense)) {
-                                    $totalExpense = 0;
-                                }
+        // SQL query to fetch budget for the current user
+        $budgetSql = "SELECT * FROM budgets WHERE user_id = ?";
+        $budgetStmt = $conn->prepare($budgetSql);
+        $budgetStmt->bind_param("i", $userId);
+        $budgetStmt->execute();
+        $budgetResult = $budgetStmt->get_result();
 
-                                if ($totalExpense > $budgetRow["planned_amount"]) {
-                                    // If exceeded, add class for styling
-                                    echo "<td class='exceeded'>" . $totalExpense . "</td>";
-                                    // Show alert
-                                    echo "<script>alert('Total expense exceeds planned amount for category: " . $categoryName . "');</script>";
-                                } else {
-                                    echo "<td>" . $totalExpense . "</td>";
-                                }
+        // Check if any budget exists for the current user
+        if ($budgetResult->num_rows > 0) {
+            echo "<h4>User: $username ($email)</h4>";
+            // Output table for budget
+            echo "<table class='table table-bordered table-hover'>";
+            echo "<thead class='thead'>";
+            echo "<tr>";
+            echo "<th>User ID</th>";
+            echo "<th>Category</th>";
+            echo "<th>Planned Amount</th>";
+            echo "<th>Expense Amount</th>";
+            echo "<th>Start Date</th>";
+            echo "<th>End Date</th>";
+            echo "</tr>";
+            echo "</thead>";
+            echo "<tbody>";
 
-                                // Display start date and end date
-                                echo "<td class='budget-start-date'>" . $budgetRow["start_date"] . "</td>";
-                                echo "<td class='budget-end-date'>" . $budgetRow["end_date"] . "</td>";
+            // Output data of each budget
+            while ($budgetRow = $budgetResult->fetch_assoc()) {
+                echo "<tr class='budget-row'>"; // Add class for targeting rows in JavaScript
+                echo "<td>" . $budgetRow["user_id"] . "</td>";
+                echo "<td class='budget-category'>" . $budgetRow["category"] . "</td>"; // Add class for category column
+                echo "<td>" . $budgetRow["planned_amount"] . "</td>";
 
-                                echo "</tr>";
-                            }
+                // SQL query to fetch total expense for the current category
+                $totalExpenseSql = "SELECT SUM(expenseAmount) AS totalExpense, expenseCategory FROM expenses WHERE user_id = ? AND expenseCategory = ?";
+                $totalExpenseStmt = $conn->prepare($totalExpenseSql);
+                $totalExpenseStmt->bind_param("is", $userId, $budgetRow["category"]);
+                $totalExpenseStmt->execute();
+                $totalExpenseResult = $totalExpenseStmt->get_result();
+                $totalExpenseRow = $totalExpenseResult->fetch_assoc();
+                $totalExpense = $totalExpenseRow["totalExpense"];
+                $categoryName = $totalExpenseRow["expenseCategory"];
 
-
-                            echo "</tbody>";
-                            echo "</table>";
-                        } else {
-                            echo "<p>No budget found for user: $username ($email)</p>";
-                        }
-                        echo "<br><br><br>";
-                    }
-                } else {
-                    echo "<p>No users found.</p>";
+                // Check if total expense is empty
+                if (empty($totalExpense)) {
+                    $totalExpense = 0;
                 }
+
+                if ($totalExpense > $budgetRow["planned_amount"]) {
+                    // If exceeded, add class for styling
+                    echo "<td class='exceeded'>" . $totalExpense . "</td>";
+                    // Show alert
+                    echo "<script>alert('Total expense exceeds planned amount for category: " . $categoryName . "');</script>";
+                } else {
+                    echo "<td>" . $totalExpense . "</td>";
+                }
+
+                // Display start date and end date
+                echo "<td class='budget-start-date'>" . $budgetRow["start_date"] . "</td>";
+                echo "<td class='budget-end-date'>" . $budgetRow["end_date"] . "</td>";
+
+                echo "</tr>";
+            }
+
+            echo "</tbody>";
+            echo "</table>";
+        } else {
+            echo "<p>No budget found for user: $username ($email)</p>";
+        }
+        echo "<br><br><br>";
+    }
+} else {
+    echo "<p>No users found.</p>";
+}
+
+$stmt->close(); // Close the prepared statement
+
                 $results_per_page = 10; // Set the desired number of results per page
                 if (!isset ($_GET['page'])) {
                     $page = 1;
